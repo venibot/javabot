@@ -40,7 +40,7 @@ public class Main {
             }
         }
         catch (IOException e) {
-            throw new Exception("Конфигурационного файла " + BOT_CONFIG + " не обнаружено!");
+            throw new Exception("Конфигурационного файла " + PATH_TO_BOT_CONFIG + " не обнаружено!");
         }
     }
 
