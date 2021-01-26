@@ -12,8 +12,13 @@ public class PingCommand extends ListenerAdapter {
         if (msg_event.getMessage().getContentRaw().equals("..ping")){
             EmbedBuilder pingEmbed = new EmbedBuilder();
             pingEmbed.setTitle("Пинг бота");
-            pingEmbed.setDescription(String.valueOf(msg_event.getJDA().getResponseTotal()));
-            msg_event.getMessage().reply(pingEmbed.build()).queue();
+            pingEmbed.addField("Пинг до вебсокета", msg_event.getJDA().getGatewayPing() + " мс", false);
+            long timeBefore = System.currentTimeMillis();
+            msg_event.getMessage().reply(pingEmbed.build()).queue(response -> {
+                    pingEmbed.addField("Пинг до Discord API", System.currentTimeMillis() - timeBefore + " мс", false);
+                    response.editMessage(pingEmbed.build()).queue();
+                }
+            );
         }
     }
 
