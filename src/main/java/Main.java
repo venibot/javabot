@@ -1,4 +1,7 @@
+import api.models.command.CommandHandler;
+import commands.SayCommand;
 import commands.info.PingCommand;
+import events.*;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -27,6 +30,7 @@ public class Main {
         bot.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
         bot.getPresence().setActivity(Activity.playing("изучение java"));
         bot.addEventListener(new PingCommand());
+        bot.addEventListener(new MessageReceived());
     }
 
     public static void getBotConfig() throws Exception {
