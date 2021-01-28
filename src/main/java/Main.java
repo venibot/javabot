@@ -29,7 +29,6 @@ public class Main {
         JDA bot = builder.build();
         bot.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
         bot.getPresence().setActivity(Activity.playing("изучение java"));
-        bot.addEventListener(new PingCommand());
         bot.addEventListener(new MessageReceived());
     }
 
