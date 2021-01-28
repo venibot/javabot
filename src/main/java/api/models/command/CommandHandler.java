@@ -11,41 +11,41 @@ import java.util.Set;
 
 
 public class CommandHandler {
-    private final Logger logger = LoggerFactory.getLogger("JDA-Command");
+    private static final Logger logger = LoggerFactory.getLogger("JDA-Command");
 
 
     public static Set<Command> commands = new HashSet<>();
 
 
-    public void registerCommands(Set<Command> commands) {
+    public static void registerCommands(Set<Command> commands) {
         CommandHandler.commands.addAll(commands);
     }
 
-    public void registerCommands(Command... commands) {
+    public static void registerCommands(Command... commands) {
         Collections.addAll(CommandHandler.commands, commands);
     }
 
-    public void registerCommand(Command command) {
-        this.registerCommands(command);
+    public static void registerCommand(Command command) {
+        CommandHandler.registerCommands(command);
     }
 
-    public void unregisterCommands(Set<Command> commands) {
+    public static void unregisterCommands(Set<Command> commands) {
         CommandHandler.commands.removeAll(commands);
     }
 
-    public void unregisterCommands(Command... commands) {
+    public static void unregisterCommands(Command... commands) {
         CommandHandler.commands.removeAll(Arrays.asList(commands));
     }
 
-    public void unregisterCommand(Command command) {
-        this.unregisterCommands(command);
+    public static void unregisterCommand(Command command) {
+        CommandHandler.unregisterCommands(command);
     }
 
-    public Command findCommand(String trigger) {
+    public static Command findCommand(String trigger) {
         return commands.stream().filter(c -> Arrays.asList(c.getDescription().aliases(), c.getDescription().name()).contains(trigger)).findFirst().orElse(null);
     }
 
-    public void doCommand(Command command, MessageReceivedEvent msg_event, String arguments) {
+    public static void doCommand(Command command, MessageReceivedEvent msg_event, String arguments) {
         DiscordCommand cd = command.getDescription();
         if (cd == null) return;
         arguments = arguments.trim();
@@ -58,9 +58,9 @@ public class CommandHandler {
         }
     }
 
-    public void findAndRun(String trigger, MessageReceivedEvent msg_event, String arguments) {
-        Command command = this.findCommand(trigger);
+    public static void findAndRun(String trigger, MessageReceivedEvent msg_event, String arguments) {
+        Command command = CommandHandler.findCommand(trigger);
         if (command == null || command.getDescription() == null) return;
-        this.doCommand(command, msg_event, arguments);
+        CommandHandler.doCommand(command, msg_event, arguments);
     }
 }
