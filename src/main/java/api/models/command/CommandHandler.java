@@ -14,15 +14,15 @@ public class CommandHandler {
     private final Logger logger = LoggerFactory.getLogger("JDA-Command");
 
 
-    private Set<Command> commands = new HashSet<>();
+    public static Set<Command> commands = new HashSet<>();
 
 
     public void registerCommands(Set<Command> commands) {
-        this.commands.addAll(commands);
+        CommandHandler.commands.addAll(commands);
     }
 
     public void registerCommands(Command... commands) {
-        Collections.addAll(this.commands, commands);
+        Collections.addAll(CommandHandler.commands, commands);
     }
 
     public void registerCommand(Command command) {
@@ -30,19 +30,15 @@ public class CommandHandler {
     }
 
     public void unregisterCommands(Set<Command> commands) {
-        this.commands.removeAll(commands);
+        CommandHandler.commands.removeAll(commands);
     }
 
     public void unregisterCommands(Command... commands) {
-        this.commands.removeAll(Arrays.asList(commands));
+        CommandHandler.commands.removeAll(Arrays.asList(commands));
     }
 
     public void unregisterCommand(Command command) {
         this.unregisterCommands(command);
-    }
-
-    public Set<Command> getCommands() {
-        return commands;
     }
 
     public Command findCommand(String trigger) {
