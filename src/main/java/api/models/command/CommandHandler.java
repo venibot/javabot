@@ -42,7 +42,7 @@ public class CommandHandler {
     }
 
     public static Command findCommand(String trigger) {
-        return commands.stream().filter(c -> Arrays.asList(c.getDescription().aliases(), c.getDescription().name()).contains(trigger)).findFirst().orElse(null);
+        return commands.stream().filter(c -> Arrays.asList(c.getDescription().aliases()).contains(trigger) || c.getDescription().name().equals(trigger)).findFirst().orElse(null);
     }
 
     public static void doCommand(Command command, MessageReceivedEvent msg_event, String arguments) {
