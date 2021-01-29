@@ -1,6 +1,3 @@
-import api.models.command.CommandHandler;
-import commands.SayCommand;
-import commands.info.PingCommand;
 import events.*;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;

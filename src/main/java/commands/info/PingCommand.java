@@ -4,8 +4,6 @@ import api.models.command.Command;
 import api.models.command.DiscordCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
 
 @DiscordCommand(name = "ping", description = "Вывод пинга бота", aliases = {"пинг"})
 public class PingCommand implements Command {
