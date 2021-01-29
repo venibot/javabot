@@ -11,7 +11,11 @@ public @interface DiscordCommand {
 
     String description() default "Отсутствует";
 
+    String group();
+
     String[] aliases();
+
+    String usage() default "";
 
     boolean hidden() default false;
 

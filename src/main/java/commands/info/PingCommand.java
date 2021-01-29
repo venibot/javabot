@@ -5,7 +5,7 @@ import api.models.command.DiscordCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-@DiscordCommand(name = "ping", description = "Вывод пинга бота", aliases = {"пинг"})
+@DiscordCommand(name = "ping", description = "Вывод пинга бота", aliases = {"пинг"}, group = "Информация")
 public class PingCommand implements Command {
 
     @Override
