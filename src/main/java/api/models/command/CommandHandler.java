@@ -16,21 +16,12 @@ public class CommandHandler {
 
     public static Set<Command> commands = new HashSet<>();
 
-
-    public static void registerCommands(Set<Command> commands) {
-        CommandHandler.commands.addAll(commands);
-    }
-
     public static void registerCommands(Command... commands) {
         Collections.addAll(CommandHandler.commands, commands);
     }
 
     public static void registerCommand(Command command) {
         CommandHandler.registerCommands(command);
-    }
-
-    public static void unregisterCommands(Set<Command> commands) {
-        CommandHandler.commands.removeAll(commands);
     }
 
     public static void unregisterCommands(Command... commands) {
