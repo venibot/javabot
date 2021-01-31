@@ -14,7 +14,7 @@ public class MessageReceived extends ListenerAdapter {
     public MessageReceived(){
         CommandHandler.registerCommand(new SayCommand());
         CommandHandler.registerCommand(new PingCommand());
-        CommandHandler.registerCommands(new HelpCommand());
+        CommandHandler.registerCommand(new HelpCommand());;
     }
 
     @Override
