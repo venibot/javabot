@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
 import javax.security.auth.login.LoginException;
 import java.io.File;
 
@@ -21,9 +23,9 @@ public class Main {
         builder.setToken(Config.BOT_CONFIG.get("token"));
         JDA bot = builder.build();
         loadCommands("src/main/java/commands", "commands");
+        loadEvents(bot, "src/main/java/events", "events");
         bot.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
         bot.getPresence().setActivity(Activity.playing("изучение java"));
-        bot.addEventListener(new MessageReceived());
     }
 
     public static void loadCommands(String path, String commands_package) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
@@ -36,9 +38,25 @@ public class Main {
                 CommandHandler.registerCommand(command);
             }
             else if (file.isDirectory()) {
-                loadCommands(file.getPath(), "commands." + file.getName());
+                loadCommands(file.getPath(), commands_package + file.getName());
             }
         }
     }
+
+    public static void loadEvents(JDA bot, String path, String events_package) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        events_package += ".";
+        File dir = new File(path);
+        for (File file: dir.listFiles()) {
+            if (file.isFile() && file.getName().endsWith(".java")){
+                Class event_class = Class.forName(events_package + file.getName().replace(".java", ""));
+                ListenerAdapter event = (ListenerAdapter) event_class.newInstance();
+                bot.addEventListener(event);
+            }
+            else if (file.isDirectory()) {
+                loadCommands(file.getPath(), events_package + file.getName());
+            }
+        }
+    }
+
 
 }

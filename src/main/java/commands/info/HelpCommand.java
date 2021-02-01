@@ -21,7 +21,7 @@ public class HelpCommand implements Command {
             embedInfo.setColor(Color.blue);
             HashMap<String, ArrayList<Command>> commands = new HashMap<>();
             for (Command command: CommandHandler.commands) {
-                DiscordCommand commandInfo = command.getDescription();
+                DiscordCommand commandInfo = command.getCommandData();
                 if (!commandInfo.hidden()){
                     if (!commands.containsKey(commandInfo.group())) {
                         commands.put(commandInfo.group(), new ArrayList<Command>());
@@ -35,7 +35,7 @@ public class HelpCommand implements Command {
             for (String key: commands.keySet()) {
                 String groupCommands = "";
                 for (Command command: commands.get(key)){
-                    groupCommands += command.getDescription().name() + ", ";
+                    groupCommands += command.getCommandData().name() + ", ";
                 }
                 embedInfo.addField(key, groupCommands.replaceAll(", $", ""), false);
             }
@@ -44,7 +44,7 @@ public class HelpCommand implements Command {
         } else {
             Command command = CommandHandler.findCommand(arguments);
             if (command != null) {
-                DiscordCommand commandInfo = command.getDescription();
+                DiscordCommand commandInfo = command.getCommandData();
                 if (!commandInfo.hidden()) {
                     EmbedBuilder commandHelp = new EmbedBuilder();
                     commandHelp.setTitle("Помощь по команде " + commandInfo.name());

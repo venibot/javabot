@@ -33,11 +33,11 @@ public class CommandHandler {
     }
 
     public static Command findCommand(String trigger) {
-        return commands.stream().filter(c -> Arrays.asList(c.getDescription().aliases()).contains(trigger) || c.getDescription().name().equals(trigger)).findFirst().orElse(null);
+        return commands.stream().filter(c -> Arrays.asList(c.getCommandData().aliases()).contains(trigger) || c.getCommandData().name().equals(trigger)).findFirst().orElse(null);
     }
 
     public static void doCommand(Command command, MessageReceivedEvent msg_event, String arguments) {
-        DiscordCommand cd = command.getDescription();
+        DiscordCommand cd = command.getCommandData();
         if (cd == null) return;
         arguments = arguments.trim();
         if (cd.arguments() > arguments.split("\\s+").length) return;
@@ -51,7 +51,7 @@ public class CommandHandler {
 
     public static void findAndRun(String trigger, MessageReceivedEvent msg_event, String arguments) {
         Command command = CommandHandler.findCommand(trigger);
-        if (command == null || command.getDescription() == null) return;
+        if (command == null || command.getCommandData() == null) return;
         CommandHandler.doCommand(command, msg_event, arguments);
     }
 }
