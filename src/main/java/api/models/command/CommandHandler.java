@@ -36,11 +36,21 @@ public class CommandHandler {
         return commands.stream().filter(c -> Arrays.asList(c.getCommandData().aliases()).contains(trigger) || c.getCommandData().name().equals(trigger)).findFirst().orElse(null);
     }
 
-    public static void doCommand(Command command, MessageReceivedEvent msg_event, String arguments) {
+    public static void doCommand(Command command, MessageReceivedEvent msg_event, String args) {
         DiscordCommand cd = command.getCommandData();
         if (cd == null) return;
-        arguments = arguments.trim();
-        if (cd.arguments() > arguments.split("\\s+").length) return;
+        String[] arguments;
+        if (args.equals("")) {
+            arguments = new String[0];
+        }
+        else {
+            if (cd.arguments() == 0 || cd.arguments() == 1) {
+                arguments = new String[1];
+                arguments[0] = args.replace("^[ ]*", "").trim();
+            } else {
+                arguments = args.replace("^[ ]*", "").trim().split(" ", cd.arguments());
+            }
+        }
         try {
             command.doCommand(msg_event, arguments);
         } catch (Exception error) {

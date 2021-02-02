@@ -8,9 +8,13 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class SayCommand implements Command {
 
     @Override
-    public void doCommand(MessageReceivedEvent msg_event, String arguments){
+    public void doCommand(MessageReceivedEvent msg_event, String[] arguments){
         msg_event.getMessage().delete().queue();
-        msg_event.getChannel().sendMessage(arguments).queue();
+        String to_say = "";
+        for (String word: arguments) {
+            to_say += word + " ";
+        }
+        msg_event.getChannel().sendMessage(to_say).queue();
     }
 
 }

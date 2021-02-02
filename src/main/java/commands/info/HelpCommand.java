@@ -14,8 +14,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class HelpCommand implements Command {
 
     @Override
-    public void doCommand(MessageReceivedEvent msg_event, String arguments) {
-        if (arguments.equals("")) {
+    public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
+        if (arguments.length == 0) {
             EmbedBuilder embedInfo = new EmbedBuilder();
             embedInfo.setTitle("Помощь по командам бота");
             embedInfo.setColor(Color.blue);
@@ -42,7 +42,8 @@ public class HelpCommand implements Command {
             
             msg_event.getChannel().sendMessage(embedInfo.build()).queue();
         } else {
-            Command command = CommandHandler.findCommand(arguments);
+            System.out.println(arguments[0]);
+            Command command = CommandHandler.findCommand(arguments[0]);
             if (command != null) {
                 DiscordCommand commandInfo = command.getCommandData();
                 if (!commandInfo.hidden()) {

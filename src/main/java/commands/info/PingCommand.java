@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class PingCommand implements Command {
 
     @Override
-    public void doCommand(MessageReceivedEvent msg_event, String arguments) {
+    public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
         EmbedBuilder pingEmbed = new EmbedBuilder();
         pingEmbed.setTitle("Пинг бота");
         pingEmbed.addField("Пинг до вебсокета", msg_event.getJDA().getGatewayPing() + " мс", false);
