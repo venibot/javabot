@@ -8,8 +8,10 @@ import java.util.Properties;
 public class Config {
 
     public static final String PATH_TO_BOT_CONFIG = "src/main/resources/bot.properties";
+    public static final String PATH_TO_DB_CONFIG = "src/main/resources/db.properties";
 
     public static HashMap<String, String> BOT_CONFIG = new HashMap<>();
+    public static HashMap<String, String> DB_CONFIG = new HashMap<>();
 
     public static void getBotConfig() throws Exception {
         Properties props = new Properties();
@@ -23,6 +25,21 @@ public class Config {
         }
         catch (IOException e) {
             throw new Exception("Конфигурационного файла " + PATH_TO_BOT_CONFIG + " не обнаружено!");
+        }
+    }
+
+    public static void getDatabaseConfig() throws Exception {
+        Properties props = new Properties();
+
+        try {
+            FileInputStream config_file = new FileInputStream(PATH_TO_DB_CONFIG);
+            props.load(config_file);
+            for (String key: props.stringPropertyNames()) {
+                DB_CONFIG.put(key, props.getProperty(key));
+            }
+        }
+        catch (IOException e) {
+            throw new Exception("Конфигурационного файла " + PATH_TO_DB_CONFIG + " не обнаружено!");
         }
     }
 

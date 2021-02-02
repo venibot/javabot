@@ -1,7 +1,6 @@
 import api.models.command.Command;
 import api.models.command.CommandHandler;
 import api.utils.Config;
-import events.*;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -17,6 +16,7 @@ public class Main {
     public static void main(String[] args) throws LoginException, Exception {
         JDABuilder builder = new JDABuilder(AccountType.BOT);
         Config.getBotConfig();
+        Config.getDatabaseConfig();
         if (Config.BOT_CONFIG.isEmpty()) {
             throw new Exception("Конфигурационный файл бота не был загружен!");
         }
