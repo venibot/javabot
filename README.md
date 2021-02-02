@@ -9,7 +9,7 @@ VeniBot, но на Java
  # Запуск
   - Склонируйте репозиторий(```git clone https://github.com/venibot/javabot```)
   - Зайдите в склонированную папку(```cd javabot```)
-  - Создайте в src/main/java/resources конфигурационный файл bot.properties, и укажите в нём token и errorWebhookUrl(с токеном и вебхуком, через который будут отсылаться ошибки соответственно)
+  - Создайте в src/main/java/resources конфигурационный файл bot.properties, и укажите в нём token и errorWebhookUrl(с токеном и вебхуком, через который будут отсылаться ошибки соответственно), а также db.properties, со свойствами host, port и db(хост, порт и имя базы данных соответственно)
   - Скомпилируйте проект через ```mvn compile```
   - Радуйтесь жизни!
   
