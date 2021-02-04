@@ -19,6 +19,7 @@ public class HelpCommand implements Command {
             EmbedBuilder embedInfo = new EmbedBuilder();
             embedInfo.setTitle("Помощь по командам бота");
             embedInfo.setColor(Color.blue);
+            embedInfo.setFooter("<> - обязательный аргумент, [] - необязательный");
             HashMap<String, ArrayList<Command>> commands = new HashMap<>();
             for (Command command: CommandHandler.commands) {
                 DiscordCommand commandInfo = command.getCommandData();
@@ -42,7 +43,6 @@ public class HelpCommand implements Command {
             
             msg_event.getChannel().sendMessage(embedInfo.build()).queue();
         } else {
-            System.out.println(arguments[0]);
             Command command = CommandHandler.findCommand(arguments[0]);
             if (command != null) {
                 DiscordCommand commandInfo = command.getCommandData();
@@ -50,6 +50,7 @@ public class HelpCommand implements Command {
                     EmbedBuilder commandHelp = new EmbedBuilder();
                     commandHelp.setTitle("Помощь по команде " + commandInfo.name());
                     commandHelp.setColor(Color.blue);
+                    commandHelp.setFooter("<> - обязательный аргумент, [] - необязательный");
                     String aliases = "";
                     for (String alias: commandInfo.aliases()){
                         aliases += alias + ", ";

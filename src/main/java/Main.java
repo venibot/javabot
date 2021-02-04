@@ -17,6 +17,8 @@ public class Main {
         JDABuilder builder = new JDABuilder(AccountType.BOT);
         Config.getBotConfig();
         Config.getDatabaseConfig();
+        Config.getMonthsConfig();
+        Config.getUserFlagsAsEmojis();
         if (Config.BOT_CONFIG.isEmpty()) {
             throw new Exception("Конфигурационный файл бота не был загружен!");
         }

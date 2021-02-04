@@ -4,8 +4,8 @@
         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
 
-   <groupId>example.com</groupId>
-   <artifactId>example</artifactId>
+   <groupId>veni.bot</groupId>
+   <artifactId>VeniBot</artifactId>
    <version>1.0-SNAPSHOT</version>
 
    <properties>
@@ -47,6 +47,11 @@
            <artifactId>cdi-api</artifactId>
            <version>2.0.SP1</version>
            <scope>provided</scope>
+       </dependency>
+       <dependency>
+           <groupId>me.xdrop</groupId>
+           <artifactId>fuzzywuzzy</artifactId>
+           <version>1.3.1</version>
        </dependency>
    </dependencies>
 
