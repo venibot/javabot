@@ -1,6 +1,8 @@
 package api;
 
+import api.models.database.Guild;
 import api.models.database.User;
+import api.models.exceptions.AlreadyInDatabaseException;
 import api.utils.Config;
 import com.mongodb.*;
 
@@ -14,9 +16,9 @@ public class Database {
         database = client.getDB(Config.DB_CONFIG.get("db"));
     }
 
-    public WriteResult addUser(User user) throws Exception {
+    public WriteResult addUser(User user) throws AlreadyInDatabaseException, IllegalAccessException {
         if (this.getUserByID(user.getUserID(), user.getGuildID()) != null) {
-            throw new Exception("Попытка занести пользователя " + user + " в базу данных, хотя он уже там есть");
+            throw new AlreadyInDatabaseException(user);
         }
         DBCollection users = this.database.getCollection("users");
         BasicDBObject document = user.toDBObject();
@@ -42,6 +44,35 @@ public class Database {
         query.put("guildID", new_user.getGuildID());
 
         WriteResult result = this.database.getCollection("users").update(query, new_user.toDBObject());
+        return result;
+    }
+
+    public WriteResult addGuild(Guild guild) throws AlreadyInDatabaseException, IllegalAccessException {
+        if (this.getGuildByID(guild.getGuildID()) != null) {
+            throw new AlreadyInDatabaseException(guild);
+        }
+        DBCollection guilds = this.database.getCollection("guilds");
+        BasicDBObject document = guild.toDBObject();
+        return guilds.insert(document);
+    }
+
+    public Guild getGuildByID(Long guildID) throws IllegalAccessException {
+        BasicDBObject query = new BasicDBObject();
+        query.put("guildID", guildID);
+
+        DBObject result = this.database.getCollection("guilds").findOne(query);
+        if (result != null) {
+            return Guild.fromDBObject(result);
+        } else {
+            return null;
+        }
+    }
+
+    public WriteResult updateGuild(Guild new_guild) throws IllegalAccessException {
+        BasicDBObject query = new BasicDBObject();
+        query.put("guildID", new_guild.getGuildID());
+
+        WriteResult result = this.database.getCollection("guilds").update(query, new_guild.toDBObject());
         return result;
     }
 
