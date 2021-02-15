@@ -18,7 +18,7 @@ public class UserInfoCommand implements Command {
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
         try {
             Database db = new Database();
-            final Member member = arguments.length > 0 ? Converters.getMember(msg_event.getGuild(), arguments[0]): msg_event.getMember();
+            final Member member = arguments.length > 0 ? Converters.getMember(msg_event.getGuild(), arguments[0]) : msg_event.getMember();
             EmbedBuilder userInfo = new EmbedBuilder();
             userInfo.setTitle("Информация о пользователе " + member.getEffectiveName());
             userInfo.setDescription(db.getUserByID(msg_event.getMember().getIdLong(), msg_event.getGuild().getIdLong()).getAbout());
