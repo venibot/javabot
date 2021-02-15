@@ -18,9 +18,13 @@ public class AboutCommand implements Command {
             try {
                 Database db = new Database();
                 User DBUser = db.getUserByID(msg_event.getMember().getIdLong(), msg_event.getGuild().getIdLong());
-                DBUser.setAbout(String.join(" ", arguments));
-                db.updateUser(DBUser);
-                msg_event.getChannel().sendMessage(new EmbedBuilder().setDescription("Вы успешно сменили описание о себе!").setColor(Color.green).build()).queue();
+                if (!DBUser.getAbout().equals(String.join(" ", arguments))) {
+                    DBUser.setAbout(String.join(" ", arguments));
+                    db.updateUser(DBUser);
+                    msg_event.getChannel().sendMessage(new EmbedBuilder().setDescription("Вы успешно сменили описание о себе!").setColor(Color.green).build()).queue();
+                } else {
+                    msg_event.getChannel().sendMessage(new EmbedBuilder().setDescription("О, а научите и меня менять текст на тот же самый").setColor(Color.red).build()).queue();
+                }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
