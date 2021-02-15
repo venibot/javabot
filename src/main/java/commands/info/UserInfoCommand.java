@@ -1,5 +1,6 @@
 package commands.info;
 
+import api.Database;
 import api.models.command.Command;
 import api.models.command.DiscordCommand;
 import api.models.exceptions.MemberNotFoundException;
@@ -16,9 +17,11 @@ public class UserInfoCommand implements Command {
     @Override
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
         try {
+            Database db = new Database();
             final Member member = arguments.length > 0 ? Converters.getMember(msg_event.getGuild(), arguments[0]): msg_event.getMember();
             EmbedBuilder userInfo = new EmbedBuilder();
             userInfo.setTitle("Информация о пользователе " + member.getEffectiveName());
+            userInfo.setDescription(db.getUserByID(msg_event.getMember().getIdLong(), msg_event.getGuild().getIdLong()).getAbout());
             userInfo.setThumbnail(member.getUser().getEffectiveAvatarUrl());
             userInfo.addField("Полный ник", member.getUser().getAsTag(), true);
             String flags = DataFormatter.getUserFlags(member.getUser().getFlags());
@@ -35,6 +38,8 @@ public class UserInfoCommand implements Command {
         } catch (MemberNotFoundException e) {
             EmbedBuilder errorEmbed = new EmbedBuilder().setTitle("Указанный пользователь не обнаружен").setColor(Color.red);
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 

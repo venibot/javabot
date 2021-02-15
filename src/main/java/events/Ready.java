@@ -18,14 +18,14 @@ public class Ready extends ListenerAdapter {
             try {
                 db.addGuild(guildModel);
             } catch (AlreadyInDatabaseException | IllegalAccessException e) {
-
+                continue;
             }
             for (Member member: guild.getMembers()) {
                 api.models.database.User userModel = new api.models.database.User(Long.parseLong(member.getId()), Long.parseLong(guild.getId()));
                 try {
                     db.addUser(userModel);
                 } catch (AlreadyInDatabaseException | IllegalAccessException e) {
-
+                    continue;
                 }
             }
         }

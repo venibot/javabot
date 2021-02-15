@@ -9,7 +9,7 @@ public class MessageReceived extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent msg_event) {
-        if (msg_event.getMessage().getContentRaw().startsWith("..")) {
+        if (msg_event.getMessage().getContentRaw().startsWith("..") && !msg_event.getAuthor().isBot()) {
             String truncated = msg_event.getMessage().getContentRaw().replaceFirst("..", "").trim();
             String command_name = truncated.split(" ")[0];
             Command command = CommandHandler.findCommand(command_name);

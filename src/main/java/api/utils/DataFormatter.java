@@ -8,7 +8,7 @@ import java.util.EnumSet;
 public class DataFormatter {
 
     public static String datetimeToString(OffsetDateTime dateTime) {
-        return String.format("%s %s %s года в %s:%s", dateTime.getDayOfMonth(), Config.MONTHS.get(dateTime.getMonthValue()), dateTime.getYear(), dateTime.getHour(), dateTime.getMinute()).toString();
+        return String.format("%s %s %s года в %s:%s", dateTime.getDayOfMonth(), Config.MONTHS.get(dateTime.getMonthValue()), dateTime.getYear(), dateTime.getHour(), ((dateTime.getMinute() + "").length() == 1 ? "0" + dateTime.getMinute(): dateTime.getMinute())).toString();
     }
 
     public static String getUserFlags(EnumSet<User.UserFlag> flags) {
