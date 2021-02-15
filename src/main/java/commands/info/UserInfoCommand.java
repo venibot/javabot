@@ -26,7 +26,7 @@ public class UserInfoCommand implements Command {
             userInfo.addField("Полный ник", member.getUser().getAsTag(), true);
             String flags = DataFormatter.getUserFlags(member.getUser().getFlags());
             userInfo.addField("Значки", flags != "" ? flags : "Отсутствуют", true);
-            userInfo.addField("Бот?", member.getUser().isBot() ? "Да" : "Нет", true);
+            userInfo.addField("Бот?", member.getIdLong() == 596613890847145985L ? "Да" : member.getUser().isBot() ? "Да" : "Нет", true);
             userInfo.addField("Аккаунт создан", DataFormatter.datetimeToString(member.getUser().getTimeCreated()), false);
             userInfo.addField("Вошёл на сервер", DataFormatter.datetimeToString(member.getTimeJoined()), true);
             if (member.getTimeBoosted() != null) {
