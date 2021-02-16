@@ -1,13 +1,12 @@
 package commands.info;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import api.BasicEmbed;
 import api.models.command.Command;
 import api.models.command.CommandHandler;
 import api.models.command.DiscordCommand;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @DiscordCommand(name = "help", description = "Помощь по командам бота", aliases = {"хелп"}, group = "Информация", arguments = 1)
@@ -16,9 +15,8 @@ public class HelpCommand implements Command {
     @Override
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
         if (arguments.length == 0) {
-            EmbedBuilder embedInfo = new EmbedBuilder();
+            BasicEmbed embedInfo = new BasicEmbed("info");
             embedInfo.setTitle("Помощь по командам бота");
-            embedInfo.setColor(Color.blue);
             embedInfo.setFooter("<> - обязательный аргумент, [] - необязательный");
             HashMap<String, ArrayList<Command>> commands = new HashMap<>();
             for (Command command: CommandHandler.commands) {
@@ -47,9 +45,8 @@ public class HelpCommand implements Command {
             if (command != null) {
                 DiscordCommand commandInfo = command.getCommandData();
                 if (!commandInfo.hidden()) {
-                    EmbedBuilder commandHelp = new EmbedBuilder();
+                    BasicEmbed commandHelp = new BasicEmbed("info");
                     commandHelp.setTitle("Помощь по команде " + commandInfo.name());
-                    commandHelp.setColor(Color.blue);
                     commandHelp.setFooter("<> - обязательный аргумент, [] - необязательный");
                     String aliases = "";
                     for (String alias: commandInfo.aliases()){
