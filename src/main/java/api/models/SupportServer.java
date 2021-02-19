@@ -20,4 +20,6 @@ public interface SupportServer {
 
     void sendError(JDA bot, Exception error);
 
+    void sendGulag(JDA bot, Guild guild, boolean left, User gulagger);
+
 }

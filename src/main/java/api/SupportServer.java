@@ -7,6 +7,7 @@ import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
 import java.awt.*;
@@ -88,6 +89,17 @@ public class SupportServer implements api.models.SupportServer {
             .setColor(0xff0000)
             .build();
         errorWebhook.send(errorEmbed);
+    }
+
+    @Override
+    public void sendGulag(JDA bot, Guild guild, boolean left, User gulagger) {
+        TextChannel channel = bot.getTextChannelById(812407745939505273L);
+        channel.sendMessage(new BasicEmbed("info")
+                .setTitle("Сервер " + guild.getName() + " отправлен в гулаг")
+                .setDescription((left ? "Я ливнул с сервера." : "Я не ливал с сервера.") + "\n"
+                + "Отправил в гулаг " + gulagger.getAsTag())
+                .setFooter("ID " + guild.getId())
+                .build()).queue();
     }
 
 }
