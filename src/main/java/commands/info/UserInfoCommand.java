@@ -12,7 +12,8 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import api.utils.DataFormatter;
 
-@DiscordCommand(name = "user", description = "Получение информации о пользователе", group = "Информация", aliases = {"userinfo", "юзер", "юзеринфо"}, arguments = 1, usage = "user [Пользователь]")
+@DiscordCommand(name = "user", description = "Получение информации о пользователе", group = "Информация",
+        aliases = {"userinfo", "юзер", "юзеринфо"}, arguments = 1, usage = "user [Пользователь]")
 public class UserInfoCommand implements Command {
 
     @Override
@@ -58,8 +59,6 @@ public class UserInfoCommand implements Command {
                 errorEmbed.setTitle("Указанный пользователь не обнаружен");
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
             }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 

@@ -1,5 +1,6 @@
 package api.utils;
 
+import api.models.exceptions.GuildNotFoundException;
 import api.models.exceptions.MemberNotFoundException;
 import api.models.exceptions.UserNotFoundException;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
@@ -71,6 +72,26 @@ public class Converters {
             }
         }
         return maxKey;
+    }
+
+    public static Guild getGuild(JDA bot, String guild) throws GuildNotFoundException {
+        try {
+            Guild bot_guild = bot.getGuildById(guild);
+            if (bot_guild == null) {
+                throw new NumberFormatException();
+            }
+            return bot_guild;
+        } catch (NumberFormatException e) {
+            HashMap<Integer, Guild> guilds = new HashMap<>();
+            for (Guild bot_guild: bot.getGuilds()) {
+                guilds.put(FuzzySearch.ratio(guild.toLowerCase(), bot_guild.getName().toLowerCase()), bot_guild);
+            }
+            Integer maxKey = getMax(guilds);
+            if (guilds.get(maxKey) != null && maxKey >= 30) {
+                return guilds.get(maxKey);
+            }
+            throw new GuildNotFoundException(guild);
+        }
     }
 
 }
