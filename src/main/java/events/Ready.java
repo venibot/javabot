@@ -48,6 +48,14 @@ public class Ready extends ListenerAdapter {
             e.printStackTrace();
         }
 
+        api.models.database.Guild g = db.getGuildByID(738875496477098056L);
+
+        Long[] roles = new Long[2];
+        roles[0] = 739215673254871162L;
+        roles[1] = 739215582720819220L;
+        g.setWelcomeRoles(roles);
+        db.updateGuild(g);
+
         System.out.println(
                 event.getJDA().getSelfUser().getName() + " успешно запущен!\n" +
                 "Кол-во серверов: " + event.getGuildTotalCount() + "\n" +
