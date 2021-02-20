@@ -102,4 +102,14 @@ public class SupportServer implements api.models.SupportServer {
                 .build()).queue();
     }
 
+    @Override
+    public void sendGulagAttempt(JDA bot, Guild guild, User adder) {
+        TextChannel channel = bot.getTextChannelById(812407745939505273L);
+        channel.sendMessage(new BasicEmbed("info")
+                .setTitle("Меня попытались добавить на сервер " + guild.getName() + ", но он в гулаге")
+                .setDescription("Попытался добавить " + (adder != null ? adder.getAsTag() : "Пользователя определить не удалось"))
+                .setFooter("ID " + guild.getId())
+                .build()).queue();
+    }
+
 }

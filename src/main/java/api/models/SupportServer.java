@@ -22,4 +22,6 @@ public interface SupportServer {
 
     void sendGulag(JDA bot, Guild guild, boolean left, User gulagger);
 
+    void sendGulagAttempt(JDA bot, Guild guild, User adder);
+
 }
