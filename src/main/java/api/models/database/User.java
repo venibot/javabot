@@ -1,5 +1,6 @@
 package api.models.database;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import net.dv8tion.jda.api.entities.Role;
@@ -26,7 +27,7 @@ public class User {
     private Integer balance;
 
     @Null
-    private Role[] roles;
+    private Long[] roles;
 
     public User(Long userID, Long guildID) {
         this.userID = userID;
@@ -51,7 +52,7 @@ public class User {
         return this.balance;
     }
 
-    public Role[] getRoles() {
+    public Long[] getRoles() {
         return this.roles;
     }
 
@@ -71,7 +72,7 @@ public class User {
         this.balance = balance;
     }
 
-    public void setRoles(Role[] roles) {
+    public void setRoles(Long[] roles) {
         this.roles = roles;
     }
 
@@ -89,7 +90,18 @@ public class User {
         User user = new User((Long) document.get("userID"), (Long) document.get("guildID"));
         user.about = (String) document.get("about");
         user.balance = (Integer) document.get("balance");
-        user.roles = (Role[]) document.get("roles");
+        BasicDBList roles;
+        if (document.get("roles") != null) {
+            roles = (BasicDBList) document.get("roles");
+            int i = 0;
+            user.roles = new Long[roles.size()];
+            for (Object roleID: roles) {
+                user.roles[i] = (Long) roleID;
+                i += 1;
+            }
+        } else {
+            user.roles = new Long[0];
+        }
         return user;
     }
 

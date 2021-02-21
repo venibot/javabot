@@ -3,6 +3,7 @@ package events;
 import api.Database;
 import api.TemplateEngine;
 import api.models.database.Guild;
+import api.models.database.User;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
@@ -26,6 +27,7 @@ public class GuildMemberJoin extends ListenerAdapter {
             values.put("guild.memberCount", String.valueOf(joinEvent.getGuild().getMemberCount()));
             welcomeChannel.sendMessage(TemplateEngine.render(DBGuild.getWelcomeMessage(), values)).queue();
         }
+
         if (DBGuild.getWelcomeRoles() != null) {
             Collection<Role> roles = new ArrayList<>();
             for (Long roleID: DBGuild.getWelcomeRoles()) {
@@ -35,6 +37,20 @@ public class GuildMemberJoin extends ListenerAdapter {
                 }
             }
             joinEvent.getGuild().modifyMemberRoles(joinEvent.getMember(), roles).queue();
+        }
+
+        if (DBGuild.getRestoreRoles()) {
+            User DBUser = db.getUserByID(joinEvent.getMember().getIdLong(), joinEvent.getGuild().getIdLong());
+            if (DBUser.getRoles() != null) {
+                Collection<Role> roles = new ArrayList<>();
+                for (Long roleID : DBUser.getRoles()) {
+                    Role role = joinEvent.getGuild().getRoleById(roleID);
+                    if (role.getPosition() < joinEvent.getGuild().getBotRole().getPosition()) {
+                        roles.add(role);
+                    }
+                }
+                joinEvent.getGuild().modifyMemberRoles(joinEvent.getMember(), roles).queue();
+            }
         }
     }
 

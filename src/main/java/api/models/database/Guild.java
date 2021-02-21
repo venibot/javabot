@@ -31,10 +31,13 @@ public class Guild {
     @Digits(integer = 18, fraction = 0)
     private Long leftChannel;
 
+    private Boolean restoreRoles;
+
     public Guild(Long guildID) {
         this.guildID = guildID;
         this.welcomeMessage = "";
         this.leftMessage = "";
+        this.restoreRoles = true;
     }
 
     public Long getGuildID() {
@@ -69,6 +72,10 @@ public class Guild {
         return this.leftChannel;
     }
 
+    public Boolean getRestoreRoles() {
+        return this.restoreRoles;
+    }
+
     public void setGuildID(Long guildID) {
         this.guildID = guildID;
     }
@@ -101,6 +108,10 @@ public class Guild {
         this.leftChannel = leftChannel;
     }
 
+    public void setRestoreRoles(Boolean restoreRoles) {
+        this.restoreRoles = restoreRoles;
+    }
+
     public BasicDBObject toDBObject() throws IllegalAccessException {
         BasicDBObject document = new BasicDBObject();
         document.put("guildID", this.guildID);
@@ -111,6 +122,7 @@ public class Guild {
         document.put("leftMessage", this.leftMessage);
         document.put("welcomeChannel", this.welcomeChannel);
         document.put("leftChannel", this.leftChannel);
+        document.put("restoreRoles", this.restoreRoles);
         return document;
     }
 
@@ -134,6 +146,7 @@ public class Guild {
         guild.leftMessage = (String) document.get("leftMessage");
         guild.welcomeChannel = (Long) document.get("welcomeChannel");
         guild.leftChannel = (Long) document.get("leftChannel");
+        guild.restoreRoles = (Boolean) document.get("restoreRoles");
         return guild;
     }
 
