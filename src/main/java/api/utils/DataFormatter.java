@@ -1,9 +1,11 @@
 package api.utils;
 
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.User;
 
 import java.time.OffsetDateTime;
 import java.util.EnumSet;
+import java.util.List;
 
 public class DataFormatter {
 
@@ -17,6 +19,18 @@ public class DataFormatter {
             flagsString += Config.USER_FLAGS.get(flag.toString()) + " ";
         }
         return flagsString;
+    }
+
+    public static String getMissingPermissions(Permission permission) {
+        return Config.PERMISSIONS.get(permission.toString());
+    }
+
+    public static String getMissingPermissions(List<Permission> permissions) {
+        String permissionsString = "";
+        for (Permission permission: permissions) {
+            permissionsString += Config.PERMISSIONS.get(permission.toString()) + "\n";
+        }
+        return permissionsString;
     }
 
 }

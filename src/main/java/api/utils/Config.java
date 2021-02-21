@@ -14,6 +14,7 @@ public class Config {
     public static HashMap<String, String> DB_CONFIG = new HashMap<>();
     public static HashMap<Integer, String> MONTHS = new HashMap<>();
     public static HashMap<String, String> USER_FLAGS = new HashMap<>();
+    public static HashMap<String, String> PERMISSIONS = new HashMap<>();
 
     public static void getBotConfig() throws Exception {
         Properties props = new Properties();
@@ -72,6 +73,42 @@ public class Config {
         USER_FLAGS.put("BUG_HUNTER_LEVEL_2", "<:bug_hunter:777543195483570197>");
         USER_FLAGS.put("VERIFIED_BOT", "<:verified_bot:777507474017615884>");
         USER_FLAGS.put("VERIFIED_DEVELOPER", "<:verified_bot_developer:777510397316956170>");
+    }
+    
+    public static void getPermissions() {
+        PERMISSIONS.put("CREATE_INSTANT_INVITE", "Создавать приглашения");
+        PERMISSIONS.put("MESSAGE_ADD_REACTION", "Добавлять реакции");
+        PERMISSIONS.put("ADMINISTRATOR", "Администратор");
+        PERMISSIONS.put("MESSAGE_ATTACH_FILES", "Прикреплять файлы");
+        PERMISSIONS.put("BAN_MEMBERS", "Блокировать участников");
+        PERMISSIONS.put("NICKNAME_CHANGE", "Изменять никнейм");
+        PERMISSIONS.put("VOICE_CONNECT", "Подключаться");
+        PERMISSIONS.put("VOICE_DEAF_OTHERS", "Отключать звук участникам");
+        PERMISSIONS.put("MESSAGE_EMBED_LINKS", "Вставлять ссылки");
+        PERMISSIONS.put("MESSAGE_EXT_EMOJI", "Использовать эмодзи с других серверов");
+        PERMISSIONS.put("KICK_MEMBERS", "Выгонять участников");
+        PERMISSIONS.put("MANAGE_CHANNEL", "Управлять каналами");
+        PERMISSIONS.put("MANAGE_EMOTES", "Управлять эмодзи");
+        PERMISSIONS.put("MANAGE_SERVER", "Управлять сервером");
+        PERMISSIONS.put("MESSAGE_MANAGE", "Управлять сообщениями");
+        PERMISSIONS.put("NICKNAME_MANAGE", "Управлять никнеймами");
+        PERMISSIONS.put("MANAGE_PERMISSIONS", "Управлять ролями");
+        PERMISSIONS.put("MANAGE_ROLES", "Управлять ролями");
+        PERMISSIONS.put("MANAGE_WEBHOOKS", "Управлять вебхуками");
+        PERMISSIONS.put("MESSAGE_MENTION_EVERYONE", "Упоминать @everyone, @here и все роли");
+        PERMISSIONS.put("VOICE_MOVE_OTHERS", "Перемещать участников");
+        PERMISSIONS.put("VOICE_MUTE_OTHERS", "Отключать голос участникам");
+        PERMISSIONS.put("PRIORITY_SPEAKER", "Приоритетный голос");
+        PERMISSIONS.put("MESSAGE_HISTORY", "Читать историю сообщений");
+        PERMISSIONS.put("MESSAGE_READ", "Читать сообщения");
+        PERMISSIONS.put("MESSAGE_WRITE", "Отправлять сообщения");
+        PERMISSIONS.put("MESSAGE_TTS", "Отправлять TTS-сообщения");
+        PERMISSIONS.put("VOICE_SPEAK", "Говорить");
+        PERMISSIONS.put("VOICE_STREAM", "Видео");
+        PERMISSIONS.put("VOICE_USE_VAD", "Активация по голосу");
+        PERMISSIONS.put("VIEW_AUDIT_LOGS", "Просмотр журнала аудита");
+        PERMISSIONS.put("VIEW_CHANNEL", "Просматривать канал");
+        PERMISSIONS.put("VIEW_GUILD_INSIGHTS", "Смотреть аналитику сервера");
     }
 
 }
