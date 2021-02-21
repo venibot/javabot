@@ -6,6 +6,7 @@ import api.models.database.Guild;
 import api.models.exceptions.AlreadyInDatabaseException;
 import net.dv8tion.jda.api.audit.ActionType;
 import net.dv8tion.jda.api.audit.AuditLogEntry;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -19,6 +20,14 @@ public class GuildJoin extends ListenerAdapter {
             db.addGuild(new Guild(joinEvent.getGuild().getIdLong()));
         } catch (AlreadyInDatabaseException ignored) {
 
+        }
+        for (Member member: joinEvent.getGuild().getMembers()) {
+            api.models.database.User userModel = new api.models.database.User(member.getIdLong(), joinEvent.getGuild().getIdLong());
+            try {
+                db.addUser(userModel);
+            } catch (AlreadyInDatabaseException ignored) {
+
+            }
         }
         User adder = null;
         if (db.getGuildByID(joinEvent.getGuild().getIdLong()).getInGulag()) {

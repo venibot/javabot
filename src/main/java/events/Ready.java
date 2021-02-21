@@ -18,14 +18,14 @@ public class Ready extends ListenerAdapter {
     public void onReady(ReadyEvent event)  {
         Database db = new Database();
         for (Guild guild: event.getJDA().getGuilds()) {
-            api.models.database.Guild guildModel = new api.models.database.Guild(Long.parseLong(guild.getId()));
+            api.models.database.Guild guildModel = new api.models.database.Guild(guild.getIdLong());
             try {
                 db.addGuild(guildModel);
             } catch (AlreadyInDatabaseException ignored) {
 
             }
             for (Member member: guild.getMembers()) {
-                api.models.database.User userModel = new api.models.database.User(Long.parseLong(member.getId()), Long.parseLong(guild.getId()));
+                api.models.database.User userModel = new api.models.database.User(member.getIdLong(), guild.getIdLong());
                 try {
                     db.addUser(userModel);
                 } catch (AlreadyInDatabaseException ignored) {
