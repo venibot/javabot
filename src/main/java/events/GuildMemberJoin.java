@@ -29,7 +29,10 @@ public class GuildMemberJoin extends ListenerAdapter {
         if (DBGuild.getWelcomeRoles() != null) {
             Collection<Role> roles = new ArrayList<>();
             for (Long roleID: DBGuild.getWelcomeRoles()) {
-                roles.add(joinEvent.getGuild().getRoleById(roleID));
+                Role role = joinEvent.getGuild().getRoleById(roleID);
+                if (role.getPosition() < joinEvent.getGuild().getBotRole().getPosition()) {
+                    roles.add(role);
+                }
             }
             joinEvent.getGuild().modifyMemberRoles(joinEvent.getMember(), roles).queue();
         }

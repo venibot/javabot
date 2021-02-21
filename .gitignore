@@ -16,3 +16,7 @@ buildNumber.properties
 
 # Configs
 /src/main/resources/*.properties
+src/main/resources/META-INF/MANIFEST.MF
+
+# Out
+/out/
