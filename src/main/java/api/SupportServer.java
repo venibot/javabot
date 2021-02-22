@@ -126,5 +126,24 @@ public class SupportServer implements api.models.SupportServer {
                 .build()).queue();
     }
 
+    @Override
+    public void guildJoined(Guild guild) {
+        TextChannel channel = this.bot.getTextChannelById(785146619825094736L);
+        channel.sendMessage(new BasicEmbed("info")
+                .setTitle("Я добавлен на сервер " + guild.getName())
+                .setDescription("Теперь у бота " + this.bot.getGuilds().size() + " серверов")
+                .setFooter("ID " + guild.getId())
+                .build()).queue();
+    }
+
+    @Override
+    public void guildLeft(Guild guild) {
+        TextChannel channel = this.bot.getTextChannelById(785146619825094736L);
+        channel.sendMessage(new BasicEmbed("info")
+                .setTitle("Я удалён с сервера " + guild.getName())
+                .setDescription("Теперь у бота " + this.bot.getGuilds().size() + " серверов")
+                .setFooter("ID " + guild.getId())
+                .build()).queue();
+    }
 
 }

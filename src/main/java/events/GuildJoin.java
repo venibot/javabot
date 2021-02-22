@@ -41,6 +41,9 @@ public class GuildJoin extends ListenerAdapter {
             SupportServer supportServer = new SupportServer(joinEvent.getJDA());
             supportServer.sendGulagAttempt(joinEvent.getGuild(), adder);
         }
+
+        SupportServer supportServer = new SupportServer(joinEvent.getJDA());
+        supportServer.guildJoined(joinEvent.getGuild());
     }
 
 }

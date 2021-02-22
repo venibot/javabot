@@ -26,4 +26,8 @@ public interface SupportServer {
 
     void sendUnGulag(Guild guild, User ungulagger);
 
+    void guildJoined(Guild guild);
+
+    void guildLeft(Guild guild);
+
 }
