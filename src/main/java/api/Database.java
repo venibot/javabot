@@ -1,108 +1,94 @@
 package api;
-
-import api.models.database.Guild;
-import api.models.database.User;
+import api.utils.database.models.*;
 import api.models.exceptions.AlreadyInDatabaseException;
-import api.utils.Config;
 import com.mongodb.*;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+
+import java.util.Objects;
+
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Updates.set;
 
 public class Database {
 
-    private MongoClient client;
-    private DB database;
+    private final MongoCollection<Document> prefixDB;
+    private final MongoCollection<Document> userDB;
+    private final MongoCollection<Document> guildDB;
 
     public Database() {
-        client = new MongoClient(Config.DB_CONFIG.get("host"), Integer.parseInt(Config.DB_CONFIG.get("port")));
-        database = client.getDB(Config.DB_CONFIG.get("db"));
+        MongoClient client = new MongoClient(new MongoClientURI("mongodb+srv://LavaBot:86WmKdsAkW4qAP1q@lava.hddhr.mongodb.net/LAVA?retryWrites=true&w=majority")); //Config.DB_CONFIG.get("host"), Integer.parseInt(Config.DB_CONFIG.get("port"))
+        MongoDatabase database = client.getDatabase("lava");
+        prefixDB = database.getCollection("prefixDB");
+        userDB = database.getCollection("userDB");
+        guildDB = database.getCollection("guildDB");
+    }
+    public void setPrefix(String prefix, Long GuildID) {
+        if (this.prefixDB.find(eq("guildID", GuildID)).first() != null) {
+            this.prefixDB.updateOne(eq("guildID", GuildID), set("prefix", prefix));
+        } else {
+            Document insert = new Document("_id", new ObjectId());
+            insert.append("guildID", GuildID).append("prefix", prefix);
+            this.prefixDB.insertOne(insert);
+        }
     }
 
-    public WriteResult addUser(User user) throws AlreadyInDatabaseException {
-        if (this.getUserByID(user.getUserID(), user.getGuildID()) != null) {
-            throw new AlreadyInDatabaseException(user);
-        }
-        DBCollection users = this.database.getCollection("users");
-        try {
-            BasicDBObject document = user.toDBObject();
-            return users.insert(document);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+    public String getPrefix(Long GuildID) {
+        if (this.prefixDB.find(eq("guildID", GuildID)).first() != null) {
+            return Objects.requireNonNull(this.prefixDB.find(eq("guildID", GuildID)).first()).get("prefix").toString();
+        } else {
             return null;
         }
+    }
+
+    public void addUser(User user) throws  AlreadyInDatabaseException {
+        if (getUserByID(user.getUserID(), user.getGuildID()) != null) {
+            throw new AlreadyInDatabaseException(user);
+        }
+        Document document = user.toDocument();
+        this.userDB.insertOne(document);
     }
 
     public User getUserByID(Long userID, Long guildID) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("userID", userID);
-        query.put("guildID", guildID);
-
-        DBObject result = this.database.getCollection("users").findOne(query);
-        if (result != null) {
-            try {
-                return User.fromDBObject(result);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-                return null;
-            }
+        if (this.userDB.find(new Document("userId", userID).append("guildID", guildID)).first() != null) {
+            return User.fromDocument(Objects.requireNonNull(this.userDB.find(new Document("userId", userID).append("guildID", guildID)).first()));
         } else {
             return null;
         }
     }
 
-    public WriteResult updateUser(User new_user) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("userID", new_user.getUserID());
-        query.put("guildID", new_user.getGuildID());
-
+    public void updateUser(User user) {
         try {
-            WriteResult result = this.database.getCollection("users").update(query, new_user.toDBObject());
-            return result;
-        } catch (IllegalAccessException e) {
+            this.userDB.replaceOne(new Document("userId", user.getUserID()).append("guildID", user.getGuildID()), user.toDocument());
+        } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
     }
 
-    public WriteResult addGuild(Guild guild) throws AlreadyInDatabaseException {
-        if (this.getGuildByID(guild.getGuildID()) != null) {
+    public void addGuild(Guild guild) throws AlreadyInDatabaseException {
+        if (this.getGuildByID(guild.getGuildId()) != null) {
             throw new AlreadyInDatabaseException(guild);
         }
-        DBCollection guilds = this.database.getCollection("guilds");
-        try {
-            BasicDBObject document = guild.toDBObject();
-            return guilds.insert(document);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return null;
-        }
+
+        Document document = guild.toDocument();
+        this.guildDB.insertOne(document);
     }
 
     public Guild getGuildByID(Long guildID) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("guildID", guildID);
-
-        DBObject result = this.database.getCollection("guilds").findOne(query);
-        if (result != null) {
-            try {
-                return Guild.fromDBObject(result);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-                return null;
-            }
+        if (this.guildDB.find(new Document("guildId", guildID)).first() != null) {
+            return Guild.fromDocument(Objects.requireNonNull(this.guildDB.find(eq("guildId", guildID)).first()));
         } else {
             return null;
         }
     }
 
-    public WriteResult updateGuild(Guild new_guild) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("guildID", new_guild.getGuildID());
-
+    public void updateGuild(Guild guild) {
         try {
-            WriteResult result = this.database.getCollection("guilds").update(query, new_guild.toDBObject());
-            return result;
-        } catch (IllegalAccessException e) {
+            this.guildDB.replaceOne(new Document("guildId", guild.getGuildId()), guild.toDocument());
+        } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
     }
 
