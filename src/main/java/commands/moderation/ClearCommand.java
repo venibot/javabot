@@ -19,10 +19,11 @@ public class ClearCommand implements Command {
                 try {
                     msg_event.getChannel().getHistory().retrievePast(Integer.parseInt(arguments[0]) + 1)
                             .queue(messages -> {
+                                msg_event.getChannel().purgeMessages(messages);
                                 BasicEmbed successEmbed = new BasicEmbed("success");
-                                successEmbed.setDescription("Чат успешно очищен на " + msg_event.getChannel().purgeMessages(messages).size() + " сообщений");
+                                successEmbed.setDescription("Чат успешно очищен на " + arguments[0] + " сообщений");
                                 msg_event.getChannel().sendMessage(successEmbed.build())
-                                        .queue(message -> message.delete().queueAfter(5, TimeUnit.SECONDS));
+                                        .queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
                             });
                 } catch (NumberFormatException e) {
                     BasicEmbed errorEmbed = new BasicEmbed("error");
