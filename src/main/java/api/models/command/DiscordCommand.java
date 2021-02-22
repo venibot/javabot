@@ -21,5 +21,4 @@ public @interface DiscordCommand {
 
     int arguments() default 0;
 
-    CommandAttribute[] attributes() default {};
 }
