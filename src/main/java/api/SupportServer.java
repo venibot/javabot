@@ -116,4 +116,15 @@ public class SupportServer implements api.models.SupportServer {
                 .build()).queue();
     }
 
+    @Override
+    public void sendUnGulag(Guild guild, User ungulagger) {
+        TextChannel channel = this.bot.getTextChannelById(812407745939505273L);
+        channel.sendMessage(new BasicEmbed("info")
+                .setTitle("Сервер " + guild.getName() + " удалён из гулага")
+                .setDescription("Удалил из гулага " + ungulagger.getAsTag())
+                .setFooter("ID " + guild.getId())
+                .build()).queue();
+    }
+
+
 }

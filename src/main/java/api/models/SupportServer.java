@@ -24,4 +24,6 @@ public interface SupportServer {
 
     void sendGulagAttempt(Guild guild, User adder);
 
+    void sendUnGulag(Guild guild, User ungulagger);
+
 }
