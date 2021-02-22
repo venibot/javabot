@@ -1,67 +1,65 @@
 package api.models.database;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 
-import javax.enterprise.inject.Model;
-import javax.validation.constraints.Digits;
-
-@Model
 public class Guild {
 
-    @Digits(integer = 18, fraction = 0)
-    private Long guildID;
+    private final ObjectId objectId;
 
-    private Boolean isInGulag = false;
+    private boolean inGulag;
 
-    @Digits(integer = 18, fraction = 0)
+    private Long guildId;
+
     private Long muteRole;
 
-    public Guild(Long guildID) {
-        this.guildID = guildID;
+    public Guild(Long guildId) {
+        this.objectId = new ObjectId();
+        this.guildId = guildId;
     }
 
-    public Long getGuildID() {
-        return this.guildID;
+    public Long getGuildId() {
+        return guildId;
     }
 
-    public Boolean getInGulag() {
-        return this.isInGulag;
+    public void setGuildId(Long guildId) {
+        this.guildId = guildId;
+    }
+
+    public boolean isInGulag() {
+        return inGulag;
+    }
+
+    public void setInGulag(boolean inGulag) {
+        this.inGulag = inGulag;
     }
 
     public Long getMuteRole() {
-        return this.muteRole;
-    }
-
-    public void setGuildID(Long guildID) {
-        this.guildID = guildID;
-    }
-
-    public void setIsInGulag(Boolean inGulag) {
-        isInGulag = inGulag;
+        return muteRole;
     }
 
     public void setMuteRole(Long muteRole) {
         this.muteRole = muteRole;
     }
 
-    public BasicDBObject toDBObject() throws IllegalAccessException {
-        BasicDBObject document = new BasicDBObject();
-        document.put("guildID", this.guildID);
-        document.put("isInGulag", this.isInGulag);
-        document.put("muteRole", this.muteRole);
+    public Document toDocument() {
+        Document document = new Document();
+        document.put("guildId", this.guildId);
+        document.put("isInGulag", isInGulag());
+        document.put("muteRole", getMuteRole());
         return document;
     }
 
-    public static Guild fromDBObject(DBObject document) throws IllegalAccessException {
-        Guild guild = new Guild((Long) document.get("guildID"));
-        guild.isInGulag = (Boolean) document.get("isInGulag");
-        guild.muteRole = (Long) document.get("muteRole");
+    public static Guild fromDocument(Document document) {
+        Guild guild = new Guild(document.getLong("guildId"));
+        guild.setInGulag(document.getBoolean("isInGulag"));
+        guild.setMuteRole(document.getLong("muteRole"));
         return guild;
     }
 
     @Override
     public String toString() {
-        return "Сервер с ID " + this.guildID + ", " + (this.isInGulag ? "находится в гулаге" : "не находится в гулаге");
+        return "Сервер с ID " + this.guildId + ", " + (this.inGulag ? "находится в гулаге" : "не находится в гулаге");
     }
+
 }
