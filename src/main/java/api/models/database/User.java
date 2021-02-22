@@ -1,28 +1,18 @@
 package api.models.database;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import net.dv8tion.jda.api.entities.Role;
+import org.bson.Document;
 
-import javax.enterprise.inject.Model;
-import javax.validation.constraints.Digits;
 import javax.validation.constraints.Null;
-import javax.validation.constraints.Size;
-import java.lang.reflect.Field;
 
-@Model
 public class User {
 
-    @Digits(integer = 18, fraction = 0)
-    private Long userID;
+    private final Long userID;
 
-    @Digits(integer = 18, fraction = 0)
-    private Long guildID;
+    private final Long guildId;
 
-    @Size(min = 1, max = 500)
     private String about;
 
-    @Digits(integer = 7, fraction = 0)
     private Integer balance;
 
     @Null
@@ -30,7 +20,7 @@ public class User {
 
     public User(Long userID, Long guildID) {
         this.userID = userID;
-        this.guildID = guildID;
+        this.guildId = guildID;
         this.setAbout();
         this.setBalance();
     }
@@ -40,7 +30,7 @@ public class User {
     }
 
     public Long getGuildID() {
-        return this.guildID;
+        return this.guildId;
     }
 
     public String getAbout() {
@@ -75,26 +65,27 @@ public class User {
         this.roles = roles;
     }
 
-    public BasicDBObject toDBObject() throws IllegalAccessException {
-        BasicDBObject document = new BasicDBObject();
-        document.put("userID", this.userID);
-        document.put("guildID", this.guildID);
-        document.put("about", this.about);
-        document.put("balance", this.balance);
-        document.put("roles", this.roles);
+    public Document toDocument() {
+        Document document = new Document();
+        document.put("userId", getUserID());
+        document.put("guildID", getGuildID());
+        document.put("about", getAbout());
+        document.put("balance", getBalance());
+        document.put("roles", getRoles());
         return document;
     }
 
-    public static User fromDBObject(DBObject document) throws IllegalAccessException {
-        User user = new User((Long) document.get("userID"), (Long) document.get("guildID"));
-        user.about = (String) document.get("about");
-        user.balance = (Integer) document.get("balance");
-        user.roles = (Role[]) document.get("roles");
+    public static User fromDocument(Document document) {
+        User user = new User(document.getLong("userId"), document.getLong("guildID"));
+        user.setAbout(document.getString("about"));
+        user.setBalance(document.getInteger("balance"));
+        user.setRoles((Role[]) document.get("roles"));
         return user;
     }
 
     @Override
     public String toString() {
-        return "Пользователь с ID " + this.userID + ", ID сервера " + this.guildID + ", Баланс " + this.balance;
+        return "Пользователь с ID " + this.userID + ", ID сервера " + this.guildId + ", Баланс " + this.balance;
     }
+
 }
