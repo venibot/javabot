@@ -10,21 +10,25 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
-import java.awt.*;
-
 public class SupportServer implements api.models.SupportServer {
 
-    @Override
-    public Guild getGuild(JDA bot) {
-        return bot.getGuildById(759796323569500160L);
+    private final JDA bot;
+
+    public SupportServer(JDA bot) {
+        this.bot = bot;
     }
 
     @Override
-    public boolean isTester(JDA bot, User user) {
-        Guild guild = getGuild(bot);
+    public Guild getGuild() {
+        return this.bot.getGuildById(759796323569500160L);
+    }
+
+    @Override
+    public boolean isTester(User user) {
+        Guild guild = getGuild();
         Member member = guild.getMember(user);
         try {
-            return member.getRoles().contains(guild.getRoleById(770374723900407888L));
+            return member.getRoles().contains(guild.getRoleById(759796893621551184L)) || user.getIdLong() == 453179077294161920L;
         }
         catch (NullPointerException e) {
             return false;
@@ -32,11 +36,11 @@ public class SupportServer implements api.models.SupportServer {
     }
 
     @Override
-    public boolean isSupport(JDA bot, User user) {
-        Guild guild = getGuild(bot);
+    public boolean isSupport(User user) {
+        Guild guild = getGuild();
         Member member = guild.getMember(user);
         try {
-            return member.getRoles().contains(guild.getRoleById(770374723900407888L));
+            return member.getRoles().contains(guild.getRoleById(770374723900407888L)) || user.getIdLong() == 453179077294161920L;
         }
         catch (NullPointerException e) {
             return false;
@@ -44,11 +48,11 @@ public class SupportServer implements api.models.SupportServer {
     }
 
     @Override
-    public boolean isStaff(JDA bot, User user) {
-        Guild guild = getGuild(bot);
+    public boolean isStaff(User user) {
+        Guild guild = getGuild();
         Member member = guild.getMember(user);
         try {
-            return member.getRoles().contains(guild.getRoleById(770374723900407888L));
+            return member.getRoles().contains(guild.getRoleById(759797091198435338L)) || user.getIdLong() == 453179077294161920L;
         }
         catch (NullPointerException e) {
             return false;
@@ -56,11 +60,11 @@ public class SupportServer implements api.models.SupportServer {
     }
 
     @Override
-    public boolean isDeveloper(JDA bot, User user) {
-        Guild guild = getGuild(bot);
+    public boolean isDeveloper(User user) {
+        Guild guild = getGuild();
         Member member = guild.getMember(user);
         try {
-            return member.getRoles().contains(guild.getRoleById(770374723900407888L));
+            return member.getRoles().contains(guild.getRoleById(763296493138214915L)) || user.getIdLong() == 453179077294161920L;
         }
         catch (NullPointerException e) {
             return false;
@@ -68,11 +72,11 @@ public class SupportServer implements api.models.SupportServer {
     }
 
     @Override
-    public boolean isDonator(JDA bot, User user) {
-        Guild guild = getGuild(bot);
+    public boolean isDonator(User user) {
+        Guild guild = getGuild();
         Member member = guild.getMember(user);
         try {
-            return member.getRoles().contains(guild.getRoleById(770374723900407888L));
+            return member.getRoles().contains(guild.getRoleById(777201934763032626L)) || user.getIdLong() == 453179077294161920L;
         }
         catch (NullPointerException e) {
             return false;
@@ -80,7 +84,7 @@ public class SupportServer implements api.models.SupportServer {
     }
 
     @Override
-    public void sendError(JDA bot, Exception error) {
+    public void sendError(Exception error) {
         WebhookClient errorWebhook = WebhookClient.withUrl(Config.BOT_CONFIG.get("errorWebhookUrl"));
         WebhookEmbed.EmbedTitle title = new WebhookEmbed.EmbedTitle("Непредвиденная ошибка!", null);
         WebhookEmbed errorEmbed = new WebhookEmbedBuilder()
@@ -92,8 +96,8 @@ public class SupportServer implements api.models.SupportServer {
     }
 
     @Override
-    public void sendGulag(JDA bot, Guild guild, boolean left, User gulagger) {
-        TextChannel channel = bot.getTextChannelById(812407745939505273L);
+    public void sendGulag(Guild guild, boolean left, User gulagger) {
+        TextChannel channel = this.bot.getTextChannelById(812407745939505273L);
         channel.sendMessage(new BasicEmbed("info")
                 .setTitle("Сервер " + guild.getName() + " отправлен в гулаг")
                 .setDescription((left ? "Я ливнул с сервера." : "Я не ливал с сервера.") + "\n"
@@ -103,8 +107,8 @@ public class SupportServer implements api.models.SupportServer {
     }
 
     @Override
-    public void sendGulagAttempt(JDA bot, Guild guild, User adder) {
-        TextChannel channel = bot.getTextChannelById(812407745939505273L);
+    public void sendGulagAttempt(Guild guild, User adder) {
+        TextChannel channel = this.bot.getTextChannelById(812407745939505273L);
         channel.sendMessage(new BasicEmbed("info")
                 .setTitle("Меня попытались добавить на сервер " + guild.getName() + ", но он в гулаге")
                 .setDescription("Попытался добавить " + (adder != null ? adder.getAsTag() : "Пользователя определить не удалось"))

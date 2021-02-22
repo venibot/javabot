@@ -38,8 +38,8 @@ public class GuildJoin extends ListenerAdapter {
                 }
             }
             joinEvent.getGuild().leave().queue();
-            SupportServer supportServer = new SupportServer();
-            supportServer.sendGulagAttempt(joinEvent.getJDA(), joinEvent.getGuild(), adder);
+            SupportServer supportServer = new SupportServer(joinEvent.getJDA());
+            supportServer.sendGulagAttempt(joinEvent.getGuild(), adder);
         }
     }
 

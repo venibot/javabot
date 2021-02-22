@@ -6,22 +6,22 @@ import net.dv8tion.jda.api.entities.User;
 
 public interface SupportServer {
 
-    Guild getGuild(JDA bot);
+    Guild getGuild();
 
-    boolean isTester(JDA bot, User user);
+    boolean isTester(User user);
 
-    boolean isSupport(JDA bot, User user);
+    boolean isSupport(User user);
 
-    boolean isStaff(JDA bot, User user);
+    boolean isStaff(User user);
 
-    boolean isDeveloper(JDA bot, User user);
+    boolean isDeveloper(User user);
 
-    boolean isDonator(JDA bot, User user);
+    boolean isDonator(User user);
 
-    void sendError(JDA bot, Exception error);
+    void sendError(Exception error);
 
-    void sendGulag(JDA bot, Guild guild, boolean left, User gulagger);
+    void sendGulag(Guild guild, boolean left, User gulagger);
 
-    void sendGulagAttempt(JDA bot, Guild guild, User adder);
+    void sendGulagAttempt(Guild guild, User adder);
 
 }
