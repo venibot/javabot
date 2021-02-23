@@ -15,6 +15,7 @@ public class Config {
     public static HashMap<Integer, String> MONTHS = new HashMap<>();
     public static HashMap<String, String> USER_FLAGS = new HashMap<>();
     public static HashMap<String, String> PERMISSIONS = new HashMap<>();
+    public static HashMap<String, String> LOG_ACTIONS =  new HashMap<>();
 
     public static void getBotConfig() throws Exception {
         Properties props = new Properties();
@@ -109,6 +110,11 @@ public class Config {
         PERMISSIONS.put("VIEW_AUDIT_LOGS", "Просмотр журнала аудита");
         PERMISSIONS.put("VIEW_CHANNEL", "Просматривать канал");
         PERMISSIONS.put("VIEW_GUILD_INSIGHTS", "Смотреть аналитику сервера");
+    }
+
+    public static void getLogActions() {
+        LOG_ACTIONS.put("удаление_сообщения", "messageDelete");
+        LOG_ACTIONS.put("изменение_сообщения", "messageEdit");
     }
 
 }

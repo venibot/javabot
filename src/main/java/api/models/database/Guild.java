@@ -6,6 +6,7 @@ import com.mongodb.DBObject;
 
 import javax.enterprise.inject.Model;
 import javax.validation.constraints.Digits;
+import java.util.HashMap;
 
 @Model
 public class Guild {
@@ -33,11 +34,14 @@ public class Guild {
 
     private Boolean restoreRoles;
 
+    private HashMap<String, Long> logs;
+
     public Guild(Long guildID) {
         this.guildID = guildID;
         this.welcomeMessage = "";
         this.leftMessage = "";
         this.restoreRoles = true;
+        this.logs = new HashMap<>();
     }
 
     public Long getGuildID() {
@@ -76,6 +80,10 @@ public class Guild {
         return this.restoreRoles;
     }
 
+    public HashMap<String, Long> getLogs() {
+        return logs;
+    }
+
     public void setGuildID(Long guildID) {
         this.guildID = guildID;
     }
@@ -112,6 +120,10 @@ public class Guild {
         this.restoreRoles = restoreRoles;
     }
 
+    public void setLogs(HashMap<String, Long> logs) {
+        this.logs = logs;
+    }
+
     public BasicDBObject toDBObject() throws IllegalAccessException {
         BasicDBObject document = new BasicDBObject();
         document.put("guildID", this.guildID);
@@ -123,6 +135,7 @@ public class Guild {
         document.put("welcomeChannel", this.welcomeChannel);
         document.put("leftChannel", this.leftChannel);
         document.put("restoreRoles", this.restoreRoles);
+        document.put("logs", this.logs);
         return document;
     }
 
@@ -147,6 +160,7 @@ public class Guild {
         guild.welcomeChannel = (Long) document.get("welcomeChannel");
         guild.leftChannel = (Long) document.get("leftChannel");
         guild.restoreRoles = (Boolean) document.get("restoreRoles");
+        guild.logs = (HashMap<String, Long>) document.get("logs");
         return guild;
     }
 

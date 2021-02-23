@@ -20,6 +20,7 @@ public class Main {
         Config.getMonthsConfig();
         Config.getUserFlagsAsEmojis();
         Config.getPermissions();
+        Config.getLogActions();
         if (Config.BOT_CONFIG.isEmpty()) {
             throw new Exception("Конфигурационный файл бота не был загружен!");
         }
