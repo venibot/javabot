@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
-public class SupportServer implements api.models.SupportServer {
+public class SupportServer {
 
     private final JDA bot;
 
@@ -18,12 +18,10 @@ public class SupportServer implements api.models.SupportServer {
         this.bot = bot;
     }
 
-    @Override
     public Guild getGuild() {
         return this.bot.getGuildById(759796323569500160L);
     }
 
-    @Override
     public boolean isTester(User user) {
         Guild guild = getGuild();
         Member member = guild.getMember(user);
@@ -35,7 +33,6 @@ public class SupportServer implements api.models.SupportServer {
         }
     }
 
-    @Override
     public boolean isSupport(User user) {
         Guild guild = getGuild();
         Member member = guild.getMember(user);
@@ -47,7 +44,6 @@ public class SupportServer implements api.models.SupportServer {
         }
     }
 
-    @Override
     public boolean isStaff(User user) {
         Guild guild = getGuild();
         Member member = guild.getMember(user);
@@ -59,7 +55,6 @@ public class SupportServer implements api.models.SupportServer {
         }
     }
 
-    @Override
     public boolean isDeveloper(User user) {
         Guild guild = getGuild();
         Member member = guild.getMember(user);
@@ -71,7 +66,6 @@ public class SupportServer implements api.models.SupportServer {
         }
     }
 
-    @Override
     public boolean isDonator(User user) {
         Guild guild = getGuild();
         Member member = guild.getMember(user);
@@ -83,7 +77,6 @@ public class SupportServer implements api.models.SupportServer {
         }
     }
 
-    @Override
     public void sendError(Exception error) {
         WebhookClient errorWebhook = WebhookClient.withUrl(Config.BOT_CONFIG.get("errorWebhookUrl"));
         WebhookEmbed.EmbedTitle title = new WebhookEmbed.EmbedTitle("Непредвиденная ошибка!", null);
@@ -95,7 +88,6 @@ public class SupportServer implements api.models.SupportServer {
         errorWebhook.send(errorEmbed);
     }
 
-    @Override
     public void sendGulag(Guild guild, boolean left, User gulagger) {
         TextChannel channel = this.bot.getTextChannelById(812407745939505273L);
         channel.sendMessage(new BasicEmbed("info")
@@ -106,7 +98,6 @@ public class SupportServer implements api.models.SupportServer {
                 .build()).queue();
     }
 
-    @Override
     public void sendGulagAttempt(Guild guild, User adder) {
         TextChannel channel = this.bot.getTextChannelById(812407745939505273L);
         channel.sendMessage(new BasicEmbed("info")
@@ -116,7 +107,6 @@ public class SupportServer implements api.models.SupportServer {
                 .build()).queue();
     }
 
-    @Override
     public void sendUnGulag(Guild guild, User ungulagger) {
         TextChannel channel = this.bot.getTextChannelById(812407745939505273L);
         channel.sendMessage(new BasicEmbed("info")
@@ -126,7 +116,6 @@ public class SupportServer implements api.models.SupportServer {
                 .build()).queue();
     }
 
-    @Override
     public void guildJoined(Guild guild) {
         TextChannel channel = this.bot.getTextChannelById(785146619825094736L);
         channel.sendMessage(new BasicEmbed("info")
@@ -136,7 +125,6 @@ public class SupportServer implements api.models.SupportServer {
                 .build()).queue();
     }
 
-    @Override
     public void guildLeft(Guild guild) {
         TextChannel channel = this.bot.getTextChannelById(785146619825094736L);
         channel.sendMessage(new BasicEmbed("info")

@@ -4,6 +4,7 @@ import api.Database;
 import api.TemplateEngine;
 import api.models.database.Guild;
 import api.models.database.User;
+import api.models.exceptions.AlreadyInDatabaseException;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
@@ -18,6 +19,11 @@ public class GuildMemberJoin extends ListenerAdapter {
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent joinEvent) {
         Database db = new Database();
+        try {
+            db.addUser(new User(joinEvent.getUser().getIdLong(), joinEvent.getGuild().getIdLong()));
+        } catch (AlreadyInDatabaseException ignored) {
+
+        }
         Guild DBGuild = db.getGuildByID(joinEvent.getGuild().getIdLong());
         if (!DBGuild.getWelcomeMessage().equals("") && DBGuild.getWelcomeChannel() != null) {
             TextChannel welcomeChannel = joinEvent.getJDA().getTextChannelById(DBGuild.getWelcomeChannel());
