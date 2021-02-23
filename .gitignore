@@ -1,6 +1,6 @@
 # Maven(https://github.com/github/gitignore/blob/master/Maven.gitignore)
 target/
-example.iml
+VeniBot.iml
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
