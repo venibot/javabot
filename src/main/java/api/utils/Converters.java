@@ -1,5 +1,6 @@
 package api.utils;
 
+import api.models.exceptions.ChannelNotFoundException;
 import api.models.exceptions.GuildNotFoundException;
 import api.models.exceptions.MemberNotFoundException;
 import api.models.exceptions.UserNotFoundException;
@@ -7,6 +8,7 @@ import me.xdrop.fuzzywuzzy.FuzzySearch;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.HashMap;
@@ -91,6 +93,26 @@ public class Converters {
                 return guilds.get(maxKey);
             }
             throw new GuildNotFoundException(guild);
+        }
+    }
+
+    public static TextChannel getTextChannel(Guild guild, String channel) throws ChannelNotFoundException {
+        try {
+            TextChannel botChannel = guild.getTextChannelById(channel);
+            if (botChannel == null) {
+                throw new NumberFormatException();
+            }
+            return botChannel;
+        } catch (NumberFormatException e) {
+            HashMap<Integer, TextChannel> channels = new HashMap<>();
+            for (TextChannel botChannel: guild.getTextChannels()) {
+                channels.put(FuzzySearch.ratio(channel.toLowerCase(), botChannel.getName().toLowerCase()), botChannel);
+            }
+            Integer maxKey = getMax(channels);
+            if (channels.get(maxKey) != null && maxKey >= 30) {
+                return channels.get(maxKey);
+            }
+            throw new ChannelNotFoundException(channel);
         }
     }
 

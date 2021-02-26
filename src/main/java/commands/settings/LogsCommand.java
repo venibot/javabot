@@ -5,7 +5,9 @@ import api.Database;
 import api.models.command.Command;
 import api.models.command.DiscordCommand;
 import api.models.database.Guild;
+import api.models.exceptions.ChannelNotFoundException;
 import api.utils.Config;
+import api.utils.Converters;
 import com.mongodb.DB;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -39,13 +41,19 @@ public class LogsCommand implements Command {
             }
         } else {
             if (Config.LOG_ACTIONS.get(arguments[0]) != null) {
-                Guild DBGuild = db.getGuildByID(msg_event.getGuild().getIdLong());
-                HashMap<String, Long> logs = DBGuild.getLogs();
-                logs.put(Config.LOG_ACTIONS.get(arguments[0]), Long.parseLong(arguments[1]));
-                db.updateGuild(DBGuild);
-                BasicEmbed successEmbed = new BasicEmbed("success");
-                successEmbed.setDescription("Канал для отправко логов о событии успешно обновлён!");
-                msg_event.getChannel().sendMessage(successEmbed.build()).queue();
+                try {
+                    Guild DBGuild = db.getGuildByID(msg_event.getGuild().getIdLong());
+                    HashMap<String, Long> logs = DBGuild.getLogs();
+                    logs.put(Config.LOG_ACTIONS.get(arguments[0]), Converters.getTextChannel(msg_event.getGuild(), arguments[1]).getIdLong());
+                    db.updateGuild(DBGuild);
+                    BasicEmbed successEmbed = new BasicEmbed("success");
+                    successEmbed.setDescription("Канал для отправки логов о событии успешно обновлён!");
+                    msg_event.getChannel().sendMessage(successEmbed.build()).queue();
+                } catch (ChannelNotFoundException e) {
+                    BasicEmbed errorEmbed = new BasicEmbed("error");
+                    errorEmbed.setDescription("Указанный канал не найден");
+                    msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+                }
             } else {
                 BasicEmbed errorEmbed = new BasicEmbed("error");
                 errorEmbed.setDescription("Указанное событие не обнаружено");
