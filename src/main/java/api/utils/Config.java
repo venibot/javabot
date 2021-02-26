@@ -118,6 +118,8 @@ public class Config {
     public static void getLogActions() {
         LOG_ACTIONS.put("удаление_сообщения", "messageDelete");
         LOG_ACTIONS.put("изменение_сообщения", "messageEdit");
+        LOG_ACTIONS.put("добавление_роли", "roleAdd");
+        LOG_ACTIONS.put("снятие_роли", "roleRemove");
     }
 
 }
