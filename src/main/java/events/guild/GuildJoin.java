@@ -1,4 +1,4 @@
-package events;
+package events.guild;
 
 import api.Database;
 import api.SupportServer;

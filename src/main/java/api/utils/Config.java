@@ -1,5 +1,7 @@
 package api.utils;
 
+import net.dv8tion.jda.api.entities.Message;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ public class Config {
     public static HashMap<String, String> USER_FLAGS = new HashMap<>();
     public static HashMap<String, String> PERMISSIONS = new HashMap<>();
     public static HashMap<String, String> LOG_ACTIONS =  new HashMap<>();
+    public static HashMap<Long, Message> MESSAGE_CACHE = new HashMap<>();
 
     public static void getBotConfig() throws Exception {
         Properties props = new Properties();

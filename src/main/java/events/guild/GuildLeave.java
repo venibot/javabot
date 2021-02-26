@@ -1,4 +1,4 @@
-package events;
+package events.guild;
 
 import api.SupportServer;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;

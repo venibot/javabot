@@ -98,7 +98,7 @@ public class Converters {
 
     public static TextChannel getTextChannel(Guild guild, String channel) throws ChannelNotFoundException {
         try {
-            TextChannel botChannel = guild.getTextChannelById(channel);
+            TextChannel botChannel = guild.getTextChannelById(channel.replaceAll("[<#>]", ""));
             if (botChannel == null) {
                 throw new NumberFormatException();
             }

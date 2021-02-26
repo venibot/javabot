@@ -57,7 +57,7 @@ public class Main {
                 bot.addEventListener(event);
             }
             else if (file.isDirectory()) {
-                loadCommands(file.getPath(), events_package + file.getName());
+                loadEvents(bot, file.getPath(), events_package + file.getName());
             }
         }
     }
