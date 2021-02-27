@@ -36,6 +36,8 @@ public class Guild {
 
     private HashMap<String, Long> logs;
 
+    private HashMap<String, String> rolesForReactions;
+
     public Guild(Long guildID) {
         this.guildID = guildID;
         this.welcomeMessage = "";
@@ -81,7 +83,11 @@ public class Guild {
     }
 
     public HashMap<String, Long> getLogs() {
-        return logs;
+        return this.logs;
+    }
+
+    public HashMap<String, String> getRolesForReactions() {
+        return this.rolesForReactions;
     }
 
     public void setGuildID(Long guildID) {
@@ -124,6 +130,10 @@ public class Guild {
         this.logs = logs;
     }
 
+    public void setRolesForReactions(HashMap<String, String> rolesForReactions) {
+        this.rolesForReactions = rolesForReactions;
+    }
+
     public BasicDBObject toDBObject() throws IllegalAccessException {
         BasicDBObject document = new BasicDBObject();
         document.put("guildID", this.guildID);
@@ -136,6 +146,7 @@ public class Guild {
         document.put("leftChannel", this.leftChannel);
         document.put("restoreRoles", this.restoreRoles);
         document.put("logs", this.logs);
+        document.put("rolesForReactions", this.rolesForReactions);
         return document;
     }
 
@@ -161,6 +172,7 @@ public class Guild {
         guild.leftChannel = (Long) document.get("leftChannel");
         guild.restoreRoles = (Boolean) document.get("restoreRoles");
         guild.logs = (HashMap<String, Long>) document.get("logs");
+        guild.rolesForReactions = (HashMap<String, String>) document.get("rolesForReactions");
         return guild;
     }
 
