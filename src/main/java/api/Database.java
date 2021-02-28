@@ -12,7 +12,8 @@ public class Database {
     private DB database;
 
     public Database() {
-        client = new MongoClient(Config.DB_CONFIG.get("host"), Integer.parseInt(Config.DB_CONFIG.get("port")));
+        MongoClientURI uri = new MongoClientURI(Config.DB_CONFIG.get("uri"));
+        client = new MongoClient(uri);
         database = client.getDB(Config.DB_CONFIG.get("db"));
     }
 
