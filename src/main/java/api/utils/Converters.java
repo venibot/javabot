@@ -1,15 +1,9 @@
 package api.utils;
 
-import api.models.exceptions.ChannelNotFoundException;
-import api.models.exceptions.GuildNotFoundException;
-import api.models.exceptions.MemberNotFoundException;
-import api.models.exceptions.UserNotFoundException;
+import api.models.exceptions.*;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 
 import java.util.HashMap;
 
@@ -113,6 +107,26 @@ public class Converters {
                 return channels.get(maxKey);
             }
             throw new ChannelNotFoundException(channel);
+        }
+    }
+
+    public static Role getRole(Guild guild, String role) throws RoleNotFoundException {
+        try {
+            Role botRole = guild.getRoleById(role.replaceAll("[<#>]", ""));
+            if (botRole == null) {
+                throw new NumberFormatException();
+            }
+            return botRole;
+        } catch (NumberFormatException e) {
+            HashMap<Integer, Role> roles = new HashMap<>();
+            for (Role botRole: guild.getRoles()) {
+                roles.put(FuzzySearch.ratio(role.toLowerCase(), botRole.getName().toLowerCase()), botRole);
+            }
+            Integer maxKey = getMax(roles);
+            if (roles.get(maxKey) != null && maxKey >= 30) {
+                return roles.get(maxKey);
+            }
+            throw new RoleNotFoundException(role);
         }
     }
 
