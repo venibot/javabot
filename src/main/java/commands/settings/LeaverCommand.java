@@ -6,7 +6,6 @@ import api.models.command.Command;
 import api.models.command.DiscordCommand;
 import api.models.database.Guild;
 import api.models.exceptions.ChannelNotFoundException;
-import api.models.exceptions.RoleNotFoundException;
 import api.utils.Converters;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 

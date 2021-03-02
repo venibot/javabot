@@ -8,7 +8,7 @@ import api.models.database.Guild;
 import api.models.exceptions.ChannelNotFoundException;
 import api.utils.Config;
 import api.utils.Converters;
-import com.mongodb.DB;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class LogsCommand implements Command {
         Database db = new Database();
         if (arguments.length == 0) {
             BasicEmbed errorEmbed = new BasicEmbed("error");
-            errorEmbed.setDescription(("Укажите одно из доступных событий\nДоступные события:\n"
+            errorEmbed.setDescription(("Укажите одно из доступных событий\nДоступные события:\nвсе"
                     + String.join("\n", Config.LOG_ACTIONS.keySet()).replace("_", "\\_")));
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         } else if (arguments.length == 1) {
@@ -54,9 +54,27 @@ public class LogsCommand implements Command {
                     errorEmbed.setDescription("Указанный канал не найден");
                     msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                 }
+            } else if (arguments[0].equals("all") || arguments[0].equals("все")) {
+                Guild DBGuild = db.getGuildByID(msg_event.getGuild().getIdLong());
+                HashMap<String, Long> logs = DBGuild.getLogs();
+                TextChannel logChannel = null;
+                try {
+                    logChannel = Converters.getTextChannel(msg_event.getGuild(), arguments[1]);
+                } catch (ChannelNotFoundException e) {
+                    BasicEmbed errorEmbed = new BasicEmbed("error");
+                    errorEmbed.setDescription("Указанный канал не найден");
+                    msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+                }
+                for (String key: Config.LOG_ACTIONS.values()) {
+                    logs.put(key, logChannel.getIdLong());
+                }
+                db.updateGuild(DBGuild);
+                BasicEmbed successEmbed = new BasicEmbed("success");
+                successEmbed.setDescription("Канал для отправки логов о всех событиях успешно обновлён!");
+                msg_event.getChannel().sendMessage(successEmbed.build()).queue();
             } else {
                 BasicEmbed errorEmbed = new BasicEmbed("error");
-                errorEmbed.setDescription("Указанное событие не обнаружено");
+                errorEmbed.setDescription("Указанное действие не найдено");
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
             }
         }
