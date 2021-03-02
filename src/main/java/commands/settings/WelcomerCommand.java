@@ -18,12 +18,13 @@ public class WelcomerCommand implements Command {
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
         if (arguments.length == 0) {
             BasicEmbed errorEmbed = new BasicEmbed("error");
-            errorEmbed.setDescription("Укажите одно из доступных действий:\nроли\nканал\nсообщение");
+            errorEmbed.setDescription("Укажите одно из доступных действий:\nроли\nканал\nсообщение\nвосстановление");
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         } else {
             Database db = new Database();
             Guild DBGuild = db.getGuildByID(msg_event.getGuild().getIdLong());
             switch (arguments[0]) {
+                case "roles":
                 case "роли":
                     if (arguments.length != 1) {
                         if (!arguments[1].equals("0")) {
@@ -58,10 +59,11 @@ public class WelcomerCommand implements Command {
                         BasicEmbed infoEmbed = new BasicEmbed("info");
                         infoEmbed.setDescription("Роли, установленные в качестве приветственных на данный момент"
                                 + (roles != "" ? (": " + roles) : " отсутствуют")
-                                + ". Для установки приветственных ролей используйте `..welcomer роли` и перечислите все роли через запятую(0 для сброса)");
+                                + ".\nДля установки приветственных ролей используйте `..welcomer роли` и перечислите все роли через запятую(0 для сброса)");
                         msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
                     }
                     break;
+                case "channel":
                 case "канал":
                     if (arguments.length != 1) {
                         if (!arguments[1].equals("0")) {
@@ -87,11 +89,12 @@ public class WelcomerCommand implements Command {
                         BasicEmbed infoEmbed = new BasicEmbed("info");
                         infoEmbed.setDescription("Канал, установленный для приветственных сообщений на данный момент"
                                 + (DBGuild.getWelcomeChannel() != null
-                                ? (": " + msg_event.getGuild().getTextChannelById(DBGuild.getWelcomeChannel())) : " отсутствует")
-                                + ". Для установки канала для приветственных сообщений используйте `..welcomer канал` и укажите необходимый канал(0 для сброса)");
+                                ? (": " + msg_event.getGuild().getTextChannelById(DBGuild.getWelcomeChannel()).getAsMention()) : " отсутствует")
+                                + ".\nДля установки канала для приветственных сообщений используйте `..welcomer канал` и укажите необходимый канал(0 для сброса)");
                         msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
                     }
                     break;
+                case "message":
                 case "сообщение":
                     if (arguments.length != 1) {
                         if (!arguments[1].equals("0")) {
@@ -110,9 +113,26 @@ public class WelcomerCommand implements Command {
                     } else {
                         BasicEmbed infoEmbed = new BasicEmbed("info");
                         infoEmbed.setDescription("Приветственное сообщение на данный момент"
-                                + (DBGuild.getWelcomeMessage() != null
+                                + (!DBGuild.getWelcomeMessage().equals("")
                                 ? ": " + DBGuild.getWelcomeMessage() : " отсутствует")
-                                + ". Для установки канала для приветственных сообщений используйте `..welcomer сообщение` и укажите необходимое сообщение(0 для сброса)");
+                                + ".\nДля установки канала для приветственных сообщений используйте `..welcomer сообщение` и укажите необходимое сообщение(0 для сброса). Доступные в сообщении переменные: {{member.tag}} - имя пользователя, {{member.mention}} - упоминание пользователя, {{guild.memberCount}} - кол-во участников на сервере");
+                        msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
+                    }
+                    break;
+                case "restore":
+                case "восстановление":
+                    if (arguments.length != 1) {
+                        boolean toRestoreRoles = arguments[1].equals("1");
+                        DBGuild.setRestoreRoles(toRestoreRoles);
+                        db.updateGuild(DBGuild);
+                        BasicEmbed successEmbed = new BasicEmbed("success");
+                        successEmbed.setDescription("Восстановление ролей успешно " + (toRestoreRoles ? "включено" : "отключено"));
+                        msg_event.getChannel().sendMessage(successEmbed.build()).queue();
+                    } else {
+                        BasicEmbed infoEmbed = new BasicEmbed("info");
+                        infoEmbed.setDescription("Приветственное сообщение на данный момент "
+                                + (DBGuild.getRestoreRoles() ? "включено" : "отключено")
+                                + ".\nДля изменения используйте `..welcomer восстановление` и укажите необходимое состояние(1 для включения, 0 для отключения).");
                         msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
                     }
                     break;

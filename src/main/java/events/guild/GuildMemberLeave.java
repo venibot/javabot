@@ -20,12 +20,12 @@ public class GuildMemberLeave extends ListenerAdapter {
         Database db = new Database();
         Guild DBGuild = db.getGuildByID(removeEvent.getGuild().getIdLong());
         if (!DBGuild.getLeftMessage().equals("") && DBGuild.getLeftChannel() != null) {
-            TextChannel welcomeChannel = removeEvent.getJDA().getTextChannelById(DBGuild.getLeftChannel());
+            TextChannel leftChannel = removeEvent.getJDA().getTextChannelById(DBGuild.getLeftChannel());
             HashMap<String, String> values = new HashMap<>();
             values.put("member.tag", removeEvent.getMember().getUser().getAsTag());
             values.put("member.mention", removeEvent.getMember().getAsMention());
             values.put("guild.memberCount", String.valueOf(removeEvent.getGuild().getMemberCount()));
-            welcomeChannel.sendMessage(TemplateEngine.render(DBGuild.getLeftMessage(), values)).queue();
+            leftChannel.sendMessage(TemplateEngine.render(DBGuild.getLeftMessage(), values)).queue();
         }
         if (DBGuild.getRestoreRoles()) {
             User DBUser = db.getUserByID(removeEvent.getMember().getIdLong(), removeEvent.getGuild().getIdLong());
