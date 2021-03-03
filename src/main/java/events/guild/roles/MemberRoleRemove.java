@@ -1,8 +1,7 @@
 package events.guild.roles;
 
 import api.BasicEmbed;
-import api.Database;
-import api.models.database.Guild;
+import api.utils.GetLogChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleRemoveEvent;
@@ -15,10 +14,8 @@ public class MemberRoleRemove extends ListenerAdapter {
 
     @Override
     public void onGuildMemberRoleRemove(GuildMemberRoleRemoveEvent roleRemoveEvent) {
-        Database db = new Database();
-        Guild DBGuild = db.getGuildByID(roleRemoveEvent.getGuild().getIdLong());
-        if (DBGuild.getLogs().get("roleRemove") != null) {
-            TextChannel logChannel = roleRemoveEvent.getGuild().getTextChannelById(DBGuild.getLogs().get("roleRemove"));
+        TextChannel logChannel = GetLogChannel.getChannel(roleRemoveEvent, "roleRemove");
+        if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("У участника сняты роли");
             logEmbed.addField("Участник", roleRemoveEvent.getUser().getAsTag());
