@@ -107,4 +107,9 @@ public class Database {
         }
     }
 
+    @Override
+    public void finalize() {
+        this.client.close();
+    }
+
 }

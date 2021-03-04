@@ -1,10 +1,13 @@
 package events.guild;
 
+import api.BasicEmbed;
 import api.Database;
 import api.TemplateEngine;
 import api.models.database.Guild;
 import api.models.database.User;
 import api.models.exceptions.AlreadyInDatabaseException;
+import api.utils.DataFormatter;
+import api.utils.GetLogChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
@@ -25,6 +28,17 @@ public class GuildMemberJoin extends ListenerAdapter {
 
         }
         Guild DBGuild = db.getGuildByID(joinEvent.getGuild().getIdLong());
+
+        TextChannel logChannel = GetLogChannel.getChannel(joinEvent, "memberJoin");
+        if (logChannel != null) {
+            BasicEmbed logEmbed = new BasicEmbed("info");
+            logEmbed.setTitle("Участник присоединился");
+            logEmbed.addField("Тег", joinEvent.getUser().getAsTag());
+            logEmbed.addField("Аккаунт создан", DataFormatter.datetimeToString(joinEvent.getUser().getTimeCreated()));
+            logEmbed.setThumbnail(joinEvent.getUser().getEffectiveAvatarUrl());
+            logChannel.sendMessage(logEmbed.build()).queue();
+        }
+
         if (!DBGuild.getWelcomeMessage().equals("") && DBGuild.getWelcomeChannel() != null) {
             TextChannel welcomeChannel = joinEvent.getJDA().getTextChannelById(DBGuild.getWelcomeChannel());
             HashMap<String, String> values = new HashMap<>();
