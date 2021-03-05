@@ -123,6 +123,8 @@ public class Config {
         LOG_ACTIONS.put("вход_участника", "memberJoin");
         LOG_ACTIONS.put("выход_участника", "memberLeave");
         LOG_ACTIONS.put("смена_ника", "nicknameUpdate");
+        LOG_ACTIONS.put("вход_в_канал", "voiceJoin");
+        LOG_ACTIONS.put("выход_из_канала", "voiceLeave");
     }
 
 }
