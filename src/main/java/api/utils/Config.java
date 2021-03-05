@@ -125,6 +125,8 @@ public class Config {
         LOG_ACTIONS.put("смена_ника", "nicknameUpdate");
         LOG_ACTIONS.put("вход_в_канал", "voiceJoin");
         LOG_ACTIONS.put("выход_из_канала", "voiceLeave");
+        LOG_ACTIONS.put("стрим", "voiceStreamStart");
+        LOG_ACTIONS.put("конец_стрима", "voiceStreamStop");
     }
 
 }
