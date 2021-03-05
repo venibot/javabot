@@ -29,7 +29,7 @@ public class GuildMemberJoin extends ListenerAdapter {
         }
         Guild DBGuild = db.getGuildByID(joinEvent.getGuild().getIdLong());
 
-        TextChannel logChannel = GetLogChannel.getChannel(joinEvent, "memberJoin");
+        TextChannel logChannel = GetLogChannel.getChannel(joinEvent.getGuild(), "memberJoin");
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Участник присоединился");

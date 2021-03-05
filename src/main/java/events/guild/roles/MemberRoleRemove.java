@@ -14,7 +14,7 @@ public class MemberRoleRemove extends ListenerAdapter {
 
     @Override
     public void onGuildMemberRoleRemove(GuildMemberRoleRemoveEvent roleRemoveEvent) {
-        TextChannel logChannel = GetLogChannel.getChannel(roleRemoveEvent, "roleRemove");
+        TextChannel logChannel = GetLogChannel.getChannel(roleRemoveEvent.getGuild(), "roleRemove");
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("У участника сняты роли");

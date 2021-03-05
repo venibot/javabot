@@ -10,7 +10,7 @@ public class GuildVoiceJoin extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent joinEvent) {
-        TextChannel logChannel = GetLogChannel.getChannel(joinEvent, "voiceJoin");
+        TextChannel logChannel = GetLogChannel.getChannel(joinEvent.getGuild(), "voiceJoin");
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Участник вошёл в голосовй канал");

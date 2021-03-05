@@ -11,7 +11,7 @@ public class GuildVoiceDeafen extends ListenerAdapter {
     @Override
     public void onGuildVoiceDeafen(GuildVoiceDeafenEvent deafenEvent) {
         if (deafenEvent.isDeafened()) {
-            TextChannel logChannel = GetLogChannel.getChannel(deafenEvent, "voiceDeafenEvent");
+            TextChannel logChannel = GetLogChannel.getChannel(deafenEvent.getGuild(), "voiceDeafenEvent");
             if (logChannel != null && deafenEvent.getVoiceState().getChannel() != null) {
                 BasicEmbed logEmbed = new BasicEmbed("info");
                 logEmbed.setTitle("Участнику отключён звук в голосовом канале");
@@ -20,7 +20,7 @@ public class GuildVoiceDeafen extends ListenerAdapter {
                 logChannel.sendMessage(logEmbed.build()).queue();
             }
         } else {
-            TextChannel logChannel = GetLogChannel.getChannel(deafenEvent, "voiceUnDeafenEvent");
+            TextChannel logChannel = GetLogChannel.getChannel(deafenEvent.getGuild(), "voiceUnDeafenEvent");
             if (logChannel != null && deafenEvent.getVoiceState().getChannel() != null) {
                 BasicEmbed logEmbed = new BasicEmbed("info");
                 logEmbed.setTitle("Участнику включён звук в голосовом канале");

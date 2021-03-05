@@ -11,7 +11,7 @@ public class GuildVoiceMute extends ListenerAdapter {
     @Override
     public void onGuildVoiceMute(GuildVoiceMuteEvent muteEvent) {
         if (muteEvent.isMuted()) {
-            TextChannel logChannel = GetLogChannel.getChannel(muteEvent, "voiceMuteEvent");
+            TextChannel logChannel = GetLogChannel.getChannel(muteEvent.getGuild(), "voiceMuteEvent");
             if (logChannel != null && muteEvent.getVoiceState().getChannel() != null) {
                 BasicEmbed logEmbed = new BasicEmbed("info");
                 logEmbed.setTitle("Участник замьючен в голосовом канале");
@@ -20,7 +20,7 @@ public class GuildVoiceMute extends ListenerAdapter {
                 logChannel.sendMessage(logEmbed.build()).queue();
             }
         } else {
-            TextChannel logChannel = GetLogChannel.getChannel(muteEvent, "voiceUnMuteEvent");
+            TextChannel logChannel = GetLogChannel.getChannel(muteEvent.getGuild(), "voiceUnMuteEvent");
             if (logChannel != null && muteEvent.getVoiceState().getChannel() != null) {
                 BasicEmbed logEmbed = new BasicEmbed("info");
                 logEmbed.setTitle("Участник размьючен в голосовом канале");

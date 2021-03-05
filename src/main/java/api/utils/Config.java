@@ -131,6 +131,8 @@ public class Config {
         LOG_ACTIONS.put("войс_размьют", "voiceUnMuteEvent");
         LOG_ACTIONS.put("включение_звука", "voiceDeafenEvent");
         LOG_ACTIONS.put("отключение_звука", "voiceUnDeafenEvent");
+        LOG_ACTIONS.put("создание_роли", "roleCreate");
+        LOG_ACTIONS.put("удаление_роли", "roleDelete");
     }
 
 }

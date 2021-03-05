@@ -10,7 +10,7 @@ public class GuildVoiceLeave extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceLeave(GuildVoiceLeaveEvent leaveEvent) {
-        TextChannel logChannel = GetLogChannel.getChannel(leaveEvent, "voiceLeave");
+        TextChannel logChannel = GetLogChannel.getChannel(leaveEvent.getGuild(), "voiceLeave");
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Участник покинул в голосовй канал");

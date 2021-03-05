@@ -10,7 +10,7 @@ public class GuildMemberUpdateNickname extends ListenerAdapter {
 
     @Override
     public void onGuildMemberUpdateNickname(GuildMemberUpdateNicknameEvent updateNicknameEvent) {
-        TextChannel logChannel = GetLogChannel.getChannel(updateNicknameEvent, "nicknameUpdate");
+        TextChannel logChannel = GetLogChannel.getChannel(updateNicknameEvent.getGuild(), "nicknameUpdate");
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Участник изменил никнейм");

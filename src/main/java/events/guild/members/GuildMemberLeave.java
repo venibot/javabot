@@ -21,7 +21,7 @@ public class GuildMemberLeave extends ListenerAdapter {
         Database db = new Database();
         Guild DBGuild = db.getGuildByID(removeEvent.getGuild().getIdLong());
 
-        TextChannel logChannel = GetLogChannel.getChannel(removeEvent, "memberLeave");
+        TextChannel logChannel = GetLogChannel.getChannel(removeEvent.getGuild(), "memberLeave");
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Участник покинул сервер");
