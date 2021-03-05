@@ -122,6 +122,7 @@ public class Config {
         LOG_ACTIONS.put("снятие_роли", "roleRemove");
         LOG_ACTIONS.put("вход_участника", "memberJoin");
         LOG_ACTIONS.put("выход_участника", "memberLeave");
+        LOG_ACTIONS.put("смена_ника", "nicknameUpdate");
     }
 
 }

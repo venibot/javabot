@@ -1,4 +1,4 @@
-package events.guild;
+package events.guild.members;
 
 import api.BasicEmbed;
 import api.Database;
