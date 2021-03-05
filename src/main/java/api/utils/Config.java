@@ -127,6 +127,10 @@ public class Config {
         LOG_ACTIONS.put("выход_из_канала", "voiceLeave");
         LOG_ACTIONS.put("стрим", "voiceStreamStart");
         LOG_ACTIONS.put("конец_стрима", "voiceStreamStop");
+        LOG_ACTIONS.put("войс_мьют", "voiceMuteEvent");
+        LOG_ACTIONS.put("войс_размьют", "voiceUnMuteEvent");
+        LOG_ACTIONS.put("включение_звука", "voiceDeafenEvent");
+        LOG_ACTIONS.put("отключение_звука", "voiceUnDeafenEvent");
     }
 
 }
