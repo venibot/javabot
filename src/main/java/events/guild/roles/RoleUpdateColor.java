@@ -17,7 +17,7 @@ public class RoleUpdateColor extends ListenerAdapter {
             logEmbed.setColor(updateColorEvent.getNewColor());
             logEmbed.addField("Роль", updateColorEvent.getRole().getName() + "(" + updateColorEvent.getRole().getAsMention() + ")");
             logEmbed.addField("Старый цвет", Integer.toHexString(updateColorEvent.getOldColorRaw()));
-            logEmbed.addField("новый цвет", Integer.toHexString(updateColorEvent.getNewColorRaw()));
+            logEmbed.addField("Новый цвет", Integer.toHexString(updateColorEvent.getNewColorRaw()));
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
