@@ -12,7 +12,7 @@ public class MessageUpdate extends ListenerAdapter {
     @Override
     public void onGuildMessageUpdate(GuildMessageUpdateEvent updateEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(updateEvent.getGuild(), "messageEdit");
-        if (logChannel != null) {
+        if (logChannel != null && Config.MESSAGE_CACHE.containsKey(updateEvent.getMessageIdLong())) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Сообщение изменено");
             logEmbed.addField("Сообщение до",

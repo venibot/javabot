@@ -12,7 +12,7 @@ public class MessageDelete extends ListenerAdapter {
     @Override
     public void onGuildMessageDelete(GuildMessageDeleteEvent deleteEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(deleteEvent.getGuild(), "messageDelete");
-        if (logChannel != null) {
+        if (logChannel != null && Config.MESSAGE_CACHE.containsKey(deleteEvent.getMessageIdLong())) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Сообщение удалено");
             logEmbed.addField("Контент удалённого сообщения",
