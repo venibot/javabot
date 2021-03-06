@@ -19,6 +19,7 @@ public class MessageUpdate extends ListenerAdapter {
                     Config.MESSAGE_CACHE.get(updateEvent.getMessageIdLong()).getContentRaw());
             logEmbed.addField("Сообщение после", updateEvent.getMessage().getContentRaw());
             logEmbed.addField("Автор сообщения", updateEvent.getMessage().getAuthor().getAsTag());
+            logEmbed.addField("Ссылка на сообщение", "[Перейти](" + updateEvent.getMessage().getJumpUrl() + ")");
             Config.MESSAGE_CACHE.remove(updateEvent.getMessageIdLong());
             Config.MESSAGE_CACHE.put(updateEvent.getMessageIdLong(), updateEvent.getMessage());
             logChannel.sendMessage(logEmbed.build()).queue();

@@ -19,6 +19,8 @@ public class MessageDelete extends ListenerAdapter {
                     Config.MESSAGE_CACHE.get(deleteEvent.getMessageIdLong()).getContentRaw());
             logEmbed.addField("Автор удалённого сообщения",
                     Config.MESSAGE_CACHE.get(deleteEvent.getMessageIdLong()).getAuthor().getAsTag());
+            logEmbed.addField("Канал",
+                    Config.MESSAGE_CACHE.get(deleteEvent.getMessageIdLong()).getChannel().getName());
             Config.MESSAGE_CACHE.remove(deleteEvent.getMessageIdLong());
             logChannel.sendMessage(logEmbed.build()).queue();
         }
