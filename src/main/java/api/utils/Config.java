@@ -133,6 +133,7 @@ public class Config {
         LOG_ACTIONS.put("отключение_звука", "voiceUnDeafenEvent");
         LOG_ACTIONS.put("создание_роли", "roleCreate");
         LOG_ACTIONS.put("удаление_роли", "roleDelete");
+        LOG_ACTIONS.put("изменение_роли", "roleUpdate");
     }
 
 }
