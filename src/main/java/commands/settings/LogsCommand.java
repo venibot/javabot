@@ -22,7 +22,7 @@ public class LogsCommand implements Command {
         Database db = new Database();
         if (arguments.length == 0) {
             BasicEmbed errorEmbed = new BasicEmbed("error");
-            errorEmbed.setDescription(("Укажите одно из доступных событий\nДоступные события:\nвсе"
+            errorEmbed.setDescription(("Укажите одно из доступных событий\nДоступные события:\nвсе\n"
                     + String.join("\n", Config.LOG_ACTIONS.keySet()).replace("_", "\\_")));
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         } else if (arguments.length == 1) {
