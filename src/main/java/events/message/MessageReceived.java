@@ -16,6 +16,7 @@ public class MessageReceived extends ListenerAdapter {
             Command command = CommandHandler.findCommand(command_name);
             if (command != null) {
                 CommandHandler.findAndRun(command_name, msg_event, truncated.replaceFirst(command_name, ""));
+                Config.COMMANDS_COMPLETED += 1;
             }
         }
         if (!msg_event.getAuthor().isBot()) {

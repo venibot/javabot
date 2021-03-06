@@ -12,6 +12,7 @@ import workers.BotStatWorker;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
+import java.util.concurrent.FutureTask;
 
 public class Main {
 
@@ -28,10 +29,12 @@ public class Main {
         }
         builder.setToken(Config.BOT_CONFIG.get("token"));
         JDA bot = builder.build();
-        WorkerHandler.registerWorker(new BotStatWorker());
-        WorkerHandler.run(bot);
         loadCommands("src/main/java/commands", "commands");
         loadEvents(bot, "src/main/java/events", "events");
+        Config.BOT = bot;
+        WorkerHandler.registerWorker(new BotStatWorker());
+        FutureTask<Void> task = new FutureTask<>(new WorkerHandler());
+        new Thread(task).start();
         bot.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
         bot.getPresence().setActivity(Activity.playing("изучение java"));
     }

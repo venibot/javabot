@@ -1,5 +1,6 @@
 package api.utils;
 
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 
 import java.io.FileInputStream;
@@ -20,6 +21,7 @@ public class Config {
     public static HashMap<String, String> LOG_ACTIONS =  new HashMap<>();
     public static HashMap<Long, Message> MESSAGE_CACHE = new HashMap<>();
     public static Long COMMANDS_COMPLETED = 0L;
+    public static JDA BOT;
 
     public static void getBotConfig() throws Exception {
         Properties props = new Properties();
