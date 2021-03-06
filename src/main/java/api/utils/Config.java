@@ -19,6 +19,7 @@ public class Config {
     public static HashMap<String, String> PERMISSIONS = new HashMap<>();
     public static HashMap<String, String> LOG_ACTIONS =  new HashMap<>();
     public static HashMap<Long, Message> MESSAGE_CACHE = new HashMap<>();
+    public static Long COMMANDS_COMPLETED = 0L;
 
     public static void getBotConfig() throws Exception {
         Properties props = new Properties();

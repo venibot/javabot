@@ -1,5 +1,6 @@
 import api.models.command.Command;
 import api.models.command.CommandHandler;
+import api.models.workers.WorkerHandler;
 import api.utils.Config;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
@@ -7,6 +8,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import workers.BotStatWorker;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
@@ -26,6 +28,8 @@ public class Main {
         }
         builder.setToken(Config.BOT_CONFIG.get("token"));
         JDA bot = builder.build();
+        WorkerHandler.registerWorker(new BotStatWorker());
+        WorkerHandler.run(bot);
         loadCommands("src/main/java/commands", "commands");
         loadEvents(bot, "src/main/java/events", "events");
         bot.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);

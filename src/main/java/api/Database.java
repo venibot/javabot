@@ -1,10 +1,13 @@
 package api;
 
+import api.models.database.Bot;
 import api.models.database.Guild;
 import api.models.database.User;
 import api.models.exceptions.AlreadyInDatabaseException;
 import api.utils.Config;
 import com.mongodb.*;
+
+import java.util.List;
 
 public class Database {
 
@@ -106,6 +109,56 @@ public class Database {
             return null;
         }
     }
+
+    public WriteResult addBotStat(Bot botStat) throws AlreadyInDatabaseException {
+        if (this.getBotStatByID(botStat.getId()) != null) {
+            throw new AlreadyInDatabaseException(botStat);
+        }
+        DBCollection stats = this.database.getCollection("stats");
+        try {
+            BasicDBObject document = botStat.toDBObject();
+            return stats.insert(document);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Bot getBotStatByID(Integer ID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("id", ID);
+
+        DBObject result = this.database.getCollection("stats").findOne(query);
+        if (result != null) {
+            try {
+                return Bot.fromDBObject(result);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public Integer getLastStatID() {
+        List<DBObject> documents = this.database.getCollection("stats").find().toArray();
+        DBObject needDocument = null;
+        int maxKey = 0;
+        for (DBObject document: documents) {
+            if ((Integer) document.get("id") > maxKey) {
+                needDocument = document;
+                maxKey = (Integer) document.get("id");
+            }
+        }
+        try {
+            return needDocument != null ? Bot.fromDBObject(needDocument).getId() : 0;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     @Override
     public void finalize() {
