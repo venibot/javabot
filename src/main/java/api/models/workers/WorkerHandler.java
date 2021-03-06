@@ -35,7 +35,6 @@ public class WorkerHandler implements Callable<Void> {
         if (info == null) return null;
         try {
             Thread.sleep(worker.getWorkerInfo().type().toMillis(worker.getWorkerInfo().duration()));
-            System.out.println(456);
             worker.execute(bot);
             Timer timer = new Timer();
             timer.schedule(WorkerHandler.execute(worker, bot), worker.getWorkerInfo().type().toMillis(worker.getWorkerInfo().duration()));
@@ -54,7 +53,6 @@ public class WorkerHandler implements Callable<Void> {
 
     @Override
     public Void call() {
-        System.out.println(123);
         for (Worker worker: WorkerHandler.workers) {
             WorkerHandler.execute(worker, Config.BOT);
         }
