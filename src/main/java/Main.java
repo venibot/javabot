@@ -1,3 +1,4 @@
+import api.Database;
 import api.models.command.Command;
 import api.models.command.CommandHandler;
 import api.models.workers.WorkerHandler;
@@ -24,6 +25,9 @@ public class Main {
         Config.getUserFlagsAsEmojis();
         Config.getPermissions();
         Config.getLogActions();
+        Database db = new Database();
+        Integer statID = db.getLastStatID();
+        Config.COMMANDS_COMPLETED = statID != 0 ? db.getBotStatByID(statID).getCommandsCount() : 0;
         if (Config.BOT_CONFIG.isEmpty()) {
             throw new Exception("Конфигурационный файл бота не был загружен!");
         }
