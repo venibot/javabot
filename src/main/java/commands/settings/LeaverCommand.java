@@ -48,8 +48,8 @@ public class LeaverCommand implements Command {
                     } else {
                         BasicEmbed infoEmbed = new BasicEmbed("info");
                         infoEmbed.setDescription("Канал, установленный для прощальных сообщений на данный момент"
-                                + (DBGuild.getWelcomeChannel() != null
-                                ? (": " + msg_event.getGuild().getTextChannelById(DBGuild.getWelcomeChannel()).getAsMention()) : " отсутствует")
+                                + (DBGuild.getLeftChannel() != null
+                                ? (": " + msg_event.getGuild().getTextChannelById(DBGuild.getLeftChannel()).getAsMention()) : " отсутствует")
                                 + ".\nДля установки канала для прощальных сообщений используйте `..welcomer канал` и укажите необходимый канал(0 для сброса)");
                         msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
                     }
@@ -64,7 +64,7 @@ public class LeaverCommand implements Command {
                             successEmbed.setDescription("Прощальное сообщение успешно установлено");
                             msg_event.getChannel().sendMessage(successEmbed.build()).queue();
                         } else {
-                            DBGuild.setLeftChannel(null);
+                            DBGuild.setLeftMessage(null);
                             db.updateGuild(DBGuild);
                             BasicEmbed successEmbed = new BasicEmbed("success");
                             successEmbed.setDescription("Прощальное сообщение успешно сброшено");
@@ -73,8 +73,8 @@ public class LeaverCommand implements Command {
                     } else {
                         BasicEmbed infoEmbed = new BasicEmbed("info");
                         infoEmbed.setDescription("Прощальное сообщение на данный момент"
-                                + (!DBGuild.getWelcomeMessage().equals("")
-                                ? ": " + DBGuild.getWelcomeMessage() : " отсутствует")
+                                + (!DBGuild.getLeftMessage().equals("")
+                                ? ": " + DBGuild.getLeftMessage() : " отсутствует")
                                 + ".\nДля установки прощального сообщений используйте `..leaver сообщение` и укажите необходимое сообщение(0 для сброса). Доступные в сообщении переменные: {{member.tag}} - имя пользователя, {{member.mention}} - упоминание пользователя, {{guild.memberCount}} - кол-во участников на сервере");
                         msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
                     }
