@@ -138,6 +138,9 @@ public class Config {
         LOG_ACTIONS.put("создание_роли", "roleCreate");
         LOG_ACTIONS.put("удаление_роли", "roleDelete");
         LOG_ACTIONS.put("изменение_роли", "roleUpdate");
+        LOG_ACTIONS.put("создание_категории", "categoryCreate");
+        LOG_ACTIONS.put("изменение_категории", "categoryUpdate");
+        LOG_ACTIONS.put("удаление_категории", "categoryDelete");
     }
 
     public static void getTimes() {
