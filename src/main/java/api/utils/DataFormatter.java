@@ -4,6 +4,8 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.User;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -31,6 +33,12 @@ public class DataFormatter {
             permissionsString += Config.PERMISSIONS.get(permission.toString()) + "\n";
         }
         return permissionsString;
+    }
+
+    public static OffsetDateTime unixToDateTime(Long unixTime) {
+        OffsetDateTime dateTime = new Date(unixTime).toInstant().atOffset(ZoneOffset.UTC);
+        dateTime = dateTime.plusHours(3);
+        return dateTime;
     }
 
 }

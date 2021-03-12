@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 public class Config {
 
@@ -22,10 +23,10 @@ public class Config {
     public static HashMap<Long, Message> MESSAGE_CACHE = new HashMap<>();
     public static Long COMMANDS_COMPLETED = 0L;
     public static JDA BOT;
+    public static HashMap<TimeUnit, String[]> TIMES = new HashMap<>();
 
     public static void getBotConfig() throws Exception {
         Properties props = new Properties();
-
         try {
             FileInputStream config_file = new FileInputStream(PATH_TO_BOT_CONFIG);
             props.load(config_file);
@@ -137,6 +138,12 @@ public class Config {
         LOG_ACTIONS.put("создание_роли", "roleCreate");
         LOG_ACTIONS.put("удаление_роли", "roleDelete");
         LOG_ACTIONS.put("изменение_роли", "roleUpdate");
+    }
+
+    public static void getTimes() {
+        TIMES.put(TimeUnit.MINUTES, new String[]{"м", "мин", "минут", "m", "min", "minutes"});
+        TIMES.put(TimeUnit.HOURS, new String[]{"ч", "час", "h", "hours"});
+        TIMES.put(TimeUnit.DAYS, new String[]{"д", "дн", "дни", "d", "days"});
     }
 
 }

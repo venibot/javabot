@@ -2,11 +2,13 @@ package api;
 
 import api.models.database.Bot;
 import api.models.database.Guild;
+import api.models.database.Reminder;
 import api.models.database.User;
 import api.models.exceptions.AlreadyInDatabaseException;
 import api.utils.Config;
 import com.mongodb.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
@@ -157,6 +159,84 @@ public class Database {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    public Integer getLastReminderID() {
+        List<DBObject> documents = this.database.getCollection("reminders").find().toArray();
+        DBObject needDocument = null;
+        int maxKey = 0;
+        for (DBObject document: documents) {
+            if ((Integer) document.get("ID") > maxKey) {
+                needDocument = document;
+                maxKey = (Integer) document.get("ID");
+            }
+        }
+        try {
+            return needDocument != null ? Reminder.fromDBObject(needDocument).getID() : 0;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public WriteResult addReminder(Reminder reminder) {
+        DBCollection reminders = this.database.getCollection("reminders");
+        try {
+            BasicDBObject document = reminder.toDBObject();
+            return reminders.insert(document);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Reminder> getUserReminders(Long userID, Long guildID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("userID", userID);
+        query.put("guildID", guildID);
+
+        List<DBObject> result = this.database.getCollection("reminders").find(query).toArray();
+        if (result.size() > 0) {
+            try {
+                List<Reminder> reminders = new ArrayList<>();
+                for (DBObject reminder: result) {
+                    reminders.add(Reminder.fromDBObject(reminder));
+                }
+                return reminders;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public List<Reminder> getReminders() {
+        List<DBObject> result = this.database.getCollection("reminders").find().toArray();
+        if (result.size() > 0) {
+            try {
+                List<Reminder> reminders = new ArrayList<>();
+                for (DBObject reminder: result) {
+                    reminders.add(Reminder.fromDBObject(reminder));
+                }
+                return reminders;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public WriteResult deleteReminder(Integer ID) {
+        DBCollection reminders = this.database.getCollection("reminders");
+        BasicDBObject query = new BasicDBObject();
+        query.put("ID", ID);
+
+        return reminders.remove(query);
     }
 
 
