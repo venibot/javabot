@@ -1,16 +1,9 @@
 package api.models.workers;
 
-import api.models.command.Command;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.*;
 import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
 
 public class WorkerHandler implements Callable<Void> {
-
-    private static final Logger logger = LoggerFactory.getLogger("JDA-Command");
 
     public static Set<Worker> workers = new HashSet<>();
 
@@ -48,7 +41,7 @@ public class WorkerHandler implements Callable<Void> {
             try {
                 this.worker.execute();
             } catch (Exception error) {
-                logger.error("Ошибка при выполнении задания " + info.name() + ". " + error);
+                error.printStackTrace();
             }
             timer.schedule(new ExecuteTask(this.worker), this.worker.getWorkerInfo().type().toMillis(this.worker.getWorkerInfo().duration()));
         }
