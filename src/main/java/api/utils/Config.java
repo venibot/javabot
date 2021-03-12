@@ -141,6 +141,9 @@ public class Config {
         LOG_ACTIONS.put("создание_категории", "categoryCreate");
         LOG_ACTIONS.put("изменение_категории", "categoryUpdate");
         LOG_ACTIONS.put("удаление_категории", "categoryDelete");
+        LOG_ACTIONS.put("создание_канала", "channelCreate");
+        LOG_ACTIONS.put("изменение_канала", "channelUpdate");
+        LOG_ACTIONS.put("удаление_канала", "channelDelete");
     }
 
     public static void getTimes() {
