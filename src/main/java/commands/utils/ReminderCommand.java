@@ -29,6 +29,7 @@ public class ReminderCommand implements Command {
             Database db = new Database();
             switch (arguments[0]) {
                 case "list":
+                case "лист":
                 case "список":
                     List<Reminder> reminders = db.getUserReminders(msg_event.getAuthor().getIdLong(),
                             msg_event.getGuild().getIdLong());
@@ -46,6 +47,7 @@ public class ReminderCommand implements Command {
                     msg_event.getChannel().sendMessage(reminderList.build()).queue();
                     break;
                 case "create":
+                case "new":
                 case "создать":
                     if (arguments.length < 3) {
                         BasicEmbed errorEmbed = new BasicEmbed("error");
