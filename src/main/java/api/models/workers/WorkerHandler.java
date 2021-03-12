@@ -49,7 +49,6 @@ public class WorkerHandler implements Callable<Void> {
                 this.worker.execute();
             } catch (Exception error) {
                 logger.error("Ошибка при выполнении задания " + info.name() + ". " + error);
-                throw new WorkerException(error);
             }
             timer.schedule(new ExecuteTask(this.worker), this.worker.getWorkerInfo().type().toMillis(this.worker.getWorkerInfo().duration()));
         }

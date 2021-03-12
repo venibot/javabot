@@ -13,10 +13,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-@DiscordCommand(name = "reminder", description = "Напоминания", aliases = {"напоминания"},
+@DiscordCommand(name = "reminder", description = "Напоминания", aliases = {"напоминания", "напоминание"},
         group = "Утилиты", usage = "<Действие> [Аргументы]", arguments = 3)
 public class ReminderCommand implements Command {
 
