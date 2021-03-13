@@ -1,4 +1,4 @@
-package events.guild.channels;
+package events.guild.channels.text;
 
 import api.BasicEmbed;
 import api.utils.GetLogChannel;
@@ -13,7 +13,7 @@ public class TextChannelDelete extends ListenerAdapter {
         TextChannel logChannel = GetLogChannel.getChannel(deleteEvent.getGuild(), "channelDelete");
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
-            logEmbed.setTitle("Удалён канал");
+            logEmbed.setTitle("Удалён текстовый канал");
             logEmbed.addField("Имя", deleteEvent.getChannel().getName());
             logChannel.sendMessage(logEmbed.build()).queue();
         }
