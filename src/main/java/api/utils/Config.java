@@ -147,6 +147,8 @@ public class Config {
         LOG_ACTIONS.put("создание_эмодзи", "emoteAdd");
         LOG_ACTIONS.put("изменение_эмодзи", "emoteUpdate");
         LOG_ACTIONS.put("удаление_эмодзи", "emoteRemove");
+        LOG_ACTIONS.put("бан", "userBan");
+        LOG_ACTIONS.put("разбан", "userUnban");
     }
 
     public static void getTimes() {
