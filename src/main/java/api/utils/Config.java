@@ -144,6 +144,9 @@ public class Config {
         LOG_ACTIONS.put("создание_канала", "channelCreate");
         LOG_ACTIONS.put("изменение_канала", "channelUpdate");
         LOG_ACTIONS.put("удаление_канала", "channelDelete");
+        LOG_ACTIONS.put("создание_эмодзи", "emoteAdd");
+        LOG_ACTIONS.put("изменение_эмодзи", "emoteUpdate");
+        LOG_ACTIONS.put("удаление_эмодзи", "emoteRemove");
     }
 
     public static void getTimes() {
