@@ -149,6 +149,7 @@ public class Config {
         LOG_ACTIONS.put("удаление_эмодзи", "emoteRemove");
         LOG_ACTIONS.put("бан", "userBan");
         LOG_ACTIONS.put("разбан", "userUnban");
+        LOG_ACTIONS.put("изменение_сервера", "guildUpdate");
     }
 
     public static void getTimes() {
