@@ -2,9 +2,7 @@ package events.guild.roles;
 
 import api.BasicEmbed;
 import api.utils.Config;
-import api.utils.DataFormatter;
 import api.utils.GetLogChannel;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.role.update.RoleUpdatePermissionsEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;

@@ -3,13 +3,11 @@ package events;
 import api.APIs.Boticord;
 import api.APIs.SDC;
 import api.Database;
-import api.models.database.User;
 import api.models.exceptions.AlreadyInDatabaseException;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.apache.http.client.HttpResponseException;
 
 import java.io.IOException;
 

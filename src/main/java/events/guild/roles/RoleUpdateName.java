@@ -3,7 +3,6 @@ package events.guild.roles;
 import api.BasicEmbed;
 import api.utils.GetLogChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.role.update.RoleUpdateColorEvent;
 import net.dv8tion.jda.api.events.role.update.RoleUpdateNameEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 

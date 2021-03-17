@@ -3,7 +3,6 @@ package events.guild.emojis;
 import api.BasicEmbed;
 import api.utils.GetLogChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.events.emote.EmoteAddedEvent;
 import net.dv8tion.jda.api.events.emote.update.EmoteUpdateNameEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
