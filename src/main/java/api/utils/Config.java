@@ -150,6 +150,8 @@ public class Config {
         LOG_ACTIONS.put("бан", "userBan");
         LOG_ACTIONS.put("разбан", "userUnban");
         LOG_ACTIONS.put("изменение_сервера", "guildUpdate");
+        LOG_ACTIONS.put("создание_приглашения", "inviteCreate");
+        LOG_ACTIONS.put("удаление_приглашения", "inviteDelete");
     }
 
     public static void getTimes() {
