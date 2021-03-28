@@ -1,5 +1,7 @@
 package api.models.command;
 
+import net.dv8tion.jda.api.Permission;
+
 import java.lang.annotation.*;
 
 @Documented
@@ -16,6 +18,8 @@ public @interface DiscordCommand {
     String[] aliases();
 
     String usage() default "";
+
+    Permission[] permissions() default {Permission.MESSAGE_WRITE};
 
     boolean hidden() default false;
 

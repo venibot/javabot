@@ -8,13 +8,14 @@ import api.models.database.Guild;
 import api.models.exceptions.ChannelNotFoundException;
 import api.utils.Config;
 import api.utils.Converters;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.HashMap;
 
 @DiscordCommand(name = "logs", description = "Настройка логов", aliases = {"логи"}, arguments = 2,
-        usage = "<Тип действия> <Канал>", group = "Настройки")
+        usage = "<Тип действия> <Канал>", group = "Настройки", permissions = {Permission.MANAGE_SERVER})
 public class LogsCommand implements Command {
 
     @Override

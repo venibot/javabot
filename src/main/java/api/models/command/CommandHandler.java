@@ -1,5 +1,7 @@
 package api.models.command;
 
+import api.BasicEmbed;
+import api.utils.DataFormatter;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,23 +41,29 @@ public class CommandHandler {
     public static void doCommand(Command command, MessageReceivedEvent msg_event, String args) {
         DiscordCommand cd = command.getCommandData();
         if (cd == null) return;
-        String[] arguments;
-        if (args.equals("")) {
-            arguments = new String[0];
-        }
-        else {
-            if (cd.arguments() == 0 || cd.arguments() == 1) {
-                arguments = new String[1];
-                arguments[0] = args.replace("^[ ]*", "").trim();
+        if (msg_event.getMember().hasPermission(cd.permissions())) {
+            String[] arguments;
+            if (args.equals("")) {
+                arguments = new String[0];
             } else {
-                arguments = args.replace("^[ ]*", "").trim().split(" ", cd.arguments());
+                if (cd.arguments() == 0 || cd.arguments() == 1) {
+                    arguments = new String[1];
+                    arguments[0] = args.replace("^[ ]*", "").trim();
+                } else {
+                    arguments = args.replace("^[ ]*", "").trim().split(" ", cd.arguments());
+                }
             }
-        }
-        try {
-            command.doCommand(msg_event, arguments);
-        } catch (Exception error) {
-            logger.error("Ошибка при выполнении команды " + cd.name() + ". " + error);
-            throw new CommandException(error);
+            try {
+                command.doCommand(msg_event, arguments);
+            } catch (Exception error) {
+                logger.error("Ошибка при выполнении команды " + cd.name() + ". " + error);
+                throw new CommandException(error);
+            }
+        } else {
+            BasicEmbed errorEmbed = new BasicEmbed("error");
+            errorEmbed.setTitle("У вас недостаточно прав для выполнения данной команды");
+            errorEmbed.setDescription("Необходимые права: " + DataFormatter.getMissingPermissions(cd.permissions()));
+            msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         }
     }
 

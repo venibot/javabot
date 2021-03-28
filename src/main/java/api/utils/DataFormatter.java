@@ -35,6 +35,14 @@ public class DataFormatter {
         return permissionsString;
     }
 
+    public static String getMissingPermissions(Permission[] permissions) {
+        String permissionsString = "";
+        for (Permission permission: permissions) {
+            permissionsString += Config.PERMISSIONS.get(permission.toString()) + "\n";
+        }
+        return permissionsString;
+    }
+
     public static OffsetDateTime unixToDateTime(Long unixTime) {
         OffsetDateTime dateTime = new Date(unixTime).toInstant().atOffset(ZoneOffset.UTC);
         dateTime = dateTime.plusHours(3);

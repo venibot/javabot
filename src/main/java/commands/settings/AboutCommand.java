@@ -5,10 +5,11 @@ import api.Database;
 import api.models.command.Command;
 import api.models.command.DiscordCommand;
 import api.models.database.User;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @DiscordCommand(name = "about", description = "Установка описания о себе(в команде user)", group = "Настройки",
-        aliases = "осебе", usage = "<Новый текст>", arguments = 1)
+        aliases = "осебе", usage = "<Новый текст>", arguments = 1, permissions = {Permission.MANAGE_SERVER})
 public class AboutCommand implements Command {
 
     @Override

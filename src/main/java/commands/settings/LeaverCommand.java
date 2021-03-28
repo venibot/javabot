@@ -7,10 +7,11 @@ import api.models.command.DiscordCommand;
 import api.models.database.Guild;
 import api.models.exceptions.ChannelNotFoundException;
 import api.utils.Converters;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @DiscordCommand(name = "leaver", description = "Настройка прощаний", aliases = {"прощания"},
-        usage = "<Аргумент> <Значение>", group = "Настройки", arguments = 2)
+        usage = "<Аргумент> <Значение>", group = "Настройки", arguments = 2, permissions = {Permission.MANAGE_SERVER})
 public class LeaverCommand implements Command {
 
     @Override
