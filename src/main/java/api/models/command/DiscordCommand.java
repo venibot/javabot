@@ -20,6 +20,4 @@ public @interface DiscordCommand {
     boolean hidden() default false;
 
     int arguments() default 0;
-
-    CommandAttribute[] attributes() default {};
 }
