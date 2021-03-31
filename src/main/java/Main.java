@@ -40,6 +40,7 @@ public class Main {
         }
         Collection<CacheFlag> cacheToDisable = new ArrayList<>();
         cacheToDisable.add(CacheFlag.ACTIVITY);
+        cacheToDisable.add(CacheFlag.CLIENT_STATUS);
         builder.disableCache(cacheToDisable);
         Collection<GatewayIntent> intentsToDisable = new ArrayList<>();
         intentsToDisable.add(GatewayIntent.GUILD_PRESENCES);
