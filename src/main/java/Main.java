@@ -1,6 +1,7 @@
 import api.Database;
 import api.models.command.Command;
 import api.models.command.CommandHandler;
+import api.models.database.Guild;
 import api.models.database.Reminder;
 import api.models.workers.WorkerHandler;
 import api.utils.Config;
@@ -38,13 +39,26 @@ public class Main {
         if (Config.BOT_CONFIG.isEmpty()) {
             throw new Exception("Конфигурационный файл бота не был загружен!");
         }
-        Collection<CacheFlag> cacheToDisable = new ArrayList<>();
-        cacheToDisable.add(CacheFlag.ACTIVITY);
-        cacheToDisable.add(CacheFlag.CLIENT_STATUS);
-        builder.disableCache(cacheToDisable);
-        Collection<GatewayIntent> intentsToDisable = new ArrayList<>();
-        intentsToDisable.add(GatewayIntent.GUILD_PRESENCES);
-        builder.disableIntents(intentsToDisable);
+
+        Collection<CacheFlag> cache = new ArrayList<>();
+        cache.add(CacheFlag.EMOTE);
+        cache.add(CacheFlag.VOICE_STATE);
+        cache.add(CacheFlag.MEMBER_OVERRIDES);
+        cache.add(CacheFlag.ROLE_TAGS);
+        builder.enableCache(cache);
+
+        Collection<GatewayIntent> intents = new ArrayList<>();
+        intents.add(GatewayIntent.GUILD_MESSAGES);
+        intents.add(GatewayIntent.DIRECT_MESSAGES);
+        intents.add(GatewayIntent.GUILD_BANS);
+        intents.add(GatewayIntent.GUILD_INVITES);
+        intents.add(GatewayIntent.GUILD_MESSAGE_REACTIONS);
+        intents.add(GatewayIntent.GUILD_EMOJIS);
+        intents.add(GatewayIntent.GUILD_MEMBERS);
+        intents.add(GatewayIntent.GUILD_VOICE_STATES);
+        intents.add(GatewayIntent.GUILD_WEBHOOKS);
+        builder.enableIntents(intents);
+
         builder.setToken(Config.BOT_CONFIG.get("token"));
         JDA bot = builder.build();
         loadCommands("src/main/java/commands", "commands");
