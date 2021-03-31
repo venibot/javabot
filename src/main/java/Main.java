@@ -10,11 +10,14 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import workers.BotStatWorker;
 import workers.ReminderWorker;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.FutureTask;
 
 public class Main {
@@ -34,6 +37,9 @@ public class Main {
         if (Config.BOT_CONFIG.isEmpty()) {
             throw new Exception("Конфигурационный файл бота не был загружен!");
         }
+        Collection<GatewayIntent> intentsToDisable = new ArrayList<>();
+        intentsToDisable.add(GatewayIntent.GUILD_PRESENCES);
+        builder.disableIntents(intentsToDisable);
         builder.setToken(Config.BOT_CONFIG.get("token"));
         JDA bot = builder.build();
         loadCommands("src/main/java/commands", "commands");
