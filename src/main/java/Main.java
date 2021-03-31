@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import workers.BotStatWorker;
 import workers.ReminderWorker;
 
@@ -37,6 +38,9 @@ public class Main {
         if (Config.BOT_CONFIG.isEmpty()) {
             throw new Exception("Конфигурационный файл бота не был загружен!");
         }
+        Collection<CacheFlag> cacheToDisable = new ArrayList<>();
+        cacheToDisable.add(CacheFlag.ACTIVITY);
+        builder.disableCache(cacheToDisable);
         Collection<GatewayIntent> intentsToDisable = new ArrayList<>();
         intentsToDisable.add(GatewayIntent.GUILD_PRESENCES);
         builder.disableIntents(intentsToDisable);
