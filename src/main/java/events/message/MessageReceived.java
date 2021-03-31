@@ -10,8 +10,9 @@ public class MessageReceived extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent msg_event) {
-        if (msg_event.getMessage().getContentRaw().startsWith("..") && !msg_event.getAuthor().isBot()) {
-            String truncated = msg_event.getMessage().getContentRaw().replaceFirst("..", "").trim();
+        String prefix = Config.BOT_CONFIG.get("prefix");
+        if (msg_event.getMessage().getContentRaw().startsWith(prefix) && !msg_event.getAuthor().isBot()) {
+            String truncated = msg_event.getMessage().getContentRaw().replaceFirst(prefix, "").trim();
             String command_name = truncated.split(" ")[0];
             Command command = CommandHandler.findCommand(command_name);
             if (command != null) {
