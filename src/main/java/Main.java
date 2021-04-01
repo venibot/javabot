@@ -12,6 +12,9 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.sharding.DefaultShardManager;
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import workers.BotStatWorker;
 import workers.ReminderWorker;
@@ -25,7 +28,7 @@ import java.util.concurrent.FutureTask;
 public class Main {
 
     public static void main(String[] args) throws LoginException, Exception {
-        JDABuilder builder = new JDABuilder(AccountType.BOT);
+        DefaultShardManagerBuilder builder = new DefaultShardManagerBuilder();
         Config.getBotConfig();
         Config.getDatabaseConfig();
         Config.getMonthsConfig();
@@ -60,7 +63,7 @@ public class Main {
         builder.enableIntents(intents);
 
         builder.setToken(Config.BOT_CONFIG.get("token"));
-        JDA bot = builder.build();
+        ShardManager bot = builder.build();
         loadCommands("src/main/java/commands", "commands");
         loadEvents(bot, "src/main/java/events", "events");
         Config.BOT = bot;
@@ -68,8 +71,10 @@ public class Main {
         WorkerHandler.registerWorker(new ReminderWorker());
         FutureTask<Void> task = new FutureTask<>(new WorkerHandler());
         new Thread(task).start();
-        bot.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
-        bot.getPresence().setActivity(Activity.playing("изучение java"));
+        for (JDA shard: bot.getShards()) {
+            shard.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
+            shard.getPresence().setActivity(Activity.playing(shard.getShardInfo().getShardId() + " шард | veni.tk"));
+        }
     }
 
     public static void loadCommands(String path, String commands_package) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
@@ -87,7 +92,7 @@ public class Main {
         }
     }
 
-    public static void loadEvents(JDA bot, String path, String events_package) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public static void loadEvents(ShardManager bot, String path, String events_package) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         events_package += ".";
         File dir = new File(path);
         for (File file: dir.listFiles()) {

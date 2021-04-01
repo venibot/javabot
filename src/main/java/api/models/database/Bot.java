@@ -3,6 +3,7 @@ package api.models.database;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.sharding.ShardManager;
 
 import javax.enterprise.inject.Model;
 import java.time.OffsetDateTime;
@@ -23,7 +24,7 @@ public class Bot {
 
     private Integer channelsCount;
 
-    public Bot(Integer id, JDA bot, Long commandsCount) {
+    public Bot(Integer id, ShardManager bot, Long commandsCount) {
         this.id = id;
         this.statTime = new Date().getTime();
         this.guildsCount = bot.getGuilds().size();

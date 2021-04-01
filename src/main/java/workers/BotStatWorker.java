@@ -11,13 +11,11 @@ import api.utils.Config;
 public class BotStatWorker implements Worker {
 
     public void execute() {
-        if (Config.BOT.getGatewayPing() > 0) {
-            Database db = new Database();
-            try {
-                db.addBotStat(new Bot(db.getLastStatID() + 1, Config.BOT, Config.COMMANDS_COMPLETED));
-            } catch (AlreadyInDatabaseException e) {
-                e.printStackTrace();
-            }
+        Database db = new Database();
+        try {
+            db.addBotStat(new Bot(db.getLastStatID() + 1, Config.BOT, Config.COMMANDS_COMPLETED));
+        } catch (AlreadyInDatabaseException e) {
+            e.printStackTrace();
         }
     }
 

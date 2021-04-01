@@ -2,6 +2,7 @@ package api.utils;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.sharding.ShardManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class Config {
     public static HashMap<String, String> LOG_ACTIONS =  new HashMap<>();
     public static HashMap<Long, Message> MESSAGE_CACHE = new HashMap<>();
     public static Long COMMANDS_COMPLETED = 0L;
-    public static JDA BOT;
+    public static ShardManager BOT;
     public static HashMap<TimeUnit, String[]> TIMES = new HashMap<>();
 
     public static void getBotConfig() throws Exception {
