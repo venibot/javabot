@@ -54,30 +54,36 @@ public class ReminderCommand implements Command {
                         errorEmbed.setDescription("Укажите время и текст напоминания");
                         msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                     } else {
-                        String time = arguments[1];
-                        String duration = String.join("", time.split("\\D+"));
-                        String unit = String.join("", time.split("\\d+"));
-                        if (!duration.equals("") && !unit.equals("")) {
-                            for (TimeUnit timeUnit: Config.TIMES.keySet()) {
-                                if (Arrays.asList(Config.TIMES.get(timeUnit)).contains(unit)) {
-                                    Long endTime = new Date().getTime() + timeUnit.toMillis(Integer.parseInt(duration));
-                                    Reminder reminder = new Reminder(
-                                            db.getLastReminderID(),
-                                            msg_event.getAuthor().getIdLong(),
-                                            msg_event.getGuild().getIdLong(),
-                                            arguments[2],
-                                            endTime);
-                                    db.addReminder(reminder);
-                                    msg_event.getMessage().addReaction("✅").queue();
-                                    return;
+                        try {
+                            String time = arguments[1];
+                            String duration = String.join("", time.split("\\D+"));
+                            String unit = String.join("", time.split("\\d+"));
+                            if (!duration.equals("") && !unit.equals("")) {
+                                for (TimeUnit timeUnit : Config.TIMES.keySet()) {
+                                    if (Arrays.asList(Config.TIMES.get(timeUnit)).contains(unit)) {
+                                        Long endTime = new Date().getTime() + timeUnit.toMillis(Integer.parseInt(duration));
+                                        Reminder reminder = new Reminder(
+                                                db.getLastReminderID(),
+                                                msg_event.getAuthor().getIdLong(),
+                                                msg_event.getGuild().getIdLong(),
+                                                arguments[2],
+                                                endTime);
+                                        db.addReminder(reminder);
+                                        msg_event.getMessage().addReaction("✅").queue();
+                                        return;
+                                    }
                                 }
+                                BasicEmbed errorEmbed = new BasicEmbed("error");
+                                errorEmbed.setDescription("Указанное время не доступно. Доступное время для напоминания: минуты, часы, дни");
+                                msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+                            } else {
+                                BasicEmbed errorEmbed = new BasicEmbed("error");
+                                errorEmbed.setDescription("Укажите время и текст напоминания");
+                                msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                             }
+                        } catch (NumberFormatException e) {
                             BasicEmbed errorEmbed = new BasicEmbed("error");
-                            errorEmbed.setDescription("Укажите время и текст напоминания");
-                            msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
-                        } else {
-                            BasicEmbed errorEmbed = new BasicEmbed("error");
-                            errorEmbed.setDescription("Укажите время и текст напоминания");
+                            errorEmbed.setDescription("Укажите нормальное время напоминания");
                             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                         }
                     }
