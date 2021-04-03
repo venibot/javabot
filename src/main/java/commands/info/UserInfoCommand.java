@@ -34,7 +34,7 @@ public class UserInfoCommand implements Command {
             userInfo.addField("Значки", flags != "" ? flags : "Отсутствуют", true);
             userInfo.addField("Бот?", member.getIdLong() == 596613890847145985L ? "Да" : member.getUser().isBot() ? "Да" : "Нет", true);
             userInfo.addField("Аккаунт создан", DataFormatter.datetimeToString(member.getUser().getTimeCreated()), false);
-            userInfo.addField("Вошёл на сервер", DataFormatter.datetimeToString(member.getTimeJoined()), true);
+            userInfo.addField("Зашёл на сервер", DataFormatter.datetimeToString(member.getTimeJoined()), true);
             if (member.getTimeBoosted() != null) {
                 userInfo.addField("Забустил сервер", DataFormatter.datetimeToString(member.getTimeBoosted()), true);
             }
