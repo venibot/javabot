@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @DiscordCommand(name = "about", description = "Установка описания о себе(в команде user)", group = "Настройки",
-        aliases = "осебе", usage = "<Новый текст>", arguments = 1, permissions = {Permission.MANAGE_SERVER})
+        aliases = "осебе", usage = "<Новый текст>", arguments = 1)
 public class AboutCommand implements Command {
 
     @Override
