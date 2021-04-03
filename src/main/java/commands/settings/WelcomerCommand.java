@@ -8,8 +8,11 @@ import api.models.database.Guild;
 import api.models.exceptions.ChannelNotFoundException;
 import api.models.exceptions.RoleNotFoundException;
 import api.utils.Converters;
+import api.utils.Functions;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
+import java.util.Arrays;
 
 @DiscordCommand(name = "welcomer", description = "Настройка приветствий", aliases = {"приветствия"},
         usage = "<Аргумент> <Значение>", group = "Настройки", arguments = 2, permissions = {Permission.MANAGE_SERVER})
@@ -36,8 +39,9 @@ public class WelcomerCommand implements Command {
                                 try {
                                     roles[i] = Converters.getRole(msg_event.getGuild(), role).getIdLong();
                                 } catch (RoleNotFoundException ignored) {
-
+                                    System.out.println(role);
                                 }
+                                i += 1;
                             }
                             DBGuild.setWelcomeRoles(roles);
                             db.updateGuild(DBGuild);
@@ -55,11 +59,11 @@ public class WelcomerCommand implements Command {
                         Long[] rolesIDs = DBGuild.getWelcomeRoles();
                         String roles = "";
                         for (Long roleID: rolesIDs) {
-                            roles += msg_event.getGuild().getRoleById(roleID).getAsMention();
+                            roles += msg_event.getGuild().getRoleById(roleID).getAsMention() + ", ";
                         }
                         BasicEmbed infoEmbed = new BasicEmbed("info");
                         infoEmbed.setDescription("Роли, установленные в качестве приветственных на данный момент"
-                                + (roles != "" ? (": " + roles) : " отсутствуют")
+                                + (roles != "" ? (": " + roles.replaceAll(", $", "")) : " отсутствуют")
                                 + ".\nДля установки приветственных ролей используйте `..welcomer роли` и перечислите все роли через запятую(0 для сброса)");
                         msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
                     }
