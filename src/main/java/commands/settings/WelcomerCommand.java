@@ -7,6 +7,7 @@ import api.models.command.DiscordCommand;
 import api.models.database.Guild;
 import api.models.exceptions.ChannelNotFoundException;
 import api.models.exceptions.RoleNotFoundException;
+import api.utils.Config;
 import api.utils.Converters;
 import api.utils.Functions;
 import net.dv8tion.jda.api.Permission;
@@ -64,7 +65,7 @@ public class WelcomerCommand implements Command {
                         BasicEmbed infoEmbed = new BasicEmbed("info");
                         infoEmbed.setDescription("Роли, установленные в качестве приветственных на данный момент"
                                 + (roles != "" ? (": " + roles.replaceAll(", $", "")) : " отсутствуют")
-                                + ".\nДля установки приветственных ролей используйте `..welcomer роли` и перечислите все роли через запятую(0 для сброса)");
+                                + ".\nДля установки приветственных ролей используйте `" + Config.BOT_CONFIG.get("prefix") + "welcomer роли` и перечислите все роли через запятую(0 для сброса)");
                         msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
                     }
                     break;
@@ -95,7 +96,7 @@ public class WelcomerCommand implements Command {
                         infoEmbed.setDescription("Канал, установленный для приветственных сообщений на данный момент"
                                 + (DBGuild.getWelcomeChannel() != null
                                 ? (": " + msg_event.getGuild().getTextChannelById(DBGuild.getWelcomeChannel()).getAsMention()) : " отсутствует")
-                                + ".\nДля установки канала для приветственных сообщений используйте `..welcomer канал` и укажите необходимый канал(0 для сброса)");
+                                + ".\nДля установки канала для приветственных сообщений используйте `" + Config.BOT_CONFIG.get("prefix") + "welcomer канал` и укажите необходимый канал(0 для сброса)");
                         msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
                     }
                     break;
@@ -120,7 +121,7 @@ public class WelcomerCommand implements Command {
                         infoEmbed.setDescription("Приветственное сообщение на данный момент"
                                 + (!DBGuild.getWelcomeMessage().equals("")
                                 ? ": " + DBGuild.getWelcomeMessage() : " отсутствует")
-                                + ".\nДля установки канала для приветственных сообщений используйте `..welcomer сообщение` и укажите необходимое сообщение(0 для сброса). Доступные в сообщении переменные: {{member.tag}} - имя пользователя, {{member.mention}} - упоминание пользователя, {{guild.memberCount}} - кол-во участников на сервере");
+                                + ".\nДля установки канала для приветственных сообщений используйте `" + Config.BOT_CONFIG.get("prefix") + "welcomer сообщение` и укажите необходимое сообщение(0 для сброса). Доступные в сообщении переменные: {{member.tag}} - имя пользователя, {{member.mention}} - упоминание пользователя, {{guild.memberCount}} - кол-во участников на сервере");
                         msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
                     }
                     break;
@@ -137,7 +138,7 @@ public class WelcomerCommand implements Command {
                         BasicEmbed infoEmbed = new BasicEmbed("info");
                         infoEmbed.setDescription("Приветственное сообщение на данный момент "
                                 + (DBGuild.getRestoreRoles() ? "включено" : "отключено")
-                                + ".\nДля изменения используйте `..welcomer восстановление` и укажите необходимое состояние(1 для включения, 0 для отключения).");
+                                + ".\nДля изменения используйте `" + Config.BOT_CONFIG.get("prefix") + "welcomer восстановление` и укажите необходимое состояние(1 для включения, 0 для отключения).");
                         msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
                     }
                     break;
