@@ -1,9 +1,6 @@
 package api;
 
-import api.models.database.Bot;
-import api.models.database.Guild;
-import api.models.database.Reminder;
-import api.models.database.User;
+import api.models.database.*;
 import api.models.exceptions.AlreadyInDatabaseException;
 import api.utils.Config;
 import com.mongodb.*;
@@ -237,6 +234,71 @@ public class Database {
         query.put("ID", ID);
 
         return reminders.remove(query);
+    }
+
+
+    public WriteResult addWarn(Warn warn) {
+        DBCollection warns = this.database.getCollection("warns");
+        BasicDBObject document = warn.toDBObject();
+        return warns.insert(document);
+    }
+
+    public Integer getLastWarnID(Long guildID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("guildID", guildID);
+        List<DBObject> documents = this.database.getCollection("warns").find(query).toArray();
+        DBObject needDocument = null;
+        int maxKey = 0;
+        for (DBObject document: documents) {
+            if ((Integer) document.get("warnID") > maxKey) {
+                needDocument = document;
+                maxKey = (Integer) document.get("warnID");
+            }
+        }
+        return needDocument != null ? Warn.fromDBObject(needDocument).getWarnID() : 0;
+    }
+
+    public List<Warn> getGuildWarns(Long guildID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("guildID", guildID);
+        List<DBObject> documents = this.database.getCollection("warns").find(query).toArray();
+        List<Warn> warns = new ArrayList<>();
+        for (DBObject document: documents) {
+            warns.add(Warn.fromDBObject(document));
+        }
+        return warns;
+    }
+
+    public List<Warn> getMemberWarns(Long guildID, Long memberID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("guildID", guildID);
+        query.put("intruderID", memberID);
+        List<DBObject> documents = this.database.getCollection("warns").find(query).toArray();
+        List<Warn> warns = new ArrayList<>();
+        for (DBObject document: documents) {
+            warns.add(Warn.fromDBObject(document));
+        }
+        return warns;
+    }
+
+    public Warn getWarnByID(Long guildID, Integer warnID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("guildID", guildID);
+        query.put("warnID", warnID);
+        DBObject document = this.database.getCollection("warns").findOne(query);
+        if (document != null) {
+            return Warn.fromDBObject(document);
+        }
+        return null;
+    }
+
+    public WriteResult deleteWarn(Long guildID, Integer warnID) {
+        DBCollection warns = this.database.getCollection("warns");
+        BasicDBObject query = new BasicDBObject();
+        query.put("guildID", guildID);
+        query.put("warnID", warnID);
+
+        return warns.remove(query);
     }
 
 
