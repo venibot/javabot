@@ -13,7 +13,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import api.utils.DataFormatter;
 
 @DiscordCommand(name = "user", description = "Получение информации о пользователе", group = "Информация",
-        aliases = {"userinfo", "юзер", "юзеринфо"}, arguments = 1, usage = "user [Пользователь]")
+        aliases = {"userinfo", "юзер", "юзеринфо"}, arguments = 1, usage = "[Пользователь]")
 public class UserInfoCommand implements Command {
 
     @Override

@@ -9,7 +9,8 @@ import api.models.command.CommandHandler;
 import api.models.command.DiscordCommand;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-@DiscordCommand(name = "help", description = "Помощь по командам бота", aliases = {"хелп"}, group = "Информация", arguments = 1)
+@DiscordCommand(name = "help", description = "Помощь по командам бота", aliases = {"хелп"}, usage = "[Команда]",
+                group = "Информация", arguments = 1)
 public class HelpCommand implements Command {
 
     @Override
