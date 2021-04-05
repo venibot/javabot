@@ -1,5 +1,6 @@
 package api.models.database;
 
+import api.utils.Config;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -38,12 +39,15 @@ public class Guild {
 
     private HashMap<String, String> rolesForReactions;
 
+    private String prefix;
+
     public Guild(Long guildID) {
         this.guildID = guildID;
         this.welcomeMessage = "";
         this.leftMessage = "";
         this.restoreRoles = true;
         this.logs = new HashMap<>();
+        this.prefix = Config.BOT_CONFIG.get("prefix");
     }
 
     public Long getGuildID() {
@@ -90,6 +94,10 @@ public class Guild {
         return this.rolesForReactions;
     }
 
+    public String getPrefix() {
+        return this.prefix;
+    }
+
     public void setGuildID(Long guildID) {
         this.guildID = guildID;
     }
@@ -134,6 +142,10 @@ public class Guild {
         this.rolesForReactions = rolesForReactions;
     }
 
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
     public BasicDBObject toDBObject() throws IllegalAccessException {
         BasicDBObject document = new BasicDBObject();
         document.put("guildID", this.guildID);
@@ -147,6 +159,7 @@ public class Guild {
         document.put("restoreRoles", this.restoreRoles);
         document.put("logs", this.logs);
         document.put("rolesForReactions", this.rolesForReactions);
+        document.put("prefix", this.prefix);
         return document;
     }
 
@@ -173,6 +186,7 @@ public class Guild {
         guild.restoreRoles = (Boolean) document.get("restoreRoles");
         guild.logs = (HashMap<String, Long>) document.get("logs");
         guild.rolesForReactions = (HashMap<String, String>) document.get("rolesForReactions");
+        guild.prefix = (String) document.get("prefix");
         return guild;
     }
 

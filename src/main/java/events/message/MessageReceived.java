@@ -1,5 +1,6 @@
 package events.message;
 
+import api.Database;
 import api.models.command.Command;
 import api.models.command.CommandHandler;
 import api.utils.Config;
@@ -10,7 +11,8 @@ public class MessageReceived extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent msg_event) {
-        String prefix = Config.BOT_CONFIG.get("prefix");
+        Database db = new Database();
+        String prefix = db.getGuildByID(msg_event.getGuild().getIdLong()).getPrefix();
         if (msg_event.getMessage().getContentRaw().startsWith(prefix) && !msg_event.getAuthor().isBot()) {
             String truncated = msg_event.getMessage().getContentRaw().replaceFirst(prefix, "").trim();
             String command_name = truncated.split(" ")[0];

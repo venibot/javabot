@@ -53,7 +53,7 @@ public class HelpCommand implements Command {
                     for (String alias: commandInfo.aliases()){
                         aliases += alias + ", ";
                     }
-                    commandHelp.setDescription(commandInfo.description() + "\n Алиасы: " + aliases.replaceAll(", $", "") + "\n Категория: " + commandInfo.group().toLowerCase() + "\n Использование: .." + commandInfo.name() + " " + commandInfo.usage());
+                    commandHelp.setDescription(commandInfo.description() + "\nАлиасы: " + aliases.replaceAll(", $", "") + "\nКатегория: " + commandInfo.group().toLowerCase() + "\nИспользование: " + commandInfo.name() + " " + commandInfo.usage());
                     msg_event.getChannel().sendMessage(commandHelp.build()).queue();
                 } else {
                     msg_event.getChannel().sendMessage("Ну это вроде как скрытая команда, так что если знаешь про неё - должен знать, как ею пользоваться").queue();
