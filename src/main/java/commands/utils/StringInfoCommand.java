@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
-@DiscordCommand(name = "stringinfo", description = "Получение информации о строке", aliases = {"si", "строка"}, group = "Утилиты",
+@DiscordCommand(name = "stringinfo", description = "Получение информации о строке", aliases = {"string", "si", "строка"}, group = "Утилиты",
                 usage = "<Строка>", arguments = 1, hidden = true)
 public class StringInfoCommand implements Command {
 
