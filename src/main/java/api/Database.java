@@ -281,6 +281,19 @@ public class Database {
         return warns;
     }
 
+    public List<Warn> getWarns() {
+        List<DBObject> result = this.database.getCollection("warns").find().toArray();
+        if (result.size() > 0) {
+            List<Warn> warns = new ArrayList<>();
+            for (DBObject warn: result) {
+                warns.add(Warn.fromDBObject(warn));
+            }
+            return warns;
+        } else {
+            return null;
+        }
+    }
+
     public Warn getWarnByID(Long guildID, Integer warnID) {
         BasicDBObject query = new BasicDBObject();
         query.put("guildID", guildID);
