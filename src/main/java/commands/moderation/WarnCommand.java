@@ -9,6 +9,7 @@ import api.models.exceptions.MemberNotFoundException;
 import api.utils.Config;
 import api.utils.Converters;
 import api.utils.DataFormatter;
+import api.utils.Functions;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -76,7 +77,7 @@ public class WarnCommand implements Command {
                         }
                     }
                 }
-                reason = arguments[1] + " " + arguments[2];
+                reason = arguments.length > 2 ? arguments[1] + " " + arguments[2] : arguments[1];
                 Database db = new Database();
                 Integer warnID = db.getLastWarnID(msg_event.getGuild().getIdLong()) + 1;
                 db.addWarn(new Warn(
