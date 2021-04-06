@@ -27,6 +27,7 @@ public class UnGulagCommand implements Command {
                 msg_event.getChannel().sendMessage(new BasicEmbed("error")
                         .setDescription("Указанный сервер не найден")
                         .build()).queue();
+                return;
             }
         }
         if (guild != null) {

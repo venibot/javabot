@@ -58,7 +58,7 @@ public class GulagCommand implements Command {
                         .setDescription("Сервер " + guild.getName() + " успешно добавлен в ЧС")
                         .build()).queue();
                 if (toLeave) {
-                    msg_event.getGuild().leave().queue();
+                    guild.leave().queue();
                 }
                 supportServer.sendGulag(guild, toLeave, msg_event.getAuthor());
             }
