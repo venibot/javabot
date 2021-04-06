@@ -3,6 +3,7 @@ import api.models.command.Command;
 import api.models.command.CommandHandler;
 import api.models.database.Guild;
 import api.models.database.Reminder;
+import api.models.workers.Worker;
 import api.models.workers.WorkerHandler;
 import api.utils.Config;
 import net.dv8tion.jda.api.AccountType;
@@ -65,10 +66,9 @@ public class Main {
         builder.setToken(Config.BOT_CONFIG.get("token"));
         ShardManager bot = builder.build();
         loadCommands("src/main/java/commands", "commands");
+        loadWorkers("src/main/java/workers", "workers");
         loadEvents(bot, "src/main/java/events", "events");
         Config.BOT = bot;
-        WorkerHandler.registerWorker(new BotStatWorker());
-        WorkerHandler.registerWorker(new ReminderWorker());
         FutureTask<Void> task = new FutureTask<>(new WorkerHandler());
         new Thread(task).start();
         for (JDA shard: bot.getShards()) {
@@ -103,6 +103,21 @@ public class Main {
             }
             else if (file.isDirectory()) {
                 loadEvents(bot, file.getPath(), events_package + file.getName());
+            }
+        }
+    }
+
+    public static void loadWorkers(String path, String workers_package) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        workers_package += ".";
+        File dir = new File(path);
+        for (File file: dir.listFiles()) {
+            if (file.isFile() && file.getName().endsWith(".java")){
+                Class workerClass = Class.forName(workers_package + file.getName().replace(".java", ""));
+                Worker worker = (Worker) workerClass.newInstance();
+                WorkerHandler.registerWorker(worker);
+            }
+            else if (file.isDirectory()) {
+                loadCommands(file.getPath(), workers_package + file.getName());
             }
         }
     }
