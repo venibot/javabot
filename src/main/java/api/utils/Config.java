@@ -1,5 +1,6 @@
 package api.utils;
 
+import com.mongodb.MongoClient;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -25,6 +26,7 @@ public class Config {
     public static Long COMMANDS_COMPLETED = 0L;
     public static ShardManager BOT;
     public static HashMap<TimeUnit, String[]> TIMES = new HashMap<>();
+    public static MongoClient MONGO = null;
 
     public static void getBotConfig() throws Exception {
         Properties props = new Properties();

@@ -11,6 +11,7 @@ public class MessageReceived extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent msg_event) {
+        if (msg_event.getAuthor().isBot()) { return; }
         if (msg_event.getMessage().getContentRaw().equals(msg_event.getJDA().getSelfUser().getAsMention())) {
             Database db = new Database();
             String prefix = db.getGuildByID(msg_event.getGuild().getIdLong()).getPrefix();
@@ -38,9 +39,7 @@ public class MessageReceived extends ListenerAdapter {
                     }
                 }
             }
-            if (!msg_event.getAuthor().isBot()) {
-                Config.MESSAGE_CACHE.put(msg_event.getMessageIdLong(), msg_event.getMessage());
-            }
+            Config.MESSAGE_CACHE.put(msg_event.getMessageIdLong(), msg_event.getMessage());
         }
     }
 

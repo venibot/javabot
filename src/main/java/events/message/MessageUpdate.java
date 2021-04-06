@@ -15,6 +15,7 @@ public class MessageUpdate extends ListenerAdapter {
 
     @Override
     public void onGuildMessageUpdate(GuildMessageUpdateEvent updateEvent) {
+        if (updateEvent.getAuthor().isBot()) { return; }
         if (updateEvent.getMessage().getContentRaw().equals(updateEvent.getJDA().getSelfUser().getAsMention())) {
             Database db = new Database();
             String prefix = db.getGuildByID(updateEvent.getGuild().getIdLong()).getPrefix();

@@ -14,9 +14,16 @@ public class Database {
     private DB database;
 
     public Database() {
-        MongoClientURI uri = new MongoClientURI(Config.DB_CONFIG.get("uri"));
-        client = new MongoClient(uri);
-        database = client.getDB(Config.DB_CONFIG.get("db"));
+        if (Config.MONGO != null) {
+            System.out.println("get");
+            this.client = Config.MONGO;
+        } else {
+            System.out.println("open");
+            MongoClientURI uri = new MongoClientURI(Config.DB_CONFIG.get("uri"));
+            this.client = new MongoClient(uri);
+            Config.MONGO = this.client;
+        }
+        this.database = this.client.getDB(Config.DB_CONFIG.get("db"));
     }
 
     public WriteResult addUser(User user) throws AlreadyInDatabaseException {
@@ -312,12 +319,6 @@ public class Database {
         query.put("warnID", warnID);
 
         return warns.remove(query);
-    }
-
-
-    @Override
-    public void finalize() {
-        this.client.close();
     }
 
 }
