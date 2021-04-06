@@ -28,7 +28,21 @@ public class Config {
     public static HashMap<TimeUnit, String[]> TIMES = new HashMap<>();
     public static MongoClient MONGO = null;
 
-    public static void getBotConfig() throws Exception {
+    public static void init() {
+        getPermissions();
+        getTimes();
+        getUserFlagsAsEmojis();
+        getMonthsConfig();
+        try {
+            getBotConfig();
+            getDatabaseConfig();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        getLogActions();
+    }
+
+    private static void getBotConfig() throws Exception {
         Properties props = new Properties();
         try {
             FileInputStream config_file = new FileInputStream(PATH_TO_BOT_CONFIG);
@@ -42,7 +56,7 @@ public class Config {
         }
     }
 
-    public static void getDatabaseConfig() throws Exception {
+    private static void getDatabaseConfig() throws Exception {
         Properties props = new Properties();
 
         try {
@@ -57,7 +71,7 @@ public class Config {
         }
     }
 
-    public static void getMonthsConfig() {
+    private static void getMonthsConfig() {
         MONTHS.put(1, "января");
         MONTHS.put(2, "февраля");
         MONTHS.put(3, "марта");
@@ -72,7 +86,7 @@ public class Config {
         MONTHS.put(12, "декабря");
     }
 
-    public static void getUserFlagsAsEmojis() {
+    private static void getUserFlagsAsEmojis() {
         USER_FLAGS.put("STAFF", "<:discord_staff:777516108260704256>");
         USER_FLAGS.put("PARTNER", "<:discord_partner:777513164912328706>");
         USER_FLAGS.put("BUG_HUNTER_LEVEL_1", "<:bug_hunter:777543195483570197>");
@@ -85,8 +99,8 @@ public class Config {
         USER_FLAGS.put("VERIFIED_BOT", "<:verified_bot:777507474017615884>");
         USER_FLAGS.put("VERIFIED_DEVELOPER", "<:verified_bot_developer:777510397316956170>");
     }
-    
-    public static void getPermissions() {
+
+    private static void getPermissions() {
         PERMISSIONS.put("CREATE_INSTANT_INVITE", "Создавать приглашения");
         PERMISSIONS.put("MESSAGE_ADD_REACTION", "Добавлять реакции");
         PERMISSIONS.put("ADMINISTRATOR", "Администратор");
@@ -122,7 +136,7 @@ public class Config {
         PERMISSIONS.put("VIEW_GUILD_INSIGHTS", "Смотреть аналитику сервера");
     }
 
-    public static void getLogActions() {
+    private static void getLogActions() {
         LOG_ACTIONS.put("удаление_сообщения", "messageDelete");
         LOG_ACTIONS.put("изменение_сообщения", "messageEdit");
         LOG_ACTIONS.put("добавление_роли", "roleAdd");
@@ -157,7 +171,7 @@ public class Config {
         LOG_ACTIONS.put("удаление_приглашения", "inviteDelete");
     }
 
-    public static void getTimes() {
+    private static void getTimes() {
         TIMES.put(TimeUnit.MINUTES, new String[]{"м", "мин", "минут", "m", "min", "minutes"});
         TIMES.put(TimeUnit.HOURS, new String[]{"ч", "час", "h", "hours"});
         TIMES.put(TimeUnit.DAYS, new String[]{"д", "дн", "дни", "d", "days"});

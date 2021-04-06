@@ -22,6 +22,12 @@ public class SupportServer {
         return this.bot.getGuildById(759796323569500160L);
     }
 
+    public boolean isMember(User user) {
+        Guild guild = getGuild();
+        Member member = guild.getMember(user);
+        return member != null;
+    }
+
     public boolean isTester(User user) {
         Guild guild = getGuild();
         Member member = guild.getMember(user);
@@ -60,6 +66,17 @@ public class SupportServer {
         Member member = guild.getMember(user);
         try {
             return member.getRoles().contains(guild.getRoleById(763296493138214915L)) || user.getIdLong() == 453179077294161920L;
+        }
+        catch (NullPointerException e) {
+            return false;
+        }
+    }
+
+    public boolean isOwner(User user) {
+        Guild guild = getGuild();
+        Member member = guild.getMember(user);
+        try {
+            return member.getRoles().contains(guild.getRoleById(759806607540111893L)) || user.getIdLong() == 453179077294161920L;
         }
         catch (NullPointerException e) {
             return false;

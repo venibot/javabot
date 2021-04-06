@@ -30,13 +30,7 @@ public class Main {
 
     public static void main(String[] args) throws LoginException, Exception {
         DefaultShardManagerBuilder builder = new DefaultShardManagerBuilder();
-        Config.getBotConfig();
-        Config.getDatabaseConfig();
-        Config.getMonthsConfig();
-        Config.getUserFlagsAsEmojis();
-        Config.getPermissions();
-        Config.getLogActions();
-        Config.getTimes();
+        Config.init();
         Database db = new Database();
         Integer statID = db.getLastStatID();
         Config.COMMANDS_COMPLETED = statID != 0 ? db.getBotStatByID(statID).getCommandsCount() : 0;

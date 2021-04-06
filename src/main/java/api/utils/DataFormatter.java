@@ -49,4 +49,22 @@ public class DataFormatter {
         return dateTime;
     }
 
+    public static String accessLevelToString(short accessLevel) {
+        if (accessLevel == 0) {
+            return "пользователь бота";
+        } else if (accessLevel == 1) {
+            return "участник сервера поддержки";
+        } else if (accessLevel == 2) {
+            return "тестер бота";
+        } else if (accessLevel == 3) {
+            return "поддержка бота";
+        } else if (accessLevel == 4) {
+            return "разработчик бота";
+        } else if (accessLevel == 5) {
+            return "создатель бота";
+        } else {
+            return null;
+        }
+    }
+
 }
