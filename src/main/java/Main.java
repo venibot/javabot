@@ -1,10 +1,7 @@
 import api.Database;
-import api.models.command.Command;
-import api.models.command.CommandHandler;
-import api.models.database.Guild;
-import api.models.database.Reminder;
-import api.models.workers.Worker;
-import api.models.workers.WorkerHandler;
+import api.models.command.*;
+import api.models.database.*;
+import api.models.workers.*;
 import api.utils.Config;
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
