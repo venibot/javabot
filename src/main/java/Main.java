@@ -1,21 +1,15 @@
 import api.Database;
 import api.models.command.*;
-import api.models.database.*;
 import api.models.workers.*;
 import api.utils.Config;
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.sharding.DefaultShardManager;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import workers.BotStatWorker;
-import workers.ReminderWorker;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
@@ -68,7 +62,8 @@ public class Main {
         }
     }
 
-    public static void loadCommands(String path, String commands_package) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public static void loadCommands(String path, String commands_package)
+            throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         commands_package += ".";
         File dir = new File(path);
         for (File file: dir.listFiles()) {
@@ -83,7 +78,8 @@ public class Main {
         }
     }
 
-    public static void loadEvents(ShardManager bot, String path, String events_package) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public static void loadEvents(ShardManager bot, String path, String events_package)
+            throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         events_package += ".";
         File dir = new File(path);
         for (File file: dir.listFiles()) {
@@ -98,7 +94,8 @@ public class Main {
         }
     }
 
-    public static void loadWorkers(String path, String workers_package) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public static void loadWorkers(String path, String workers_package)
+            throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         workers_package += ".";
         File dir = new File(path);
         for (File file: dir.listFiles()) {
@@ -112,6 +109,4 @@ public class Main {
             }
         }
     }
-
-
 }

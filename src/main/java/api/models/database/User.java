@@ -77,6 +77,7 @@ public class User {
     }
 
     public BasicDBObject toDBObject() throws IllegalAccessException {
+
         BasicDBObject document = new BasicDBObject();
         document.put("userID", this.userID);
         document.put("guildID", this.guildID);
@@ -87,10 +88,12 @@ public class User {
     }
 
     public static User fromDBObject(DBObject document) throws IllegalAccessException {
+
         User user = new User((Long) document.get("userID"), (Long) document.get("guildID"));
         user.about = (String) document.get("about");
         user.balance = (Integer) document.get("balance");
         BasicDBList roles;
+
         if (document.get("roles") != null) {
             roles = (BasicDBList) document.get("roles");
             int i = 0;

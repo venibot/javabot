@@ -10,25 +10,29 @@ public class GuildVoiceStream extends ListenerAdapter {
 
     @Override
     public void onGuildVoiceStream(GuildVoiceStreamEvent streamEvent) {
+
         if (streamEvent.isStream()) {
             TextChannel logChannel = GetLogChannel.getChannel(streamEvent.getGuild(), "voiceStreamStart");
+
             if (logChannel != null && streamEvent.getVoiceState().getChannel() != null) {
                 BasicEmbed logEmbed = new BasicEmbed("info");
                 logEmbed.setTitle("Участник начал стрим");
                 logEmbed.addField("Участник", streamEvent.getMember().getUser().getAsTag());
                 logEmbed.addField("Канал", streamEvent.getVoiceState().getChannel().getName());
+
                 logChannel.sendMessage(logEmbed.build()).queue();
             }
         } else {
             TextChannel logChannel = GetLogChannel.getChannel(streamEvent.getGuild(), "voiceStreamStop");
+
             if (logChannel != null && streamEvent.getVoiceState().getChannel() != null) {
                 BasicEmbed logEmbed = new BasicEmbed("info");
                 logEmbed.setTitle("Участник закончил стрим");
                 logEmbed.addField("Участник", streamEvent.getMember().getUser().getAsTag());
                 logEmbed.addField("Канал", streamEvent.getVoiceState().getChannel().getName());
+
                 logChannel.sendMessage(logEmbed.build()).queue();
             }
         }
     }
-
 }

@@ -16,15 +16,20 @@ public class Ready extends ListenerAdapter {
     @Override
     public void onReady(ReadyEvent event)  {
         Database db = new Database();
+
         for (Guild guild: event.getJDA().getGuilds()) {
             api.models.database.Guild guildModel = new api.models.database.Guild(guild.getIdLong());
+
             try {
                 db.addGuild(guildModel);
             } catch (AlreadyInDatabaseException ignored) {
 
             }
+
             for (Member member: guild.getMembers()) {
-                api.models.database.User userModel = new api.models.database.User(member.getIdLong(), guild.getIdLong());
+                api.models.database.User userModel = new api.models.database.User(member.getIdLong(),
+                        guild.getIdLong());
+
                 try {
                     db.addUser(userModel);
                 } catch (AlreadyInDatabaseException ignored) {
@@ -34,6 +39,7 @@ public class Ready extends ListenerAdapter {
         }
 
         Boticord boticord = new Boticord();
+
         try {
             boticord.sendStat(event.getGuildTotalCount(), 1, event.getJDA().getUsers().size());
         } catch (IOException e) {
@@ -41,6 +47,7 @@ public class Ready extends ListenerAdapter {
         }
 
         SDC sdc = new SDC();
+
         try {
             sdc.sendStat(event.getJDA().getSelfUser().getIdLong(), event.getGuildTotalCount(), 1);
         } catch (IOException e) {
@@ -53,5 +60,4 @@ public class Ready extends ListenerAdapter {
                 "Пинг: " + event.getJDA().getGatewayPing() + "мс\n"
         );
     }
-
 }

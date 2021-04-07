@@ -11,12 +11,17 @@ public class RoleUpdateName extends ListenerAdapter {
     @Override
     public void onRoleUpdateName(RoleUpdateNameEvent updateNameEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(updateNameEvent.getGuild(), "roleUpdate");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Изменено имя роли");
             logEmbed.setColor(updateNameEvent.getRole().getColor());
-            logEmbed.addField("Роль", updateNameEvent.getRole().getName() + "(" + updateNameEvent.getRole().getAsMention() + ")");
+
+            logEmbed.addField("Роль", updateNameEvent.getRole().getName()
+                    + "(" + updateNameEvent.getRole().getAsMention() + ")");
+
             logEmbed.addField("Старое имя", updateNameEvent.getOldName());
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }

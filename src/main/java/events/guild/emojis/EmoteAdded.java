@@ -11,14 +11,16 @@ public class EmoteAdded extends ListenerAdapter {
     @Override
     public void onEmoteAdded(EmoteAddedEvent addEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(addEvent.getGuild(), "emoteAdd");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Создано новое эмодзи");
+
             logEmbed.addField("Эмодзи", String.format("%s(%s)",
                     addEvent.getEmote().getAsMention(), addEvent.getEmote().getName()));
+
             logEmbed.setThumbnail(addEvent.getEmote().getImageUrl());
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

@@ -10,6 +10,7 @@ import java.util.HashMap;
 public class Converters {
 
     public static User getUser(JDA bot, String user) throws UserNotFoundException {
+
         try {
             User bot_user = bot.getUserById(user);
             if (bot_user == null) {
@@ -30,6 +31,7 @@ public class Converters {
     }
 
     public static Member getMember(Guild guild, String member) throws MemberNotFoundException {
+
         try {
             Member guild_member = guild.getMemberById(member.replaceAll("[<@!>]", ""));
             if (guild_member == null) {
@@ -39,8 +41,10 @@ public class Converters {
         } catch (NumberFormatException e) {
             HashMap<Integer, Member> members = new HashMap<>();
             for (Member guild_member: guild.getMembers()) {
+
                 if (guild_member.getNickname() != null) {
-                    members.put(FuzzySearch.ratio(member.toLowerCase(), guild_member.getNickname().toLowerCase()), guild_member);
+                    members.put(FuzzySearch.ratio(member.toLowerCase(), guild_member.getNickname()
+                            .toLowerCase()), guild_member);
                 }
             }
             Integer maxKey = getMax(members);
@@ -48,13 +52,17 @@ public class Converters {
                 return members.get(maxKey);
             } else {
                 members.clear();
+
                 for (Member guild_member: guild.getMembers()) {
-                    members.put(FuzzySearch.ratio(member.toLowerCase(), guild_member.getUser().getAsTag().toLowerCase()), guild_member);
+                    members.put(FuzzySearch.ratio(member.toLowerCase(), guild_member.getUser()
+                            .getAsTag().toLowerCase()), guild_member);
                 }
+
                 maxKey = getMax(members);
                 if (members.get(maxKey) != null && maxKey >= 40) {
                     return members.get(maxKey);
                 }
+
                 throw new MemberNotFoundException(member, guild.getId());
             }
         }
@@ -71,6 +79,7 @@ public class Converters {
     }
 
     public static Guild getGuild(JDA bot, String guild) throws GuildNotFoundException {
+
         try {
             Guild bot_guild = bot.getGuildById(guild);
             if (bot_guild == null) {
@@ -79,13 +88,17 @@ public class Converters {
             return bot_guild;
         } catch (NumberFormatException e) {
             HashMap<Integer, Guild> guilds = new HashMap<>();
+
             for (Guild bot_guild: bot.getGuilds()) {
-                guilds.put(FuzzySearch.ratio(guild.toLowerCase(), bot_guild.getName().toLowerCase()), bot_guild);
+                guilds.put(FuzzySearch.ratio(guild.toLowerCase(), bot_guild.getName()
+                        .toLowerCase()), bot_guild);
             }
+
             Integer maxKey = getMax(guilds);
             if (guilds.get(maxKey) != null && maxKey >= 30) {
                 return guilds.get(maxKey);
             }
+
             throw new GuildNotFoundException(guild);
         }
     }
@@ -99,13 +112,17 @@ public class Converters {
             return botChannel;
         } catch (NumberFormatException e) {
             HashMap<Integer, TextChannel> channels = new HashMap<>();
+
             for (TextChannel botChannel: guild.getTextChannels()) {
-                channels.put(FuzzySearch.ratio(channel.toLowerCase(), botChannel.getName().toLowerCase()), botChannel);
+                channels.put(FuzzySearch.ratio(channel.toLowerCase(), botChannel.getName()
+                        .toLowerCase()), botChannel);
             }
+
             Integer maxKey = getMax(channels);
             if (channels.get(maxKey) != null && maxKey >= 30) {
                 return channels.get(maxKey);
             }
+
             throw new ChannelNotFoundException(channel);
         }
     }
@@ -119,15 +136,17 @@ public class Converters {
             return botRole;
         } catch (NumberFormatException e) {
             HashMap<Integer, Role> roles = new HashMap<>();
+
             for (Role botRole: guild.getRoles()) {
                 roles.put(FuzzySearch.ratio(role.toLowerCase(), botRole.getName().toLowerCase()), botRole);
             }
+
             Integer maxKey = getMax(roles);
             if (roles.get(maxKey) != null && maxKey >= 30) {
                 return roles.get(maxKey);
             }
+
             throw new RoleNotFoundException(role);
         }
     }
-
 }

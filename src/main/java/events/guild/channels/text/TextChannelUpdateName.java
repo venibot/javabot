@@ -11,14 +11,16 @@ public class TextChannelUpdateName extends ListenerAdapter {
     @Override
     public void onTextChannelUpdateName(TextChannelUpdateNameEvent updateNameEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(updateNameEvent.getGuild(), "channelUpdate");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Изменено имя текстового канала");
+
             logEmbed.addField("Канал", String.format("%s(%s)",
                     updateNameEvent.getChannel().getAsMention(), updateNameEvent.getChannel().getName()));
+
             logEmbed.addField("Старое имя", updateNameEvent.getOldName());
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

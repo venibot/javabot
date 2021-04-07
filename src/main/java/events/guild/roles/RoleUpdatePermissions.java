@@ -12,25 +12,31 @@ public class RoleUpdatePermissions extends ListenerAdapter {
     @Override
     public void onRoleUpdatePermissions(RoleUpdatePermissionsEvent updatePermissionsEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(updatePermissionsEvent.getGuild(), "roleUpdate");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Изменены права роли");
             logEmbed.setColor(updatePermissionsEvent.getRole().getColor());
-            logEmbed.addField("Роль", updatePermissionsEvent.getRole().getName() + "(" + updatePermissionsEvent.getRole().getAsMention() + ")");
+
+            logEmbed.addField("Роль", updatePermissionsEvent.getRole().getName()
+                    + "(" + updatePermissionsEvent.getRole().getAsMention() + ")");
+
             String permissions = "";
+
             for (Object permission: updatePermissionsEvent.getNewPermissions().toArray()) {
                 if (!updatePermissionsEvent.getOldPermissions().contains(permission)) {
                     permissions += "+ " + Config.PERMISSIONS.get(permission.toString()) + "\n";
                 }
             }
+
             for (Object permission: updatePermissionsEvent.getOldPermissions().toArray()) {
                 if (!updatePermissionsEvent.getNewPermissions().contains(permission)) {
                     permissions += "- " + Config.PERMISSIONS.get(permission.toString()) + "\n";
                 }
             }
+
             logEmbed.addField("Права", permissions);
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

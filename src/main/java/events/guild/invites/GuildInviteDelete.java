@@ -11,12 +11,13 @@ public class GuildInviteDelete extends ListenerAdapter {
     @Override
     public void onGuildInviteDelete(GuildInviteDeleteEvent inviteDeleteEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(inviteDeleteEvent.getGuild(), "inviteDelete");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Удалено приглашение");
             logEmbed.addField("Удалённое приглашение", inviteDeleteEvent.getUrl());
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

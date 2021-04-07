@@ -11,5 +11,4 @@ public class GuildLeave extends ListenerAdapter {
         SupportServer supportServer = new SupportServer(leaveEvent.getJDA());
         supportServer.guildLeft(leaveEvent.getGuild());
     }
-
 }

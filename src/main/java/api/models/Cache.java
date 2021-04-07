@@ -13,6 +13,7 @@ public class Cache {
     protected static Map cache;
 
     public static boolean isRelevant() {
+
         Long now = new Date().getTime();
         if (Cache.date == 0) {return false;}
         System.out.println(Cache.date + relevanceTime);
@@ -21,13 +22,14 @@ public class Cache {
     }
 
     public static void setCache(Map newCache) {
+
         Cache.date = new Date().getTime();
         Cache.cache = newCache;
     }
 
     public static void clearCache() {
+
         Cache.cache = null;
         Cache.date = null;
     }
-
 }

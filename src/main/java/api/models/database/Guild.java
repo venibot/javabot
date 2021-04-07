@@ -42,6 +42,7 @@ public class Guild {
     private String prefix;
 
     public Guild(Long guildID) {
+
         this.guildID = guildID;
         this.welcomeMessage = "";
         this.leftMessage = "";
@@ -147,6 +148,7 @@ public class Guild {
     }
 
     public BasicDBObject toDBObject() throws IllegalAccessException {
+
         BasicDBObject document = new BasicDBObject();
         document.put("guildID", this.guildID);
         document.put("isInGulag", this.isInGulag);
@@ -164,6 +166,7 @@ public class Guild {
     }
 
     public static Guild fromDBObject(DBObject document) throws IllegalAccessException {
+
         Guild guild = new Guild((Long) document.get("guildID"));
         guild.isInGulag = (Boolean) document.get("isInGulag");
         guild.muteRole = (Long) document.get("muteRole");

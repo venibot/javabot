@@ -18,26 +18,35 @@ public class PrefixCommand implements Command {
             Database db = new Database();
             String prefix = db.getGuildByID(msg_event.getGuild().getIdLong()).getPrefix();
             BasicEmbed infoEmbed = new BasicEmbed("info");
+
             infoEmbed.setDescription("Мой текущий префикс на этом сервере - `" + prefix
-                    + "` Для установки нового префикса воспользуйтесь командой " + prefix + "префикс " + new PrefixCommand().getCommandData().usage());
+                    + "` Для установки нового префикса воспользуйтесь командой "
+                    + prefix + "префикс " + new PrefixCommand().getCommandData().usage());
+
             msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
         } else {
             if (arguments[0].contains(" ")) {
+
                 BasicEmbed errorEmbed = new BasicEmbed("error");
                 errorEmbed.setDescription("Префикс не может содержать пробелов");
+
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                 return;
             } if (arguments[0].length() > 6) {
+
                 BasicEmbed errorEmbed = new BasicEmbed("error");
                 errorEmbed.setDescription("Префикс не может быть длиннее 6 символов");
+
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                 return;
             }
+
             Database db = new Database();
             Guild guild = db.getGuildByID(msg_event.getGuild().getIdLong());
             guild.setPrefix(arguments[0]);
             db.updateGuild(guild);
             BasicEmbed successEmbed = new BasicEmbed("success");
+
             successEmbed.setDescription("Префикс успешно изменён на `" + guild.getPrefix() + "`");
             msg_event.getChannel().sendMessage(successEmbed.build()).queue();
         }
