@@ -29,6 +29,7 @@ public class Config {
     public static MongoClient MONGO = null;
 
     public static void init() {
+
         getPermissions();
         getTimes();
         getUserFlagsAsEmojis();
@@ -43,6 +44,7 @@ public class Config {
     }
 
     private static void getBotConfig() throws Exception {
+
         Properties props = new Properties();
         try {
             FileInputStream config_file = new FileInputStream(PATH_TO_BOT_CONFIG);
@@ -51,6 +53,7 @@ public class Config {
                 BOT_CONFIG.put(key, props.getProperty(key));
             }
         }
+
         catch (IOException e) {
             throw new Exception("Конфигурационного файла " + PATH_TO_BOT_CONFIG + " не обнаружено!");
         }
@@ -72,6 +75,7 @@ public class Config {
     }
 
     private static void getMonthsConfig() {
+
         MONTHS.put(1, "января");
         MONTHS.put(2, "февраля");
         MONTHS.put(3, "марта");
@@ -87,6 +91,7 @@ public class Config {
     }
 
     private static void getUserFlagsAsEmojis() {
+
         USER_FLAGS.put("STAFF", "<:discord_staff:777516108260704256>");
         USER_FLAGS.put("PARTNER", "<:discord_partner:777513164912328706>");
         USER_FLAGS.put("BUG_HUNTER_LEVEL_1", "<:bug_hunter:777543195483570197>");
@@ -101,6 +106,7 @@ public class Config {
     }
 
     private static void getPermissions() {
+
         PERMISSIONS.put("CREATE_INSTANT_INVITE", "Создавать приглашения");
         PERMISSIONS.put("MESSAGE_ADD_REACTION", "Добавлять реакции");
         PERMISSIONS.put("ADMINISTRATOR", "Администратор");
@@ -137,6 +143,7 @@ public class Config {
     }
 
     private static void getLogActions() {
+
         LOG_ACTIONS.put("удаление_сообщения", "messageDelete");
         LOG_ACTIONS.put("изменение_сообщения", "messageEdit");
         LOG_ACTIONS.put("добавление_роли", "roleAdd");
@@ -172,9 +179,9 @@ public class Config {
     }
 
     private static void getTimes() {
+
         TIMES.put(TimeUnit.MINUTES, new String[]{"м", "мин", "минут", "m", "min", "minutes"});
         TIMES.put(TimeUnit.HOURS, new String[]{"ч", "час", "h", "hours"});
         TIMES.put(TimeUnit.DAYS, new String[]{"д", "дн", "дни", "d", "days"});
     }
-
 }

@@ -14,6 +14,7 @@ public class Database {
     private DB database;
 
     public Database() {
+
         if (Config.MONGO != null) {
             System.out.println("get");
             this.client = Config.MONGO;
@@ -23,13 +24,16 @@ public class Database {
             this.client = new MongoClient(uri);
             Config.MONGO = this.client;
         }
+
         this.database = this.client.getDB(Config.DB_CONFIG.get("db"));
     }
 
     public WriteResult addUser(User user) throws AlreadyInDatabaseException {
+
         if (this.getUserByID(user.getUserID(), user.getGuildID()) != null) {
             throw new AlreadyInDatabaseException(user);
         }
+
         DBCollection users = this.database.getCollection("users");
         try {
             BasicDBObject document = user.toDBObject();
@@ -46,6 +50,7 @@ public class Database {
         query.put("guildID", guildID);
 
         DBObject result = this.database.getCollection("users").findOne(query);
+
         if (result != null) {
             try {
                 return User.fromDBObject(result);
@@ -73,10 +78,13 @@ public class Database {
     }
 
     public WriteResult addGuild(Guild guild) throws AlreadyInDatabaseException {
+
         if (this.getGuildByID(guild.getGuildID()) != null) {
             throw new AlreadyInDatabaseException(guild);
         }
+
         DBCollection guilds = this.database.getCollection("guilds");
+
         try {
             BasicDBObject document = guild.toDBObject();
             return guilds.insert(document);
@@ -87,10 +95,12 @@ public class Database {
     }
 
     public Guild getGuildByID(Long guildID) {
+
         BasicDBObject query = new BasicDBObject();
         query.put("guildID", guildID);
 
         DBObject result = this.database.getCollection("guilds").findOne(query);
+
         if (result != null) {
             try {
                 return Guild.fromDBObject(result);
@@ -104,6 +114,7 @@ public class Database {
     }
 
     public WriteResult updateGuild(Guild new_guild) {
+
         BasicDBObject query = new BasicDBObject();
         query.put("guildID", new_guild.getGuildID());
 
@@ -117,10 +128,13 @@ public class Database {
     }
 
     public WriteResult addBotStat(Bot botStat) throws AlreadyInDatabaseException {
+
         if (this.getBotStatByID(botStat.getId()) != null) {
             throw new AlreadyInDatabaseException(botStat);
         }
+
         DBCollection stats = this.database.getCollection("stats");
+
         try {
             BasicDBObject document = botStat.toDBObject();
             return stats.insert(document);
@@ -135,6 +149,7 @@ public class Database {
         query.put("id", ID);
 
         DBObject result = this.database.getCollection("stats").findOne(query);
+
         if (result != null) {
             try {
                 return Bot.fromDBObject(result);
@@ -151,12 +166,14 @@ public class Database {
         List<DBObject> documents = this.database.getCollection("stats").find().toArray();
         DBObject needDocument = null;
         int maxKey = 0;
+
         for (DBObject document: documents) {
             if ((Integer) document.get("id") > maxKey) {
                 needDocument = document;
                 maxKey = (Integer) document.get("id");
             }
         }
+
         try {
             return needDocument != null ? Bot.fromDBObject(needDocument).getId() : 0;
         } catch (IllegalAccessException e) {
@@ -170,12 +187,14 @@ public class Database {
         List<DBObject> documents = this.database.getCollection("reminders").find().toArray();
         DBObject needDocument = null;
         int maxKey = 0;
+
         for (DBObject document: documents) {
             if ((Integer) document.get("ID") > maxKey) {
                 needDocument = document;
                 maxKey = (Integer) document.get("ID");
             }
         }
+
         try {
             return needDocument != null ? Reminder.fromDBObject(needDocument).getID() : 0;
         } catch (IllegalAccessException e) {
@@ -186,6 +205,7 @@ public class Database {
 
     public WriteResult addReminder(Reminder reminder) {
         DBCollection reminders = this.database.getCollection("reminders");
+
         try {
             BasicDBObject document = reminder.toDBObject();
             return reminders.insert(document);
@@ -201,6 +221,7 @@ public class Database {
         query.put("guildID", guildID);
 
         List<DBObject> result = this.database.getCollection("reminders").find(query).toArray();
+
         if (result.size() > 0) {
             try {
                 List<Reminder> reminders = new ArrayList<>();
@@ -219,6 +240,7 @@ public class Database {
 
     public List<Reminder> getReminders() {
         List<DBObject> result = this.database.getCollection("reminders").find().toArray();
+
         if (result.size() > 0) {
             try {
                 List<Reminder> reminders = new ArrayList<>();
@@ -256,12 +278,14 @@ public class Database {
         List<DBObject> documents = this.database.getCollection("warns").find(query).toArray();
         DBObject needDocument = null;
         int maxKey = 0;
+
         for (DBObject document: documents) {
             if ((Integer) document.get("warnID") > maxKey) {
                 needDocument = document;
                 maxKey = (Integer) document.get("warnID");
             }
         }
+
         return needDocument != null ? Warn.fromDBObject(needDocument).getWarnID() : 0;
     }
 
@@ -270,6 +294,7 @@ public class Database {
         query.put("guildID", guildID);
         List<DBObject> documents = this.database.getCollection("warns").find(query).toArray();
         List<Warn> warns = new ArrayList<>();
+
         for (DBObject document: documents) {
             warns.add(Warn.fromDBObject(document));
         }
@@ -282,6 +307,7 @@ public class Database {
         query.put("intruderID", memberID);
         List<DBObject> documents = this.database.getCollection("warns").find(query).toArray();
         List<Warn> warns = new ArrayList<>();
+
         for (DBObject document: documents) {
             warns.add(Warn.fromDBObject(document));
         }
@@ -290,6 +316,7 @@ public class Database {
 
     public List<Warn> getWarns() {
         List<DBObject> result = this.database.getCollection("warns").find().toArray();
+
         if (result.size() > 0) {
             List<Warn> warns = new ArrayList<>();
             for (DBObject warn: result) {
@@ -306,6 +333,7 @@ public class Database {
         query.put("guildID", guildID);
         query.put("warnID", warnID);
         DBObject document = this.database.getCollection("warns").findOne(query);
+
         if (document != null) {
             return Warn.fromDBObject(document);
         }
@@ -320,5 +348,4 @@ public class Database {
 
         return warns.remove(query);
     }
-
 }

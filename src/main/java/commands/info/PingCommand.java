@@ -14,11 +14,13 @@ public class PingCommand implements Command {
         pingEmbed.setTitle("Пинг бота");
         pingEmbed.addField("Пинг до вебсокета", msg_event.getJDA().getGatewayPing() + " мс", false);
         long timeBefore = System.currentTimeMillis();
+
         msg_event.getMessage().reply(pingEmbed.build()).queue(response -> {
-                pingEmbed.addField("Пинг до Discord API", System.currentTimeMillis() - timeBefore + " мс", false);
+                pingEmbed.addField("Пинг до Discord API", System.currentTimeMillis() - timeBefore +
+                        " мс", false);
+
                 response.editMessage(pingEmbed.build()).queue();
             }
         );
     }
-
 }

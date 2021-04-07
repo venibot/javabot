@@ -16,9 +16,11 @@ public class GulagCommand implements Command {
 
     @Override
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
+
         Guild guild = null;
         boolean toLeave = true;
         SupportServer supportServer = new SupportServer(msg_event.getJDA());
+
         if (arguments.length == 0) {
             guild = msg_event.getGuild();
         } else if (arguments.length == 1) {
@@ -44,9 +46,11 @@ public class GulagCommand implements Command {
                         .build()).queue();
             }
         }
+
         if (guild != null) {
             Database db = new Database();
             api.models.database.Guild DBGuild = db.getGuildByID(guild.getIdLong());
+
             if (DBGuild.getInGulag()) {
                 msg_event.getChannel().sendMessage(new BasicEmbed("error")
                         .setDescription("Добавлять сервер в гулаг, хотя он там уже есть? Мило, а меня так научите?")
@@ -57,12 +61,13 @@ public class GulagCommand implements Command {
                 msg_event.getChannel().sendMessage(new BasicEmbed("success")
                         .setDescription("Сервер " + guild.getName() + " успешно добавлен в ЧС")
                         .build()).queue();
+
                 if (toLeave) {
                     guild.leave().queue();
                 }
+
                 supportServer.sendGulag(guild, toLeave, msg_event.getAuthor());
             }
         }
     }
-
 }

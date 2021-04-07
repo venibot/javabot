@@ -11,13 +11,14 @@ public class GuildVoiceJoin extends ListenerAdapter {
     @Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent joinEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(joinEvent.getGuild(), "voiceJoin");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Участник вошёл в голосовй канал");
             logEmbed.addField("Участник", joinEvent.getMember().getUser().getAsTag());
             logEmbed.addField("Канал", joinEvent.getChannelJoined().getName());
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

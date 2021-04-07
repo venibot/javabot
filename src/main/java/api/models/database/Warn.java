@@ -28,6 +28,7 @@ public class Warn {
     private Long endTime;
 
     public Warn(Long guildID, Integer warnID, Long punisherID, Long intruderID, String reason, Long endTime) {
+
         this.guildID = guildID;
         this.warnID = warnID;
         this.punisherID = punisherID;
@@ -37,7 +38,9 @@ public class Warn {
         this.endTime = endTime;
     }
 
-    public Warn(Long guildID, Integer warnID, Long punisherID, Long intruderID, String reason, Long warnTime, Long endTime) {
+    public Warn(Long guildID, Integer warnID, Long punisherID, Long intruderID, String reason,
+                Long warnTime, Long endTime) {
+
         this.guildID = guildID;
         this.warnID = warnID;
         this.punisherID = punisherID;
@@ -76,6 +79,7 @@ public class Warn {
     }
 
     public BasicDBObject toDBObject() {
+
         BasicDBObject document = new BasicDBObject();
         document.put("guildID", this.guildID);
         document.put("warnID", this.warnID);
@@ -88,6 +92,7 @@ public class Warn {
     }
 
     public static Warn fromDBObject(DBObject document) {
+
         Warn warn = new Warn((Long) document.get("guildID"),
                 (Integer) document.get("warnID"),
                 (Long) document.get("punisherID"),

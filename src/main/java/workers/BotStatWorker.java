@@ -3,8 +3,7 @@ package workers;
 import api.Database;
 import api.models.database.Bot;
 import api.models.exceptions.AlreadyInDatabaseException;
-import api.models.workers.Worker;
-import api.models.workers.WorkerInfo;
+import api.models.workers.*;
 import api.utils.Config;
 
 @WorkerInfo(name = "BotStat", description = "Занесение статистики бота в базу данных")
@@ -18,5 +17,4 @@ public class BotStatWorker implements Worker {
             e.printStackTrace();
         }
     }
-
 }

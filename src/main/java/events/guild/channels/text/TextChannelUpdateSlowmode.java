@@ -10,15 +10,18 @@ public class TextChannelUpdateSlowmode extends ListenerAdapter {
 
     public void onTextChannelUpdateSlowmode(TextChannelUpdateSlowmodeEvent updateSlowmodeEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(updateSlowmodeEvent.getGuild(), "channelUpdate");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Изменён слоумод канала");
+
             logEmbed.addField("Канал", String.format("%s(%s)",
                     updateSlowmodeEvent.getChannel().getAsMention(), updateSlowmodeEvent.getChannel().getName()));
+
             logEmbed.addField("Старый слоумод", updateSlowmodeEvent.getOldSlowmode() + " секунд");
             logEmbed.addField("Новый слоумод", updateSlowmodeEvent.getNewSlowmode() + " секунд");
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

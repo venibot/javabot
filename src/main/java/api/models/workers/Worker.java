@@ -7,5 +7,4 @@ public interface Worker {
     default WorkerInfo getWorkerInfo() {
         return getClass().getAnnotation(WorkerInfo.class);
     }
-
 }

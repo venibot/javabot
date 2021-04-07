@@ -15,13 +15,16 @@ public class HelpCommand implements Command {
 
     @Override
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
+
         if (arguments.length == 0) {
             BasicEmbed embedInfo = new BasicEmbed("info");
             embedInfo.setTitle("Помощь по командам бота");
             embedInfo.setFooter("<> - обязательный аргумент, [] - необязательный");
             HashMap<String, ArrayList<Command>> commands = new HashMap<>();
+
             for (Command command: CommandHandler.commands) {
                 DiscordCommand commandInfo = command.getCommandData();
+
                 if (!commandInfo.hidden()){
                     if (!commands.containsKey(commandInfo.group())) {
                         commands.put(commandInfo.group(), new ArrayList<Command>());
@@ -32,8 +35,10 @@ public class HelpCommand implements Command {
                     }
                 }
             }
+
             for (String key: commands.keySet()) {
                 String groupCommands = "";
+
                 for (Command command: commands.get(key)){
                     groupCommands += command.getCommandData().name() + ", ";
                 }
@@ -43,6 +48,7 @@ public class HelpCommand implements Command {
             msg_event.getChannel().sendMessage(embedInfo.build()).queue();
         } else {
             Command command = CommandHandler.findCommand(arguments[0]);
+
             if (command != null) {
                 DiscordCommand commandInfo = command.getCommandData();
                 if (!commandInfo.hidden()) {
@@ -50,18 +56,24 @@ public class HelpCommand implements Command {
                     commandHelp.setTitle("Помощь по команде " + commandInfo.name());
                     commandHelp.setFooter("<> - обязательный аргумент, [] - необязательный");
                     String aliases = "";
+
                     for (String alias: commandInfo.aliases()){
                         aliases += alias + ", ";
                     }
-                    commandHelp.setDescription(commandInfo.description() + "\nАлиасы: " + aliases.replaceAll(", $", "") + "\nКатегория: " + commandInfo.group().toLowerCase() + "\nИспользование: " + commandInfo.name() + " " + commandInfo.usage());
+                    commandHelp.setDescription(commandInfo.description() + "\nАлиасы: "
+                            + aliases.replaceAll(", $", "") + "\nКатегория: " + commandInfo.group()
+                            .toLowerCase() + "\nИспользование: " + commandInfo.name() + " " + commandInfo.usage());
                     msg_event.getChannel().sendMessage(commandHelp.build()).queue();
+
                 } else {
-                    msg_event.getChannel().sendMessage("Ну это вроде как скрытая команда, так что если знаешь про неё - должен знать, как ею пользоваться").queue();
+
+                    msg_event.getChannel().sendMessage("Ну это вроде как скрытая команда, так что если знаешь " +
+                            "про неё - должен знать, как ею пользоваться").queue();
                 }
             } else {
+
                 msg_event.getChannel().sendMessage("Команда не найдена!").queue();
             }
         }
     }
-
 }

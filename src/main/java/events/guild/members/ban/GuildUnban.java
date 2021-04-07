@@ -11,12 +11,15 @@ public class GuildUnban extends ListenerAdapter {
     @Override
     public void onGuildUnban(GuildUnbanEvent unbanEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(unbanEvent.getGuild(), "userUnban");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Пользователь разбанен");
-            logEmbed.addField("Пользователь", String.format("%s (%s)", unbanEvent.getUser().getAsTag(), unbanEvent.getUser().getId()));
+
+            logEmbed.addField("Пользователь", String.format("%s (%s)", unbanEvent.getUser().getAsTag(), unbanEvent
+                    .getUser().getId()));
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

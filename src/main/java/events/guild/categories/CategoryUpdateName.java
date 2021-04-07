@@ -11,11 +11,13 @@ public class CategoryUpdateName extends ListenerAdapter {
     @Override
     public void onCategoryUpdateName(CategoryUpdateNameEvent updateNameEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(updateNameEvent.getGuild(), "categoryUpdate");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Изменено имя категории");
             logEmbed.addField("Старое название", updateNameEvent.getOldName());
             logEmbed.addField("Новое название", updateNameEvent.getNewName());
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }

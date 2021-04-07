@@ -3,7 +3,6 @@ package commands.moderation;
 import api.BasicEmbed;
 import api.models.command.Command;
 import api.models.command.DiscordCommand;
-import api.utils.HandleUserPermissions;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -15,8 +14,10 @@ public class ClearCommand implements Command {
 
     @Override
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
+
         if (arguments.length != 0) {
             try {
+
                 msg_event.getChannel().getHistory().retrievePast(Integer.parseInt(arguments[0]) + 1)
                         .queue(messages -> {
                             msg_event.getChannel().purgeMessages(messages);
@@ -25,6 +26,7 @@ public class ClearCommand implements Command {
                             msg_event.getChannel().sendMessage(successEmbed.build())
                                     .queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
                         });
+
             } catch (NumberFormatException e) {
                 BasicEmbed errorEmbed = new BasicEmbed("error");
                 errorEmbed.setDescription("Я не умею очищать чат, если вы указали буквы вместо количества сообщений");
@@ -36,5 +38,4 @@ public class ClearCommand implements Command {
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         }
     }
-
 }

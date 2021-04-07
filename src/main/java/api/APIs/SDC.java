@@ -16,10 +16,10 @@ public class SDC {
         Map<String, String> params = new HashMap<>();
         params.put("servers", String.valueOf(guilds));
         params.put("shards", String.valueOf(shards));
+
         Content result = Request.Post("https://api.server-discord.com/v2/bots/" + id + "/stats")
                 .bodyString(JSONObject.valueToString(params), ContentType.APPLICATION_JSON)
                 .addHeader("Authorization", "SDC " + Config.BOT_CONFIG.get("sdcToken"))
                 .execute().returnContent();
     }
-
 }

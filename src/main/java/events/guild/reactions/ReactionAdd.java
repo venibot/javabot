@@ -14,16 +14,19 @@ public class ReactionAdd extends ListenerAdapter {
     public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent reactionAddEvent) {
         Database db = new Database();
         Guild DBGuild = db.getGuildByID(reactionAddEvent.getGuild().getIdLong());
+
         if (DBGuild.getRolesForReactions() != null) {
             HashMap<String, String> reactions = DBGuild.getRolesForReactions();
             String emoji = reactionAddEvent.getReaction().getReactionEmote().getEmoji();
+
             if (reactions.containsKey(emoji)
-                    && Long.parseLong(reactions.get(emoji).split(";")[1]) == reactionAddEvent.getMessageIdLong()) {
+                    && Long.parseLong(reactions.get(emoji).split(";")[1]) == reactionAddEvent
+                    .getMessageIdLong()) {
                 Role role = reactionAddEvent.getGuild()
                         .getRoleById(Long.parseLong(reactions.get(emoji).split(";")[0]));
+
                 reactionAddEvent.getGuild().addRoleToMember(reactionAddEvent.getMember(), role).queue();
             }
         }
     }
-
 }

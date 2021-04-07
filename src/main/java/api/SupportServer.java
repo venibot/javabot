@@ -31,8 +31,10 @@ public class SupportServer {
     public boolean isTester(User user) {
         Guild guild = getGuild();
         Member member = guild.getMember(user);
+
         try {
-            return member.getRoles().contains(guild.getRoleById(759796893621551184L)) || user.getIdLong() == 453179077294161920L;
+            return member.getRoles().contains(guild.getRoleById(759796893621551184L)) || user
+                    .getIdLong() == 453179077294161920L;
         }
         catch (NullPointerException e) {
             return false;
@@ -42,8 +44,10 @@ public class SupportServer {
     public boolean isSupport(User user) {
         Guild guild = getGuild();
         Member member = guild.getMember(user);
+
         try {
-            return member.getRoles().contains(guild.getRoleById(770374723900407888L)) || user.getIdLong() == 453179077294161920L;
+            return member.getRoles().contains(guild.getRoleById(770374723900407888L)) || user
+                    .getIdLong() == 453179077294161920L;
         }
         catch (NullPointerException e) {
             return false;
@@ -53,8 +57,10 @@ public class SupportServer {
     public boolean isStaff(User user) {
         Guild guild = getGuild();
         Member member = guild.getMember(user);
+
         try {
-            return member.getRoles().contains(guild.getRoleById(759797091198435338L)) || user.getIdLong() == 453179077294161920L;
+            return member.getRoles().contains(guild.getRoleById(759797091198435338L)) || user
+                    .getIdLong() == 453179077294161920L;
         }
         catch (NullPointerException e) {
             return false;
@@ -64,8 +70,10 @@ public class SupportServer {
     public boolean isDeveloper(User user) {
         Guild guild = getGuild();
         Member member = guild.getMember(user);
+
         try {
-            return member.getRoles().contains(guild.getRoleById(763296493138214915L)) || user.getIdLong() == 453179077294161920L;
+            return member.getRoles().contains(guild.getRoleById(763296493138214915L)) || user
+                    .getIdLong() == 453179077294161920L;
         }
         catch (NullPointerException e) {
             return false;
@@ -75,8 +83,10 @@ public class SupportServer {
     public boolean isOwner(User user) {
         Guild guild = getGuild();
         Member member = guild.getMember(user);
+
         try {
-            return member.getRoles().contains(guild.getRoleById(759806607540111893L)) || user.getIdLong() == 453179077294161920L;
+            return member.getRoles().contains(guild.getRoleById(759806607540111893L)) || user
+                    .getIdLong() == 453179077294161920L;
         }
         catch (NullPointerException e) {
             return false;
@@ -86,8 +96,10 @@ public class SupportServer {
     public boolean isDonator(User user) {
         Guild guild = getGuild();
         Member member = guild.getMember(user);
+
         try {
-            return member.getRoles().contains(guild.getRoleById(777201934763032626L)) || user.getIdLong() == 453179077294161920L;
+            return member.getRoles().contains(guild.getRoleById(777201934763032626L)) || user
+                    .getIdLong() == 453179077294161920L;
         }
         catch (NullPointerException e) {
             return false;
@@ -97,9 +109,12 @@ public class SupportServer {
     public void sendError(Exception error) {
         WebhookClient errorWebhook = WebhookClient.withUrl(Config.BOT_CONFIG.get("errorWebhookUrl"));
         WebhookEmbed.EmbedTitle title = new WebhookEmbed.EmbedTitle("Непредвиденная ошибка!", null);
+
         WebhookEmbed errorEmbed = new WebhookEmbedBuilder()
             .setTitle(title)
-            .setDescription(error.getMessage() + "\n" + "Файл: " + error.getStackTrace()[0].getFileName() + "\n" + "Метод: " + error.getStackTrace()[0].getMethodName() + "\n" + "Строка: " + error.getStackTrace()[0].getLineNumber())
+            .setDescription(error.getMessage() + "\n" + "Файл: " + error.getStackTrace()[0].getFileName() + "\n"
+                    + "Метод: " + error.getStackTrace()[0].getMethodName() + "\n" + "Строка: "
+                    + error.getStackTrace()[0].getLineNumber())
             .setColor(0xff0000)
             .build();
         errorWebhook.send(errorEmbed);
@@ -107,6 +122,7 @@ public class SupportServer {
 
     public void sendGulag(Guild guild, boolean left, User gulagger) {
         TextChannel channel = this.bot.getTextChannelById(812407745939505273L);
+
         channel.sendMessage(new BasicEmbed("info")
                 .setTitle("Сервер " + guild.getName() + " отправлен в гулаг")
                 .setDescription((left ? "Я ливнул с сервера." : "Я не ливал с сервера.") + "\n"
@@ -117,15 +133,18 @@ public class SupportServer {
 
     public void sendGulagAttempt(Guild guild, User adder) {
         TextChannel channel = this.bot.getTextChannelById(812407745939505273L);
+
         channel.sendMessage(new BasicEmbed("info")
                 .setTitle("Меня попытались добавить на сервер " + guild.getName() + ", но он в гулаге")
-                .setDescription("Попытался добавить " + (adder != null ? adder.getAsTag() : "Пользователя определить не удалось"))
+                .setDescription("Попытался добавить " + (adder != null ? adder
+                        .getAsTag() : "Пользователя определить не удалось"))
                 .setFooter("ID " + guild.getId())
                 .build()).queue();
     }
 
     public void sendUnGulag(Guild guild, User ungulagger) {
         TextChannel channel = this.bot.getTextChannelById(812407745939505273L);
+
         channel.sendMessage(new BasicEmbed("info")
                 .setTitle("Сервер " + guild.getName() + " удалён из гулага")
                 .setDescription("Удалил из гулага " + ungulagger.getAsTag())
@@ -135,6 +154,7 @@ public class SupportServer {
 
     public void guildJoined(Guild guild) {
         TextChannel channel = this.bot.getTextChannelById(785146619825094736L);
+
         channel.sendMessage(new BasicEmbed("info")
                 .setTitle("Я добавлен на сервер " + guild.getName())
                 .setDescription("Теперь у бота " + this.bot.getGuilds().size() + " серверов")
@@ -144,11 +164,11 @@ public class SupportServer {
 
     public void guildLeft(Guild guild) {
         TextChannel channel = this.bot.getTextChannelById(785146619825094736L);
+
         channel.sendMessage(new BasicEmbed("info")
                 .setTitle("Я удалён с сервера " + guild.getName())
                 .setDescription("Теперь у бота " + this.bot.getGuilds().size() + " серверов")
                 .setFooter("ID " + guild.getId())
                 .build()).queue();
     }
-
 }

@@ -11,13 +11,14 @@ public class GuildUpdateIcon extends ListenerAdapter {
     @Override
     public void onGuildUpdateIcon(GuildUpdateIconEvent updateIconEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(updateIconEvent.getGuild(), "guildUpdate");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Изменена иконка сервера");
             logEmbed.addField("Старая иконка", updateIconEvent.getOldIconUrl());
             logEmbed.addField("Новая иконка", updateIconEvent.getNewIconUrl());
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }
