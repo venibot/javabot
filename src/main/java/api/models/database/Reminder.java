@@ -47,6 +47,7 @@ public class Reminder {
     }
 
     public BasicDBObject toDBObject() throws IllegalAccessException {
+
         BasicDBObject document = new BasicDBObject();
         document.put("ID", this.ID);
         document.put("userID", this.userID);
@@ -58,6 +59,7 @@ public class Reminder {
 
     public static Reminder fromDBObject(DBObject document) throws IllegalAccessException {
         Reminder reminder = new Reminder(
+
                 (Integer) document.get("ID"),
                 (Long) document.get("userID"),
                 (Long) document.get("guildID"),
@@ -71,5 +73,4 @@ public class Reminder {
     public String toString() {
         return "Напоминание от " + this.userID + ", сервер " + this.guildID;
     }
-
 }

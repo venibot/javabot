@@ -11,19 +11,22 @@ public class GuildUpdateAfkChannel extends ListenerAdapter {
     @Override
     public void onGuildUpdateAfkChannel(GuildUpdateAfkChannelEvent updateAfkChannelEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(updateAfkChannelEvent.getGuild(), "guildUpdate");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Изменён АФК канал сервера");
+
             logEmbed.addField("Старый канал",
                     updateAfkChannelEvent.getOldAfkChannel() != null
                             ? updateAfkChannelEvent.getOldAfkChannel().getName()
                             : "Отсутствует");
+
             logEmbed.addField("Новый канал",
                     updateAfkChannelEvent.getNewAfkChannel() != null
                             ? updateAfkChannelEvent.getNewAfkChannel().getName()
                             : "Отсутствует");
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

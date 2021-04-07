@@ -11,12 +11,13 @@ public class VoiceChannelDelete extends ListenerAdapter {
     @Override
     public void onVoiceChannelDelete(VoiceChannelDeleteEvent deleteEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(deleteEvent.getGuild(), "channelDelete");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Удалён голосовой канал");
             logEmbed.addField("Имя", deleteEvent.getChannel().getName());
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

@@ -42,7 +42,9 @@ public class Bot {
         this.commandsCount = commandsCount;
     }
 
-    public Bot(Integer id, Long statTime, Integer guildsCount, Integer usersCount, Integer channelsCount, Long commandsCount) {
+    public Bot(Integer id, Long statTime, Integer guildsCount, Integer usersCount,
+               Integer channelsCount, Long commandsCount) {
+
         this.id = id;
         this.statTime = statTime;
         this.guildsCount = guildsCount;
@@ -76,6 +78,7 @@ public class Bot {
     }
 
     public BasicDBObject toDBObject() throws IllegalAccessException {
+
         BasicDBObject document = new BasicDBObject();
         document.put("id", this.id);
         document.put("statTime", this.statTime);
@@ -87,6 +90,7 @@ public class Bot {
     }
 
     public static Bot fromDBObject(DBObject document) throws IllegalAccessException {
+
         Bot botStat = new Bot((Integer) document.get("id"),
                 (Long) document.get("statTime"),
                 (Integer) document.get("guildsCount"),
@@ -100,5 +104,4 @@ public class Bot {
     public String toString() {
         return "Статистика бота от " + this.statTime + ", ID " + this.id;
     }
-
 }

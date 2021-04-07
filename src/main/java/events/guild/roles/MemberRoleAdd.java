@@ -15,17 +15,19 @@ public class MemberRoleAdd extends ListenerAdapter {
     @Override
     public void onGuildMemberRoleAdd(GuildMemberRoleAddEvent roleAddEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(roleAddEvent.getGuild(), "roleAdd");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Участнику выданы роли");
             logEmbed.addField("Участник", roleAddEvent.getUser().getAsTag());
             List<String> roles = new ArrayList<>();
+
             for (Role role: roleAddEvent.getRoles()) {
                 roles.add(role.getAsMention());
             }
+
             logEmbed.addField("Добавленные роли", String.join("\n", roles));
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

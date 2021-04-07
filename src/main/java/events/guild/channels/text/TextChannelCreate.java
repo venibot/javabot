@@ -11,12 +11,15 @@ public class TextChannelCreate extends ListenerAdapter {
     @Override
     public void onTextChannelCreate(TextChannelCreateEvent createEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(createEvent.getGuild(), "channelCreate");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Создан новый текстовый канал");
-            logEmbed.addField("Имя", String.format("%s(%s)", createEvent.getChannel().getAsMention(), createEvent.getChannel().getName()));
+
+            logEmbed.addField("Имя", String.format("%s(%s)", createEvent.getChannel().getAsMention(),
+                    createEvent.getChannel().getName()));
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

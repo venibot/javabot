@@ -14,16 +14,18 @@ public class ReactionRemove extends ListenerAdapter {
     public void onGuildMessageReactionRemove(GuildMessageReactionRemoveEvent reactionRemoveEvent) {
         Database db = new Database();
         Guild DBGuild = db.getGuildByID(reactionRemoveEvent.getGuild().getIdLong());
+
         if (DBGuild.getRolesForReactions() != null) {
             HashMap<String, String> reactions = DBGuild.getRolesForReactions();
             String emoji = reactionRemoveEvent.getReaction().getReactionEmote().getEmoji();
+
             if (reactions.containsKey(emoji)
-                    && Long.parseLong(reactions.get(emoji).split(";")[1]) == reactionRemoveEvent.getMessageIdLong()) {
+                    && Long.parseLong(reactions.get(emoji).split(";")[1]) == reactionRemoveEvent
+                    .getMessageIdLong()) {
                 Role role = reactionRemoveEvent.getGuild()
                         .getRoleById(Long.parseLong(reactions.get(emoji).split(";")[0]));
                 reactionRemoveEvent.getGuild().removeRoleFromMember(reactionRemoveEvent.getUserId(), role).queue();
             }
         }
     }
-
 }

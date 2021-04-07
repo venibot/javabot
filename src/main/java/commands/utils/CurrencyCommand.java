@@ -12,10 +12,13 @@ public class CurrencyCommand implements Command {
 
     @Override
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
+
         if (CurrencyCache.isRelevant()) {
             BasicEmbed infoEmbed = new BasicEmbed("info");
+
             infoEmbed.setTitle("Текущий курс валлюты " + arguments[0] + " составляет " +
                     CurrencyCache.getCache().get(arguments[0]) + " рублей");
+
             msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
         } else {
             CurrencyCache.setCache();
@@ -23,5 +26,4 @@ public class CurrencyCommand implements Command {
             doCommand(msg_event, arguments);
         }
     }
-
 }

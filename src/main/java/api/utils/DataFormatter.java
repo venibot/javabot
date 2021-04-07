@@ -12,11 +12,15 @@ import java.util.List;
 public class DataFormatter {
 
     public static String datetimeToString(OffsetDateTime dateTime) {
-        return String.format("%s %s %s года в %s:%s", dateTime.getDayOfMonth(), Config.MONTHS.get(dateTime.getMonthValue()), dateTime.getYear(), dateTime.getHour(), ((dateTime.getMinute() + "").length() == 1 ? "0" + dateTime.getMinute(): dateTime.getMinute())).toString();
+        return String.format("%s %s %s года в %s:%s", dateTime.getDayOfMonth(),
+                Config.MONTHS.get(dateTime.getMonthValue()), dateTime.getYear(), dateTime.getHour(),
+                ((dateTime.getMinute() + "").length() == 1 ? "0" + dateTime.getMinute(): dateTime
+                        .getMinute())).toString();
     }
 
     public static String getUserFlags(EnumSet<User.UserFlag> flags) {
         String flagsString = "";
+
         for (User.UserFlag flag: flags) {
             flagsString += Config.USER_FLAGS.get(flag.toString()) + " ";
         }
@@ -29,6 +33,7 @@ public class DataFormatter {
 
     public static String getMissingPermissions(List<Permission> permissions) {
         String permissionsString = "";
+
         for (Permission permission: permissions) {
             permissionsString += Config.PERMISSIONS.get(permission.toString()) + "\n";
         }
@@ -37,6 +42,7 @@ public class DataFormatter {
 
     public static String getMissingPermissions(Permission[] permissions) {
         String permissionsString = "";
+
         for (Permission permission: permissions) {
             permissionsString += Config.PERMISSIONS.get(permission.toString()) + "\n";
         }
@@ -44,12 +50,14 @@ public class DataFormatter {
     }
 
     public static OffsetDateTime unixToDateTime(Long unixTime) {
+
         OffsetDateTime dateTime = new Date(unixTime).toInstant().atOffset(ZoneOffset.UTC);
         dateTime = dateTime.plusHours(3);
         return dateTime;
     }
 
     public static String accessLevelToString(short accessLevel) {
+
         if (accessLevel == 0) {
             return "пользователь бота";
         } else if (accessLevel == 1) {
@@ -66,5 +74,4 @@ public class DataFormatter {
             return null;
         }
     }
-
 }

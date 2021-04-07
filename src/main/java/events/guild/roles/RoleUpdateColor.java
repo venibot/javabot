@@ -11,13 +11,18 @@ public class RoleUpdateColor extends ListenerAdapter {
     @Override
     public void onRoleUpdateColor(RoleUpdateColorEvent updateColorEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(updateColorEvent.getGuild(), "roleUpdate");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Изменён цвет роли");
             logEmbed.setColor(updateColorEvent.getNewColor());
-            logEmbed.addField("Роль", updateColorEvent.getRole().getName() + "(" + updateColorEvent.getRole().getAsMention() + ")");
+
+            logEmbed.addField("Роль", updateColorEvent.getRole().getName()
+                    + "(" + updateColorEvent.getRole().getAsMention() + ")");
+
             logEmbed.addField("Старый цвет", Integer.toHexString(updateColorEvent.getOldColorRaw()));
             logEmbed.addField("Новый цвет", Integer.toHexString(updateColorEvent.getNewColorRaw()));
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }

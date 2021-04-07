@@ -11,12 +11,15 @@ public class GuildBan extends ListenerAdapter {
     @Override
     public void onGuildBan(GuildBanEvent banEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(banEvent.getGuild(), "userBan");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Пользователь забанен");
-            logEmbed.addField("Пользователь", String.format("%s (%s)", banEvent.getUser().getAsTag(), banEvent.getUser().getId()));
+
+            logEmbed.addField("Пользователь", String.format("%s (%s)", banEvent.getUser().getAsTag(), banEvent
+                    .getUser().getId()));
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

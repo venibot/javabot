@@ -11,12 +11,13 @@ public class VoiceChannelCreate extends ListenerAdapter {
     @Override
     public void onVoiceChannelCreate(VoiceChannelCreateEvent createEvent) {
         TextChannel logChannel = GetLogChannel.getChannel(createEvent.getGuild(), "channelCreate");
+
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
             logEmbed.setTitle("Создан новый голосовой канал");
             logEmbed.addField("Имя", createEvent.getChannel().getName());
+
             logChannel.sendMessage(logEmbed.build()).queue();
         }
     }
-
 }

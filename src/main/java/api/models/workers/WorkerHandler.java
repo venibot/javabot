@@ -36,25 +36,28 @@ public class WorkerHandler implements Callable<Void> {
         }
 
         public void run() {
+
             WorkerInfo info = this.worker.getWorkerInfo();
+
             if (info == null) return;
+
             try {
                 this.worker.execute();
             } catch (Exception error) {
                 error.printStackTrace();
             }
-            timer.schedule(new ExecuteTask(this.worker), this.worker.getWorkerInfo().type().toMillis(this.worker.getWorkerInfo().duration()));
+
+            timer.schedule(new ExecuteTask(this.worker), this.worker.getWorkerInfo().type()
+                    .toMillis(this.worker.getWorkerInfo().duration()));
         }
-
     }
-
 
     @Override
     public Void call() {
         for (Worker worker: WorkerHandler.workers) {
-            timer.schedule(new ExecuteTask(worker), worker.getWorkerInfo().type().toMillis(worker.getWorkerInfo().duration()));
+            timer.schedule(new ExecuteTask(worker), worker.getWorkerInfo().type()
+                    .toMillis(worker.getWorkerInfo().duration()));
         }
         return null;
     }
-
 }

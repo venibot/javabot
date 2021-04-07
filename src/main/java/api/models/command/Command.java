@@ -9,5 +9,4 @@ public interface Command {
     default DiscordCommand getCommandData() {
         return getClass().getAnnotation(DiscordCommand.class);
     }
-
 }

@@ -19,6 +19,7 @@ public class CurrencyCache extends Cache {
             CurrencyCache.cache = (Map) new Gson().fromJson(result.asString(), Map.class).get("rates");
             System.out.println(CurrencyCache.cache.keySet());
             CurrencyCache.date = new Date().getTime();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -28,5 +29,4 @@ public class CurrencyCache extends Cache {
     public static Map getCache() {
         return CurrencyCache.cache;
     }
-
 }

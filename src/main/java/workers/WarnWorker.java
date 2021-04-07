@@ -1,12 +1,8 @@
 package workers;
 
 import api.Database;
-import api.models.database.Reminder;
 import api.models.database.Warn;
-import api.models.workers.Worker;
-import api.models.workers.WorkerInfo;
-import api.utils.Config;
-import net.dv8tion.jda.api.entities.User;
+import api.models.workers.*;
 
 import java.util.Date;
 
@@ -21,5 +17,4 @@ public class WarnWorker implements Worker {
             }
         }
     }
-
 }

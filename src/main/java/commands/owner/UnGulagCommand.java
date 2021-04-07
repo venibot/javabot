@@ -18,6 +18,7 @@ public class UnGulagCommand implements Command {
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
         SupportServer supportServer = new SupportServer(msg_event.getJDA());
         Guild guild = null;
+
         if (arguments.length == 0) {
             guild = msg_event.getGuild();
         } else {
@@ -30,9 +31,11 @@ public class UnGulagCommand implements Command {
                 return;
             }
         }
+
         if (guild != null) {
             Database db = new Database();
             api.models.database.Guild DBGuild = db.getGuildByID(guild.getIdLong());
+
             if (!DBGuild.getInGulag()) {
                 msg_event.getChannel().sendMessage(new BasicEmbed("error")
                         .setDescription("Удалять сервер из гулага, хотя его там нет? Мило, а меня так научите?")
@@ -40,6 +43,7 @@ public class UnGulagCommand implements Command {
             } else {
                 DBGuild.setIsInGulag(false);
                 db.updateGuild(DBGuild);
+
                 msg_event.getChannel().sendMessage(new BasicEmbed("success")
                         .setDescription("Сервер " + guild.getName() + " успешно удалён из ЧС")
                         .build()).queue();
@@ -47,5 +51,4 @@ public class UnGulagCommand implements Command {
             }
         }
     }
-
 }
