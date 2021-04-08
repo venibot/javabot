@@ -33,7 +33,7 @@ public class BasicEmbed extends EmbedBuilder {
         this.setTimestamp(new Date().toInstant().atOffset(ZoneOffset.UTC));
     }
 
-    public BasicEmbed(String description, String type) {
+    public BasicEmbed(String type, String description) {
 
         this.setDescription(description);
         switch (type) {
@@ -53,7 +53,7 @@ public class BasicEmbed extends EmbedBuilder {
         this.setTimestamp(new Date().toInstant().atOffset(ZoneOffset.UTC));
     }
 
-    public BasicEmbed(String title, String description, String type) {
+    public BasicEmbed(String type, String title, String description) {
 
         this.setTitle(title);
         this.setDescription(description);
