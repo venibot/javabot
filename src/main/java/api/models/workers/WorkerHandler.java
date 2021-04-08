@@ -43,8 +43,10 @@ public class WorkerHandler implements Callable<Void> {
 
             try {
                 this.worker.execute();
-            } catch (Exception error) {
-                error.printStackTrace();
+            } catch (NullPointerException ignored) {
+
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
 
             timer.schedule(new ExecuteTask(this.worker), this.worker.getWorkerInfo().type()
