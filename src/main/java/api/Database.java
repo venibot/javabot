@@ -16,10 +16,8 @@ public class Database {
     public Database() {
 
         if (Config.MONGO != null) {
-            System.out.println("get");
             this.client = Config.MONGO;
         } else {
-            System.out.println("open");
             MongoClientURI uri = new MongoClientURI(Config.DB_CONFIG.get("uri"));
             this.client = new MongoClient(uri);
             Config.MONGO = this.client;
