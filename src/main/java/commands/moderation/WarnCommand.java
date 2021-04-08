@@ -24,9 +24,7 @@ public class WarnCommand implements Command {
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
 
         if (arguments.length == 0) {
-            BasicEmbed errorEmbed = new BasicEmbed("error");
-            errorEmbed.setDescription("Укажите пользователя, которому вы хотите выдать предупреждение");
-
+            BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите пользователя, которому вы хотите выдать предупреждение");
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         } else {
             Member intruder;
@@ -36,15 +34,13 @@ public class WarnCommand implements Command {
             try {
                 intruder = Converters.getMember(msg_event.getGuild(), arguments[0]);
             } catch (MemberNotFoundException e) {
-                BasicEmbed errorEmbed = new BasicEmbed("error");
-                errorEmbed.setDescription("Указанный пользователь не найден");
+                BasicEmbed errorEmbed = new BasicEmbed("error", "Указанный пользователь не найден");
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                 return;
             }
 
             if (!msg_event.getMember().canInteract(intruder)) {
-                BasicEmbed errorEmbed = new BasicEmbed("error");
-                errorEmbed.setDescription("У вас нет прав выдавать предупреждения данному пользователю");
+                BasicEmbed errorEmbed = new BasicEmbed("error", "У вас нет прав выдавать предупреждения данному пользователю");
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                 return;
             }

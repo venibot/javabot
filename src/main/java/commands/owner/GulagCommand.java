@@ -31,8 +31,7 @@ public class GulagCommand implements Command {
                 try {
                     guild = Converters.getGuild(msg_event.getJDA(), arguments[0]);
                 } catch (GuildNotFoundException e) {
-                    msg_event.getChannel().sendMessage(new BasicEmbed("error")
-                            .setDescription("Указанный сервер не найден")
+                    msg_event.getChannel().sendMessage(new BasicEmbed("error", "Указанный сервер не найден")
                             .build()).queue();
                 }
             }
@@ -41,8 +40,7 @@ public class GulagCommand implements Command {
                 toLeave = !arguments[0].equals("0");
                 guild = Converters.getGuild(msg_event.getJDA(), arguments[1]);
             } catch (GuildNotFoundException e) {
-                msg_event.getChannel().sendMessage(new BasicEmbed("error")
-                        .setDescription("Указанный сервер не найден")
+                msg_event.getChannel().sendMessage(new BasicEmbed("error", "Указанный сервер не найден")
                         .build()).queue();
             }
         }
@@ -52,14 +50,12 @@ public class GulagCommand implements Command {
             api.models.database.Guild DBGuild = db.getGuildByID(guild.getIdLong());
 
             if (DBGuild.getInGulag()) {
-                msg_event.getChannel().sendMessage(new BasicEmbed("error")
-                        .setDescription("Добавлять сервер в гулаг, хотя он там уже есть? Мило, а меня так научите?")
+                msg_event.getChannel().sendMessage(new BasicEmbed("error", "Добавлять сервер в гулаг, хотя он там уже есть? Мило, а меня так научите?")
                         .build()).queue();
             } else {
                 DBGuild.setIsInGulag(true);
                 db.updateGuild(DBGuild);
-                msg_event.getChannel().sendMessage(new BasicEmbed("success")
-                        .setDescription("Сервер " + guild.getName() + " успешно добавлен в ЧС")
+                msg_event.getChannel().sendMessage(new BasicEmbed("success", "Сервер " + guild.getName() + " успешно добавлен в ЧС")
                         .build()).queue();
 
                 if (toLeave) {

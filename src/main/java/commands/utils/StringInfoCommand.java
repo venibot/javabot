@@ -17,13 +17,10 @@ public class StringInfoCommand implements Command {
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
 
         if (arguments.length == 0) {
-            BasicEmbed errorEmbed = new BasicEmbed("error");
-
-            errorEmbed.setDescription("Укажите строку, о которой хотите получить информацию");
+            BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите строку, о которой хотите получить информацию");
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         } else {
-            BasicEmbed infoEmbed = new BasicEmbed("info");
-            infoEmbed.setDescription("Информация о строке " + arguments[0]);
+            BasicEmbed infoEmbed = new BasicEmbed("info", "Информация о строке " + arguments[0]);
             infoEmbed.addField("Длина строки", String.valueOf(arguments[0].length()));
 
             infoEmbed.addField("Закодированная в base64", Base64.getEncoder()

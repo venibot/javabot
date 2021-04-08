@@ -18,9 +18,7 @@ public class WelcomerCommand implements Command {
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
 
         if (arguments.length == 0) {
-            BasicEmbed errorEmbed = new BasicEmbed("error");
-
-            errorEmbed.setDescription("Укажите одно из доступных действий:\nроли\nканал\nсообщение\nвосстановление");
+            BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите одно из доступных действий:\nроли\nканал\nсообщение\nвосстановление");
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         } else {
             Database db = new Database();
@@ -46,16 +44,12 @@ public class WelcomerCommand implements Command {
 
                             DBGuild.setWelcomeRoles(roles);
                             db.updateGuild(DBGuild);
-                            BasicEmbed successEmbed = new BasicEmbed("success");
-
-                            successEmbed.setDescription("Роли успешно установлены в качестве приветственных");
+                            BasicEmbed successEmbed = new BasicEmbed("success", "Роли успешно установлены в качестве приветственных");
                             msg_event.getChannel().sendMessage(successEmbed.build()).queue();
                         } else {
                             DBGuild.setWelcomeRoles(null);
                             db.updateGuild(DBGuild);
-                            BasicEmbed successEmbed = new BasicEmbed("success");
-
-                            successEmbed.setDescription("Приветственные роли успешно сброшены");
+                            BasicEmbed successEmbed = new BasicEmbed("success", "Приветственные роли успешно сброшены");
                             msg_event.getChannel().sendMessage(successEmbed.build()).queue();
                         }
                     } else {
@@ -85,23 +79,17 @@ public class WelcomerCommand implements Command {
                                         arguments[1]).getIdLong());
 
                                 db.updateGuild(DBGuild);
-                                BasicEmbed successEmbed = new BasicEmbed("success");
-
-                                successEmbed.setDescription("Канал для приветственных сообщений успешно установлен");
+                                BasicEmbed successEmbed = new BasicEmbed("success", "Канал для приветственных сообщений успешно установлен");
                                 msg_event.getChannel().sendMessage(successEmbed.build()).queue();
 
                             } catch (ChannelNotFoundException e) {
-                                BasicEmbed errorEmbed = new BasicEmbed("error");
-
-                                errorEmbed.setDescription("Указанный канал не найден");
+                                BasicEmbed errorEmbed = new BasicEmbed("error", "Указанный канал не найден");
                                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                             }
                         } else {
                             DBGuild.setWelcomeChannel(null);
                             db.updateGuild(DBGuild);
-                            BasicEmbed successEmbed = new BasicEmbed("success");
-
-                            successEmbed.setDescription("Канал для приветственныз сообщений успешно сброшен");
+                            BasicEmbed successEmbed = new BasicEmbed("success", "Канал для приветственных сообщений успешно сброшен");
                             msg_event.getChannel().sendMessage(successEmbed.build()).queue();
                         }
                     } else {
@@ -124,16 +112,12 @@ public class WelcomerCommand implements Command {
                         if (!arguments[1].equals("0")) {
                             DBGuild.setWelcomeMessage(arguments[1]);
                             db.updateGuild(DBGuild);
-                            BasicEmbed successEmbed = new BasicEmbed("success");
-
-                            successEmbed.setDescription("Приветственное сообщение успешно установлено");
+                            BasicEmbed successEmbed = new BasicEmbed("success", "Приветственное сообщение успешно установлено");
                             msg_event.getChannel().sendMessage(successEmbed.build()).queue();
                         } else {
                             DBGuild.setWelcomeChannel(null);
                             db.updateGuild(DBGuild);
-                            BasicEmbed successEmbed = new BasicEmbed("success");
-
-                            successEmbed.setDescription("Приветственное сообщение успешно сброшено");
+                            BasicEmbed successEmbed = new BasicEmbed("success", "Приветственное сообщение успешно сброшено");
                             msg_event.getChannel().sendMessage(successEmbed.build()).queue();
                         }
                     } else {

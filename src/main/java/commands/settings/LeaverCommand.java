@@ -18,8 +18,7 @@ public class LeaverCommand implements Command {
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
 
         if (arguments.length == 0) {
-            BasicEmbed errorEmbed = new BasicEmbed("error");
-            errorEmbed.setDescription("Укажите одно из доступных действий:\nканал\nсообщение");
+            BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите одно из доступных действий:\nканал\nсообщение");
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         } else {
             Database db = new Database();
@@ -36,22 +35,16 @@ public class LeaverCommand implements Command {
                                         arguments[1]).getIdLong());
 
                                 db.updateGuild(DBGuild);
-                                BasicEmbed successEmbed = new BasicEmbed("success");
-
-                                successEmbed.setDescription("Канал для прощальных сообщений успешно установлен");
+                                BasicEmbed successEmbed = new BasicEmbed("success", "Канал для прощальных сообщений успешно установлен");
                                 msg_event.getChannel().sendMessage(successEmbed.build()).queue();
                             } catch (ChannelNotFoundException e) {
-                                BasicEmbed errorEmbed = new BasicEmbed("error");
-
-                                errorEmbed.setDescription("Указанный канал не найден");
+                                BasicEmbed errorEmbed = new BasicEmbed("error", "Указанный канал не найден");
                                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                             }
                         } else {
                             DBGuild.setLeftChannel(null);
                             db.updateGuild(DBGuild);
-                            BasicEmbed successEmbed = new BasicEmbed("success");
-
-                            successEmbed.setDescription("Канал для прощальных сообщений успешно сброшен");
+                            BasicEmbed successEmbed = new BasicEmbed("success", "Канал для прощальных сообщений успешно сброшен");
                             msg_event.getChannel().sendMessage(successEmbed.build()).queue();
                         }
                     } else {
@@ -75,16 +68,12 @@ public class LeaverCommand implements Command {
 
                             DBGuild.setLeftMessage(arguments[1]);
                             db.updateGuild(DBGuild);
-                            BasicEmbed successEmbed = new BasicEmbed("success");
-
-                            successEmbed.setDescription("Прощальное сообщение успешно установлено");
+                            BasicEmbed successEmbed = new BasicEmbed("success", "Прощальное сообщение успешно установлено");
                             msg_event.getChannel().sendMessage(successEmbed.build()).queue();
                         } else {
                             DBGuild.setLeftMessage(null);
                             db.updateGuild(DBGuild);
-                            BasicEmbed successEmbed = new BasicEmbed("success");
-
-                            successEmbed.setDescription("Прощальное сообщение успешно сброшено");
+                            BasicEmbed successEmbed = new BasicEmbed("success", "Прощальное сообщение успешно сброшено");
                             msg_event.getChannel().sendMessage(successEmbed.build()).queue();
                         }
                     } else {

@@ -73,9 +73,7 @@ public class CommandHandler {
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
             }
         } else {
-            BasicEmbed errorEmbed = new BasicEmbed("error");
-
-            errorEmbed.setDescription("У вас отсутствует необходимый уровень доступа. Для выполнения данной необходим "
+            BasicEmbed errorEmbed = new BasicEmbed("error", "У вас отсутствует необходимый уровень доступа. Для выполнения данной необходим "
                     + cd.accessLevel() + " уровень доступа(" + DataFormatter.accessLevelToString(cd.accessLevel()) + ")");
 
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();

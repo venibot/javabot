@@ -27,15 +27,13 @@ public class PrefixCommand implements Command {
         } else {
             if (arguments[0].contains(" ")) {
 
-                BasicEmbed errorEmbed = new BasicEmbed("error");
-                errorEmbed.setDescription("Префикс не может содержать пробелов");
+                BasicEmbed errorEmbed = new BasicEmbed("error", "Префикс не может содержать пробелов");
 
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                 return;
             } if (arguments[0].length() > 6) {
 
-                BasicEmbed errorEmbed = new BasicEmbed("error");
-                errorEmbed.setDescription("Префикс не может быть длиннее 6 символов");
+                BasicEmbed errorEmbed = new BasicEmbed("error", "Префикс не может быть длиннее 6 символов");
 
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                 return;
@@ -45,9 +43,7 @@ public class PrefixCommand implements Command {
             Guild guild = db.getGuildByID(msg_event.getGuild().getIdLong());
             guild.setPrefix(arguments[0]);
             db.updateGuild(guild);
-            BasicEmbed successEmbed = new BasicEmbed("success");
-
-            successEmbed.setDescription("Префикс успешно изменён на `" + guild.getPrefix() + "`");
+            BasicEmbed successEmbed = new BasicEmbed("success", "Префикс успешно изменён на `" + guild.getPrefix() + "`");
             msg_event.getChannel().sendMessage(successEmbed.build()).queue();
         }
     }

@@ -25,8 +25,7 @@ public class UnGulagCommand implements Command {
             try {
                 guild = Converters.getGuild(msg_event.getJDA(), arguments[0]);
             } catch (GuildNotFoundException e) {
-                msg_event.getChannel().sendMessage(new BasicEmbed("error")
-                        .setDescription("Указанный сервер не найден")
+                msg_event.getChannel().sendMessage(new BasicEmbed("error", "Указанный сервер не найден")
                         .build()).queue();
                 return;
             }
@@ -37,15 +36,13 @@ public class UnGulagCommand implements Command {
             api.models.database.Guild DBGuild = db.getGuildByID(guild.getIdLong());
 
             if (!DBGuild.getInGulag()) {
-                msg_event.getChannel().sendMessage(new BasicEmbed("error")
-                        .setDescription("Удалять сервер из гулага, хотя его там нет? Мило, а меня так научите?")
+                msg_event.getChannel().sendMessage(new BasicEmbed("error", "Удалять сервер из гулага, хотя его там нет? Мило, а меня так научите?")
                         .build()).queue();
             } else {
                 DBGuild.setIsInGulag(false);
                 db.updateGuild(DBGuild);
 
-                msg_event.getChannel().sendMessage(new BasicEmbed("success")
-                        .setDescription("Сервер " + guild.getName() + " успешно удалён из ЧС")
+                msg_event.getChannel().sendMessage(new BasicEmbed("success", "Сервер " + guild.getName() + " успешно удалён из ЧС")
                         .build()).queue();
                 supportServer.sendUnGulag(guild, msg_event.getAuthor());
             }

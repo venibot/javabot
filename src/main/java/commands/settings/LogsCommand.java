@@ -22,9 +22,7 @@ public class LogsCommand implements Command {
         Database db = new Database();
 
         if (arguments.length == 0) {
-            BasicEmbed errorEmbed = new BasicEmbed("error");
-
-            errorEmbed.setDescription(("Укажите одно из доступных событий\nДоступные события:\nвсе\n"
+            BasicEmbed errorEmbed = new BasicEmbed("error", ("Укажите одно из доступных событий\nДоступные события:\nвсе\n"
                     + String.join("\n", Config.LOG_ACTIONS.keySet()).replace("_", "\\_")));
 
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
@@ -44,8 +42,7 @@ public class LogsCommand implements Command {
                 msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
 
             } else {
-                BasicEmbed errorEmbed = new BasicEmbed("error");
-                errorEmbed.setDescription("Указанное событие не обнаружено");
+                BasicEmbed errorEmbed = new BasicEmbed("error", "Указанное событие не обнаружено");
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
             }
         } else {
@@ -58,13 +55,10 @@ public class LogsCommand implements Command {
                     logs.put(Config.LOG_ACTIONS.get(arguments[0]),
                             Converters.getTextChannel(msg_event.getGuild(), arguments[1]).getIdLong());
                     db.updateGuild(DBGuild);
-                    BasicEmbed successEmbed = new BasicEmbed("success");
-
-                    successEmbed.setDescription("Канал для отправки логов о событии успешно обновлён!");
+                    BasicEmbed successEmbed = new BasicEmbed("success", "Канал для отправки логов о событии успешно обновлён!");
                     msg_event.getChannel().sendMessage(successEmbed.build()).queue();
                 } catch (ChannelNotFoundException e) {
-                    BasicEmbed errorEmbed = new BasicEmbed("error");
-                    errorEmbed.setDescription("Указанный канал не найден");
+                    BasicEmbed errorEmbed = new BasicEmbed("error", "Указанный канал не найден");
                     msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                 }
             } else if (arguments[0].equals("all") || arguments[0].equals("все")) {
@@ -75,8 +69,7 @@ public class LogsCommand implements Command {
                 try {
                     logChannel = Converters.getTextChannel(msg_event.getGuild(), arguments[1]);
                 } catch (ChannelNotFoundException e) {
-                    BasicEmbed errorEmbed = new BasicEmbed("error");
-                    errorEmbed.setDescription("Указанный канал не найден");
+                    BasicEmbed errorEmbed = new BasicEmbed("error", "Указанный канал не найден");
                     msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                 }
 
@@ -85,14 +78,10 @@ public class LogsCommand implements Command {
                 }
 
                 db.updateGuild(DBGuild);
-                BasicEmbed successEmbed = new BasicEmbed("success");
-
-                successEmbed.setDescription("Канал для отправки логов о всех событиях успешно обновлён!");
+                BasicEmbed successEmbed = new BasicEmbed("success", "Канал для отправки логов о всех событиях успешно обновлён!");
                 msg_event.getChannel().sendMessage(successEmbed.build()).queue();
             } else {
-                BasicEmbed errorEmbed = new BasicEmbed("error");
-
-                errorEmbed.setDescription("Указанное действие не найдено");
+                BasicEmbed errorEmbed = new BasicEmbed("error", "Указанное действие не найдено");
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
             }
         }

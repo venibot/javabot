@@ -54,9 +54,7 @@ public class ReminderCommand implements Command {
                 case "создать":
 
                     if (arguments.length < 3) {
-                        BasicEmbed errorEmbed = new BasicEmbed("error");
-
-                        errorEmbed.setDescription("Укажите время и текст напоминания");
+                        BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите время и текст напоминания");
                         msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                     } else {
                         try {
@@ -83,22 +81,16 @@ public class ReminderCommand implements Command {
                                         return;
                                     }
                                 }
-                                BasicEmbed errorEmbed = new BasicEmbed("error");
-
-                                errorEmbed.setDescription("Указанное время не доступно. " +
+                                BasicEmbed errorEmbed = new BasicEmbed("error", "Указанное время не доступно. " +
                                         "Доступное время для напоминания: минуты, часы, дни");
 
                                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                             } else {
-                                BasicEmbed errorEmbed = new BasicEmbed("error");
-
-                                errorEmbed.setDescription("Укажите время и текст напоминания");
+                                BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите время и текст напоминания");
                                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                             }
                         } catch (NumberFormatException e) {
-                            BasicEmbed errorEmbed = new BasicEmbed("error");
-
-                            errorEmbed.setDescription("Укажите нормальное время напоминания");
+                            BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите нормальное время напоминания");
                             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                         }
                     }

@@ -17,9 +17,7 @@ public class UnWarnCommand implements Command {
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
 
         if (arguments.length == 0) {
-            BasicEmbed errorEmbed = new BasicEmbed("error");
-            errorEmbed.setDescription("Укажите ID предупреждения, которое необходимо снять");
-
+            BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите ID предупреждения, которое необходимо снять");
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         } else {
             try {
@@ -30,16 +28,12 @@ public class UnWarnCommand implements Command {
                     db.deleteWarn(msg_event.getGuild().getIdLong(), warnID);
                     msg_event.getMessage().addReaction("✅").queue();
                 } else {
-                    BasicEmbed errorEmbed = new BasicEmbed("error");
-
-                    errorEmbed.setDescription("Неверно указан ID предупреждения. " +
+                    BasicEmbed errorEmbed = new BasicEmbed("error", "Неверно указан ID предупреждения. " +
                             "Предупреждения с таким ID не существует.");
-
                     msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
                 }
             } catch (NumberFormatException e) {
-                BasicEmbed errorEmbed = new BasicEmbed("error");
-                errorEmbed.setDescription("Неверно указан ID предупреждения. Укажите число, а не буквы.");
+                BasicEmbed errorEmbed = new BasicEmbed("error", "Неверно указан ID предупреждения. Укажите число, а не буквы.");
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
             }
         }

@@ -15,8 +15,7 @@ public class HandleUserPermissions {
             return true;
         }
         else {
-            BasicEmbed errorEmbed = new BasicEmbed("error");
-            errorEmbed.setDescription("У вас недостаточно прав. Необходимые права: "
+            BasicEmbed errorEmbed = new BasicEmbed("error", "У вас недостаточно прав. Необходимые права: "
                     + DataFormatter.getMissingPermissions(permission));
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
             return false;

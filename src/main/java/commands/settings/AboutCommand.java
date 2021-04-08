@@ -22,11 +22,11 @@ public class AboutCommand implements Command {
                 DBUser.setAbout(String.join(" ", arguments));
                 db.updateUser(DBUser);
 
-                msg_event.getChannel().sendMessage(new BasicEmbed("success")
-                        .setDescription("Вы успешно сменили описание о себе!").build()).queue();
+                msg_event.getChannel().sendMessage(new BasicEmbed("success", "Вы успешно сменили описание о себе!")
+                        .build()).queue();
             } else {
-                msg_event.getChannel().sendMessage(new BasicEmbed("error")
-                        .setDescription("О, а научите и меня менять текст на тот же самый").build()).queue();
+                msg_event.getChannel().sendMessage(new BasicEmbed("error", "О, а научите и меня менять текст на тот же самый")
+                        .build()).queue();
             }
         } else {
             msg_event.getChannel().sendMessage(new BasicEmbed("error")

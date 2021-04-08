@@ -28,13 +28,11 @@ public class ClearCommand implements Command {
                         });
 
             } catch (NumberFormatException e) {
-                BasicEmbed errorEmbed = new BasicEmbed("error");
-                errorEmbed.setDescription("Я не умею очищать чат, если вы указали буквы вместо количества сообщений");
+                BasicEmbed errorEmbed = new BasicEmbed("error", "Я не умею очищать чат, если вы указали буквы вместо количества сообщений");
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
             }
         } else {
-            BasicEmbed errorEmbed = new BasicEmbed("error");
-            errorEmbed.setDescription("Укажите количество сообщений, которое надо очистить");
+            BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите количество сообщений, которое надо очистить");
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         }
     }

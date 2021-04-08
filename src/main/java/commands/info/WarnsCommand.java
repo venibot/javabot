@@ -49,8 +49,7 @@ public class WarnsCommand implements Command {
             msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
 
         } catch (MemberNotFoundException e) {
-            BasicEmbed errorEmbed = new BasicEmbed("error");
-            errorEmbed.setDescription("Указанный пользователь не найден");
+            BasicEmbed errorEmbed = new BasicEmbed("error", "Указанный пользователь не найден");
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         }
     }

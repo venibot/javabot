@@ -28,9 +28,7 @@ public class SayCommand implements Command {
 
             msg_event.getChannel().sendMessage(builder.build()).queue();
         } else {
-            BasicEmbed errorEmbed = new BasicEmbed("error");
-
-            errorEmbed.setDescription("О, а можете меня научить ничего не говорить по команде?");
+            BasicEmbed errorEmbed = new BasicEmbed("error", "О, а можете меня научить ничего не говорить по команде?");
             msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
         }
     }

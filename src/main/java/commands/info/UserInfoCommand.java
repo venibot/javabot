@@ -85,8 +85,7 @@ public class UserInfoCommand implements Command {
             }
 
             catch (UserNotFoundException error) {
-                BasicEmbed errorEmbed = new BasicEmbed("error");
-                errorEmbed.setTitle("Указанный пользователь не обнаружен");
+                BasicEmbed errorEmbed = new BasicEmbed("error", "Указанный пользователь не найден");
                 msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
             }
         }
