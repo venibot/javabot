@@ -16,3 +16,9 @@ VeniBot, но на Java
   
 # Пожелания по боту
 По пожеланиям/багам можно создавать Issue/Pull Request или обращаться в ЛС dmemsm#1706
+
+# Поддержать бота
+  - Мониторинги:
+    - SD.C: https://bots.server-discord.com/728030884179083354
+    - BotiCord: https://bots.server-discord.com/728030884179083354
+    - TopCord: https://bots.topcord.ru/bots/728030884179083354
