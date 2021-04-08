@@ -7,6 +7,7 @@ import api.BasicEmbed;
 import api.models.command.Command;
 import api.models.command.CommandHandler;
 import api.models.command.DiscordCommand;
+import api.utils.DataFormatter;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @DiscordCommand(name = "help", description = "Помощь по командам бота", aliases = {"хелп"}, usage = "[Команда]",
@@ -62,7 +63,8 @@ public class HelpCommand implements Command {
                     }
                     commandHelp.setDescription(commandInfo.description() + "\nАлиасы: "
                             + aliases.replaceAll(", $", "") + "\nКатегория: " + commandInfo.group()
-                            .toLowerCase() + "\nИспользование: " + commandInfo.name() + " " + commandInfo.usage());
+                            .toLowerCase() + "\nИспользование: " + commandInfo.name() + " " + commandInfo.usage()
+                            + "\nНеобходимые права: " + DataFormatter.getMissingPermissions(commandInfo.permissions()));
                     msg_event.getChannel().sendMessage(commandHelp.build()).queue();
 
                 } else {
