@@ -171,4 +171,26 @@ public class SupportServer {
                 .setFooter("ID " + guild.getId())
                 .build()).queue();
     }
+
+    public void sendIdea(String idea, Member author) {
+        TextChannel channel = this.bot.getTextChannelById(767158493433823253L);
+
+        channel.sendMessage(new BasicEmbed("info")
+                .setTitle("Новая идея!")
+                .setDescription(idea)
+                .setAuthor(author.getUser().getAsTag(), author.getUser().getEffectiveAvatarUrl())
+                .setFooter(author.getGuild().getName(), author.getGuild().getIconUrl())
+                .build()).queue();
+    }
+
+    public void sendBug(String bug, Member author) {
+        TextChannel channel = this.bot.getTextChannelById(767158388139360326L);
+
+        channel.sendMessage(new BasicEmbed("error")
+                .setTitle("Снова баг :(")
+                .setDescription(bug)
+                .setAuthor(author.getUser().getAsTag(), author.getUser().getEffectiveAvatarUrl())
+                .setFooter(author.getGuild().getName(), author.getGuild().getIconUrl())
+                .build()).queue();
+    }
 }
