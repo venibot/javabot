@@ -129,7 +129,7 @@ public class Converters {
 
     public static Role getRole(Guild guild, String role) throws RoleNotFoundException {
         try {
-            Role botRole = guild.getRoleById(role.replaceAll("[<#>]", ""));
+            Role botRole = guild.getRoleById(role.replaceAll("[<@&>]", ""));
             if (botRole == null) {
                 throw new NumberFormatException();
             }
