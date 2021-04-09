@@ -67,7 +67,7 @@ public class Main {
         commands_package += ".";
         File dir = new File(path);
         for (File file: dir.listFiles()) {
-            if (file.isFile() && file.getName().endsWith(".java")){
+            if (file.isFile() && file.getName().endsWith("Command.java")){
                 Class cmd = Class.forName(commands_package + file.getName().replace(".java", ""));
                 Command command = (Command) cmd.newInstance();
                 CommandHandler.registerCommand(command);
