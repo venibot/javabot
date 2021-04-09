@@ -29,7 +29,8 @@ public class BalanceCommand implements Command {
         }
         Database db = new Database();
         BasicEmbed infoEmbed = new BasicEmbed("info", "Баланс пользователя " + member.getEffectiveName()
-                + " составляет " + db.getUserByID(member.getIdLong(), msg_event.getGuild().getIdLong()).getBalance());
+                + " составляет " + db.getUserByID(member.getIdLong(), msg_event.getGuild().getIdLong()).getBalance()
+                + db.getGuildByID(msg_event.getGuild().getIdLong()).getCurrency());
         msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
     }
 }

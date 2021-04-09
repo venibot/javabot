@@ -41,6 +41,8 @@ public class Guild {
 
     private String prefix;
 
+    private String currency;
+
     public Guild(Long guildID) {
 
         this.guildID = guildID;
@@ -49,6 +51,7 @@ public class Guild {
         this.restoreRoles = true;
         this.logs = new HashMap<>();
         this.prefix = Config.BOT_CONFIG.get("prefix");
+        this.currency = "<:ignorshik:828684853657469018>";
     }
 
     public Long getGuildID() {
@@ -99,6 +102,10 @@ public class Guild {
         return this.prefix;
     }
 
+    public String getCurrency() {
+        return this.currency;
+    }
+
     public void setGuildID(Long guildID) {
         this.guildID = guildID;
     }
@@ -147,6 +154,10 @@ public class Guild {
         this.prefix = prefix;
     }
 
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     public BasicDBObject toDBObject() throws IllegalAccessException {
 
         BasicDBObject document = new BasicDBObject();
@@ -162,6 +173,7 @@ public class Guild {
         document.put("logs", this.logs);
         document.put("rolesForReactions", this.rolesForReactions);
         document.put("prefix", this.prefix);
+        document.put("currency", this.currency);
         return document;
     }
 
@@ -190,6 +202,7 @@ public class Guild {
         guild.logs = (HashMap<String, Long>) document.get("logs");
         guild.rolesForReactions = (HashMap<String, String>) document.get("rolesForReactions");
         guild.prefix = (String) document.get("prefix");
+        guild.currency = (String) document.get("currency");
         return guild;
     }
 
