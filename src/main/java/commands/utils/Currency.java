@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @DiscordCommand(name = "currency", description = "Перевод из валюты в валюту", aliases = {"cur", "curr", "валюта"},
         group = "Утилиты", hidden = true)
-public class CurrencyCommand implements Command {
+public class Currency implements Command {
 
     @Override
     public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
