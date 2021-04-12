@@ -2,8 +2,8 @@ package commands.utils;
 
 import api.BasicEmbed;
 import api.models.command.Command;
+import api.models.command.CommandContext;
 import api.models.command.DiscordCommand;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -14,11 +14,11 @@ import java.util.Base64;
 public class StringInfoCommand implements Command {
 
     @Override
-    public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
+    public void doCommand(CommandContext context, String[] arguments) {
 
         if (arguments.length == 0) {
             BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите строку, о которой хотите получить информацию");
-            msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+            context.sendMessage(errorEmbed).queue();
         } else {
             BasicEmbed infoEmbed = new BasicEmbed("info", "Информация о строке " + arguments[0]);
             infoEmbed.addField("Длина строки", String.valueOf(arguments[0].length()));
@@ -26,7 +26,7 @@ public class StringInfoCommand implements Command {
             infoEmbed.addField("Закодированная в base64", Base64.getEncoder()
                     .encode(arguments[0].getBytes(StandardCharsets.UTF_8)).toString());
 
-            msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
+            context.sendMessage(infoEmbed).queue();
         }
     }
 }

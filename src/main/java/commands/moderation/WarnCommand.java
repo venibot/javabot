@@ -3,13 +3,13 @@ package commands.moderation;
 import api.BasicEmbed;
 import api.Database;
 import api.models.command.Command;
+import api.models.command.CommandContext;
 import api.models.command.DiscordCommand;
 import api.models.database.Warn;
 import api.models.exceptions.MemberNotFoundException;
 import api.utils.*;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -21,27 +21,27 @@ import java.util.concurrent.TimeUnit;
 public class WarnCommand implements Command {
 
     @Override
-    public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
+    public void doCommand(CommandContext context, String[] arguments) {
 
         if (arguments.length == 0) {
             BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите пользователя, которому вы хотите выдать предупреждение");
-            msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+            context.sendMessage(errorEmbed).queue();
         } else {
             Member intruder;
             Long endTime = 0L;
             String reason;
 
             try {
-                intruder = Converters.getMember(msg_event.getGuild(), arguments[0]);
+                intruder = Converters.getMember(context.getGuild(), arguments[0]);
             } catch (MemberNotFoundException e) {
                 BasicEmbed errorEmbed = new BasicEmbed("error", "Указанный пользователь не найден");
-                msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+                context.sendMessage(errorEmbed).queue();
                 return;
             }
 
-            if (!msg_event.getMember().canInteract(intruder)) {
+            if (!context.getAuthor().canInteract(intruder)) {
                 BasicEmbed errorEmbed = new BasicEmbed("error", "У вас нет прав выдавать предупреждения данному пользователю");
-                msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+                context.sendMessage(errorEmbed).queue();
                 return;
             }
 
@@ -57,12 +57,12 @@ public class WarnCommand implements Command {
                             endTime = new Date().getTime() + timeUnit.toMillis(Integer.parseInt(duration));
                             reason = arguments.length > 2 ? arguments[2] : "Причина не указана";
                             Database db = new Database();
-                            Integer warnID = db.getLastWarnID(msg_event.getGuild().getIdLong()) + 1;
+                            Integer warnID = db.getLastWarnID(context.getGuild().getIdLong()) + 1;
 
                             db.addWarn(new Warn(
-                                    msg_event.getGuild().getIdLong(),
+                                    context.getGuild().getIdLong(),
                                     warnID,
-                                    msg_event.getAuthor().getIdLong(),
+                                    context.getAuthor().getIdLong(),
                                     intruder.getIdLong(),
                                     reason,
                                     endTime
@@ -79,7 +79,7 @@ public class WarnCommand implements Command {
                             successEmbed.addField("Дата истечения действия",
                                     DataFormatter.datetimeToString(DataFormatter.unixToDateTime(endTime)));
 
-                            msg_event.getChannel().sendMessage(successEmbed.build()).queue();
+                            context.sendMessage(successEmbed).queue();
                             return;
                         }
                     }
@@ -87,12 +87,12 @@ public class WarnCommand implements Command {
 
                 reason = arguments.length > 2 ? arguments[1] + " " + arguments[2] : arguments[1];
                 Database db = new Database();
-                Integer warnID = db.getLastWarnID(msg_event.getGuild().getIdLong()) + 1;
+                Integer warnID = db.getLastWarnID(context.getGuild().getIdLong()) + 1;
 
                 db.addWarn(new Warn(
-                        msg_event.getGuild().getIdLong(),
+                        context.getGuild().getIdLong(),
                         warnID,
-                        msg_event.getAuthor().getIdLong(),
+                        context.getAuthor().getIdLong(),
                         intruder.getIdLong(),
                         reason,
                         endTime
@@ -104,15 +104,15 @@ public class WarnCommand implements Command {
                         .getEffectiveName() + " успешно выдан варн с ID " + warnID);
 
                 successEmbed.addField("Причина выдачи", reason);
-                msg_event.getChannel().sendMessage(successEmbed.build()).queue();
+                context.sendMessage(successEmbed).queue();
             } else {
                 Database db = new Database();
-                Integer warnID = db.getLastWarnID(msg_event.getGuild().getIdLong()) + 1;
+                Integer warnID = db.getLastWarnID(context.getGuild().getIdLong()) + 1;
 
                 db.addWarn(new Warn(
-                        msg_event.getGuild().getIdLong(),
+                        context.getGuild().getIdLong(),
                         warnID,
-                        msg_event.getAuthor().getIdLong(),
+                        context.getAuthor().getIdLong(),
                         intruder.getIdLong(),
                         "Причина не указана",
                         endTime
@@ -123,7 +123,7 @@ public class WarnCommand implements Command {
                 successEmbed.setTitle("Пользователю " + intruder
                         .getEffectiveName() + " успешно выдан варн с ID " + warnID);
 
-                msg_event.getChannel().sendMessage(successEmbed.build()).queue();
+                context.sendMessage(successEmbed).queue();
             }
         }
     }

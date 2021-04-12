@@ -2,6 +2,7 @@ package api.utils;
 
 import api.BasicEmbed;
 import api.SupportServer;
+import api.models.command.CommandContext;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -22,10 +23,10 @@ public class HandleUserPermissions {
         }
     }
 
-    public static boolean handleAccessLevel(MessageReceivedEvent msg_event, short needAccessLevel, User user)
+    public static boolean handleAccessLevel(CommandContext context, short needAccessLevel, User user)
             throws Exception {
 
-        SupportServer supportServer = new SupportServer(msg_event.getJDA());
+        SupportServer supportServer = new SupportServer(context.getJDA());
         // уровень доступа 0 - команда доступна всем(не учитываются права на сервере, для них отдельная проверка)
         // уровень доступа 1 - необходимо быть на сервере поддержки
         // уровень доступа 2 - нужно быть тестером бота

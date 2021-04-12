@@ -3,9 +3,9 @@ package commands.moderation;
 import api.BasicEmbed;
 import api.Database;
 import api.models.command.Command;
+import api.models.command.CommandContext;
 import api.models.command.DiscordCommand;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @DiscordCommand(name = "unwarn", description = "Снять варн с пользователя",
         aliases = {"remwarn", "снятьпред", "снятьварн"},
@@ -14,27 +14,27 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class UnWarnCommand implements Command {
 
     @Override
-    public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
+    public void doCommand(CommandContext context, String[] arguments) {
 
         if (arguments.length == 0) {
             BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите ID предупреждения, которое необходимо снять");
-            msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+            context.sendMessage(errorEmbed).queue();
         } else {
             try {
                 Integer warnID = Integer.parseInt(arguments[0]);
                 Database db = new Database();
 
-                if (db.getWarnByID(msg_event.getGuild().getIdLong(), warnID) != null) {
-                    db.deleteWarn(msg_event.getGuild().getIdLong(), warnID);
-                    msg_event.getMessage().addReaction("✅").queue();
+                if (db.getWarnByID(context.getGuild().getIdLong(), warnID) != null) {
+                    db.deleteWarn(context.getGuild().getIdLong(), warnID);
+                    context.getMessage().addReaction("✅").queue();
                 } else {
                     BasicEmbed errorEmbed = new BasicEmbed("error", "Неверно указан ID предупреждения. " +
                             "Предупреждения с таким ID не существует.");
-                    msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+                    context.sendMessage(errorEmbed).queue();
                 }
             } catch (NumberFormatException e) {
                 BasicEmbed errorEmbed = new BasicEmbed("error", "Неверно указан ID предупреждения. Укажите число, а не буквы.");
-                msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+                context.sendMessage(errorEmbed).queue();
             }
         }
     }

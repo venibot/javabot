@@ -3,10 +3,10 @@ package commands.utils;
 import api.BasicEmbed;
 import api.Database;
 import api.models.command.Command;
+import api.models.command.CommandContext;
 import api.models.command.DiscordCommand;
 import api.models.database.Reminder;
 import api.utils.*;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -18,14 +18,14 @@ import java.util.concurrent.TimeUnit;
 public class ReminderCommand implements Command {
 
     @Override
-    public void doCommand(MessageReceivedEvent msg_event, String[] arguments)  {
+    public void doCommand(CommandContext context, String[] arguments)  {
 
         if (arguments.length == 0) {
             BasicEmbed errorEmbed = new BasicEmbed("error");
             errorEmbed.setTitle("Не указано действие");
 
             errorEmbed.setDescription("Укажите одно из доступных действий:\nсписок\nсоздать");
-            msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+            context.sendMessage(errorEmbed).queue();
         } else {
             Database db = new Database();
 
@@ -33,8 +33,8 @@ public class ReminderCommand implements Command {
                 case "list":
                 case "лист":
                 case "список":
-                    List<Reminder> reminders = db.getUserReminders(msg_event.getAuthor().getIdLong(),
-                            msg_event.getGuild().getIdLong());
+                    List<Reminder> reminders = db.getUserReminders(context.getAuthor().getIdLong(),
+                            context.getGuild().getIdLong());
                     BasicEmbed reminderList = new BasicEmbed("info");
                     reminderList.setTitle("Ваши напоминания");
 
@@ -47,7 +47,7 @@ public class ReminderCommand implements Command {
                     } else {
                         reminderList.setDescription("Напоминания отсутствуют");
                     }
-                    msg_event.getChannel().sendMessage(reminderList.build()).queue();
+                    context.sendMessage(reminderList).queue();
                     break;
                 case "create":
                 case "new":
@@ -55,7 +55,7 @@ public class ReminderCommand implements Command {
 
                     if (arguments.length < 3) {
                         BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите время и текст напоминания");
-                        msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+                        context.sendMessage(errorEmbed).queue();
                     } else {
                         try {
                             String time = arguments[1];
@@ -71,27 +71,27 @@ public class ReminderCommand implements Command {
 
                                         Reminder reminder = new Reminder(
                                                 db.getLastReminderID(),
-                                                msg_event.getAuthor().getIdLong(),
-                                                msg_event.getGuild().getIdLong(),
+                                                context.getAuthor().getIdLong(),
+                                                context.getGuild().getIdLong(),
                                                 arguments[2],
                                                 endTime);
 
                                         db.addReminder(reminder);
-                                        msg_event.getMessage().addReaction("✅").queue();
+                                        context.getMessage().addReaction("✅").queue();
                                         return;
                                     }
                                 }
                                 BasicEmbed errorEmbed = new BasicEmbed("error", "Указанное время не доступно. " +
                                         "Доступное время для напоминания: минуты, часы, дни");
 
-                                msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+                                context.sendMessage(errorEmbed).queue();
                             } else {
                                 BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите время и текст напоминания");
-                                msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+                                context.sendMessage(errorEmbed).queue();
                             }
                         } catch (NumberFormatException e) {
                             BasicEmbed errorEmbed = new BasicEmbed("error", "Укажите нормальное время напоминания");
-                            msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+                            context.sendMessage(errorEmbed).queue();
                         }
                     }
                     break;

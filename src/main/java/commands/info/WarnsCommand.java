@@ -3,13 +3,13 @@ package commands.info;
 import api.BasicEmbed;
 import api.Database;
 import api.models.command.Command;
+import api.models.command.CommandContext;
 import api.models.command.DiscordCommand;
 import api.models.database.Warn;
 import api.models.exceptions.MemberNotFoundException;
 import api.utils.Converters;
 import api.utils.DataFormatter;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.util.List;
 
@@ -19,14 +19,14 @@ import java.util.List;
 public class WarnsCommand implements Command {
 
     @Override
-    public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
+    public void doCommand(CommandContext context, String[] arguments) {
 
         try {
             Member member = arguments.length > 0 ? Converters
-                    .getMember(msg_event.getGuild(), arguments[0]) : msg_event.getMember();
+                    .getMember(context.getGuild(), arguments[0]) : context.getAuthor();
 
             Database db = new Database();
-            List<Warn> warns = db.getMemberWarns(msg_event.getGuild().getIdLong(), member.getIdLong());
+            List<Warn> warns = db.getMemberWarns(context.getGuild().getIdLong(), member.getIdLong());
             BasicEmbed infoEmbed = new BasicEmbed("info");
             infoEmbed.setTitle("Предупреждения пользователя " + member.getEffectiveName());
 
@@ -36,7 +36,7 @@ public class WarnsCommand implements Command {
                 infoEmbed.setDescription("Всего предупреждений " + warns.size());
 
                 for (Warn warn : warns) {
-                    infoEmbed.addField("ID " + warn.getWarnID() + " - " + msg_event
+                    infoEmbed.addField("ID " + warn.getWarnID() + " - " + context
                                     .getJDA().getUserById(warn.getPunisherID()).getAsTag() + " - " + warn.getReason(),
                             "Предупреждение выдано " + DataFormatter
                                     .datetimeToString(DataFormatter.unixToDateTime(warn.getWarnTime())) + ". "
@@ -46,11 +46,11 @@ public class WarnsCommand implements Command {
                 }
             }
 
-            msg_event.getChannel().sendMessage(infoEmbed.build()).queue();
+            context.sendMessage(infoEmbed).queue();
 
         } catch (MemberNotFoundException e) {
             BasicEmbed errorEmbed = new BasicEmbed("error", "Указанный пользователь не найден");
-            msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+            context.sendMessage(errorEmbed).queue();
         }
     }
 }

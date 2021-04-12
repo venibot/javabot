@@ -39,13 +39,13 @@ public class CommandHandler {
                 contains(trigger) || c.getCommandData().name().equals(trigger)).findFirst().orElse(null);
     }
 
-    public static void doCommand(Command command, MessageReceivedEvent msg_event, String args) throws Exception {
+    public static void doCommand(Command command, CommandContext context, String args) throws Exception {
         DiscordCommand cd = command.getCommandData();
 
         if (cd == null) return;
 
-        if (HandleUserPermissions.handleAccessLevel(msg_event, cd.accessLevel(), msg_event.getAuthor())) {
-            if (msg_event.getMember().hasPermission(cd.permissions())) {
+        if (HandleUserPermissions.handleAccessLevel(context, cd.accessLevel(), context.getAuthor().getUser())) {
+            if (context.getAuthor().hasPermission(cd.permissions())) {
                 String[] arguments;
                 if (args.equals("")) {
                     arguments = new String[0];
@@ -60,7 +60,7 @@ public class CommandHandler {
                 }
 
                 try {
-                    command.doCommand(msg_event, arguments);
+                    command.doCommand(context, arguments);
                 } catch (Exception error) {
                     logger.error("Ошибка при выполнении команды " + cd.name() + ". " + error);
                     throw new CommandException(error);
@@ -70,22 +70,22 @@ public class CommandHandler {
                 errorEmbed.setTitle("У вас недостаточно прав для выполнения данной команды");
                 errorEmbed.setDescription("Необходимые права: " + DataFormatter.getMissingPermissions(cd.permissions()));
 
-                msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+                context.getChannel().sendMessage(errorEmbed.build()).queue();
             }
         } else {
             BasicEmbed errorEmbed = new BasicEmbed("error", "У вас отсутствует необходимый уровень доступа. Для выполнения данной необходим "
                     + cd.accessLevel() + " уровень доступа(" + DataFormatter.accessLevelToString(cd.accessLevel()) + ")");
 
-            msg_event.getChannel().sendMessage(errorEmbed.build()).queue();
+            context.getChannel().sendMessage(errorEmbed.build()).queue();
         }
     }
 
-    public static void findAndRun(String trigger, MessageReceivedEvent msg_event, String arguments) {
+    public static void findAndRun(String trigger, CommandContext context, String arguments) {
         Command command = CommandHandler.findCommand(trigger);
 
         if (command == null || command.getCommandData() == null) return;
         try {
-            CommandHandler.doCommand(command, msg_event, arguments);
+            CommandHandler.doCommand(command, context, arguments);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -3,7 +3,9 @@ package events.message;
 import api.BasicEmbed;
 import api.Database;
 import api.models.command.Command;
+import api.models.command.CommandContext;
 import api.models.command.CommandHandler;
+import api.models.database.Guild;
 import api.utils.*;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -34,25 +36,30 @@ public class MessageUpdate extends ListenerAdapter {
                 Command command = CommandHandler.findCommand(command_name);
 
                 if (command != null) {
-                    CommandHandler.findAndRun(command_name,
-                            new MessageReceivedEvent(updateEvent.getJDA(), updateEvent.getResponseNumber(),
-                                    updateEvent.getMessage()),
+                    Database db = new Database();
+                    MessageReceivedEvent msg_event = new MessageReceivedEvent(updateEvent.getJDA(),
+                            updateEvent.getResponseNumber(), updateEvent.getMessage());
+                    CommandContext context = new CommandContext(msg_event, db.getGuildByID(updateEvent.getGuild().getIdLong()),
+                            updateEvent.getJDA().getSelfUser().getAsMention());
+                    CommandHandler.findAndRun(command_name, context,
                             truncated.replaceFirst(command_name, ""));
                     Config.COMMANDS_COMPLETED += 1;
                 }
             } else {
                 Database db = new Database();
-                String prefix = db.getGuildByID(updateEvent.getGuild().getIdLong()).getPrefix();
+                Guild guild = db.getGuildByID(updateEvent.getGuild().getIdLong());
 
-                if (updateEvent.getMessage().getContentRaw().startsWith(prefix) && !updateEvent.getAuthor().isBot()) {
-                    String truncated = updateEvent.getMessage().getContentRaw().replaceFirst(prefix, "").trim();
+                if (updateEvent.getMessage().getContentRaw().startsWith(guild.getPrefix()) && !updateEvent.getAuthor().isBot()) {
+                    String truncated = updateEvent.getMessage().getContentRaw().replaceFirst(guild.getPrefix(), "")
+                            .trim();
                     String command_name = truncated.split(" ")[0];
                     Command command = CommandHandler.findCommand(command_name);
 
                     if (command != null) {
-                        CommandHandler.findAndRun(command_name,
-                                new MessageReceivedEvent(updateEvent.getJDA(), updateEvent.getResponseNumber(),
-                                        updateEvent.getMessage()),
+                        MessageReceivedEvent msg_event = new MessageReceivedEvent(updateEvent.getJDA(),
+                                updateEvent.getResponseNumber(), updateEvent.getMessage());
+                        CommandContext context = new CommandContext(msg_event, guild, guild.getPrefix());
+                        CommandHandler.findAndRun(command_name, context,
                                 truncated.replaceFirst(command_name, ""));
                         Config.COMMANDS_COMPLETED += 1;
                     }

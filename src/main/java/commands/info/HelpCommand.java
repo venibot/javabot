@@ -4,18 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import api.BasicEmbed;
-import api.models.command.Command;
-import api.models.command.CommandHandler;
-import api.models.command.DiscordCommand;
+import api.models.command.*;
 import api.utils.DataFormatter;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @DiscordCommand(name = "help", description = "Помощь по командам бота", aliases = {"хелп"}, usage = "[Команда]",
                 group = "Информация", arguments = 1)
 public class HelpCommand implements Command {
 
     @Override
-    public void doCommand(MessageReceivedEvent msg_event, String[] arguments) {
+    public void doCommand(CommandContext context, String[] arguments) {
 
         if (arguments.length == 0) {
             BasicEmbed embedInfo = new BasicEmbed("info");
@@ -46,7 +43,7 @@ public class HelpCommand implements Command {
                 embedInfo.addField(key, groupCommands.replaceAll(", $", ""), false);
             }
             
-            msg_event.getChannel().sendMessage(embedInfo.build()).queue();
+            context.sendMessage(embedInfo).queue();
         } else {
             Command command = CommandHandler.findCommand(arguments[0]);
 
@@ -65,16 +62,16 @@ public class HelpCommand implements Command {
                             + aliases.replaceAll(", $", "") + "\nКатегория: " + commandInfo.group()
                             .toLowerCase() + "\nИспользование: " + commandInfo.name() + " " + commandInfo.usage()
                             + "\nНеобходимые права: " + DataFormatter.getMissingPermissions(commandInfo.permissions()));
-                    msg_event.getChannel().sendMessage(commandHelp.build()).queue();
+                    context.sendMessage(commandHelp).queue();
 
                 } else {
 
-                    msg_event.getChannel().sendMessage("Ну это вроде как скрытая команда, так что если знаешь " +
+                    context.sendMessage("Ну это вроде как скрытая команда, так что если знаешь " +
                             "про неё - должен знать, как ею пользоваться").queue();
                 }
             } else {
 
-                msg_event.getChannel().sendMessage("Команда не найдена!").queue();
+                context.sendMessage("Команда не найдена!").queue();
             }
         }
     }
