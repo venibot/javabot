@@ -32,6 +32,10 @@ public class PrefixCommand implements Command {
                 BasicEmbed errorEmbed = new BasicEmbed("error", "Префикс не может быть длиннее 6 символов");
                 context.sendMessage(errorEmbed).queue();
                 return;
+            } if (arguments[0].equals(context.getDatabaseGuild().getPrefix())) {
+                BasicEmbed errorEmbed = new BasicEmbed("error", "А смысл менять префикс на тот же самый?");
+                context.sendMessage(errorEmbed).queue();
+                return;
             }
 
             Database db = new Database();
