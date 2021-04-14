@@ -146,6 +146,7 @@ public class Config {
 
         LOG_ACTIONS.put("удаление_сообщения", "messageDelete");
         LOG_ACTIONS.put("изменение_сообщения", "messageEdit");
+        LOG_ACTIONS.put("закрепление_сообщения", "messagePin");
         LOG_ACTIONS.put("добавление_роли", "roleAdd");
         LOG_ACTIONS.put("снятие_роли", "roleRemove");
         LOG_ACTIONS.put("вход_участника", "memberJoin");

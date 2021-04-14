@@ -7,6 +7,7 @@ import api.models.command.CommandContext;
 import api.models.command.CommandHandler;
 import api.models.database.Guild;
 import api.utils.*;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
@@ -66,25 +67,39 @@ public class MessageUpdate extends ListenerAdapter {
                 }
             }
 
-            TextChannel logChannel = GetLogChannel.getChannel(updateEvent.getGuild(), "messageEdit");
+            if (Config.MESSAGE_CACHE.containsKey(updateEvent.getMessageIdLong())) {
+                Message messageBefore = Config.MESSAGE_CACHE.get(updateEvent.getMessageIdLong());
+                if (!messageBefore.getContentRaw()
+                        .equals(updateEvent.getMessage().getContentRaw())) {
+                    TextChannel logChannel = GetLogChannel.getChannel(updateEvent.getGuild(), "messageEdit");
+                    if (logChannel == null) return;
+                    BasicEmbed logEmbed = new BasicEmbed("info");
+                    logEmbed.setTitle("Сообщение изменено");
 
-            if (logChannel != null && Config.MESSAGE_CACHE.containsKey(updateEvent.getMessageIdLong())) {
-                BasicEmbed logEmbed = new BasicEmbed("info");
-                logEmbed.setTitle("Сообщение изменено");
+                    logEmbed.addField("Сообщение до",
+                            messageBefore.getContentRaw());
 
-                logEmbed.addField("Сообщение до",
-                        Config.MESSAGE_CACHE.get(updateEvent.getMessageIdLong()).getContentRaw());
+                    logEmbed.addField("Сообщение после", updateEvent.getMessage().getContentRaw());
+                    logEmbed.addField("Автор сообщения", updateEvent.getMessage().getAuthor().getAsTag());
 
-                logEmbed.addField("Сообщение после", updateEvent.getMessage().getContentRaw());
-                logEmbed.addField("Автор сообщения", updateEvent.getMessage().getAuthor().getAsTag());
+                    logEmbed.addField("Ссылка на сообщение", "[Перейти]("
+                            + updateEvent.getMessage().getJumpUrl() + ")");
 
-                logEmbed.addField("Ссылка на сообщение", "[Перейти]("
-                        + updateEvent.getMessage().getJumpUrl() + ")");
+                    logChannel.sendMessage(logEmbed.build()).queue();
+                } else if (messageBefore.isPinned() != updateEvent.getMessage().isPinned()) {
+                    TextChannel logChannel = GetLogChannel.getChannel(updateEvent.getGuild(), "messagePin");
+                    if (logChannel == null) return;
 
+                    BasicEmbed logEmbed = new BasicEmbed("info");
+                    logEmbed.setTitle("Сообщение " + (!messageBefore.isPinned() ? "закреплено" : "откреплено"));
+
+                    logEmbed.addField("Ссылка на сообщение", "[Перейти]("
+                            + updateEvent.getMessage().getJumpUrl() + ")");
+
+                    logChannel.sendMessage(logEmbed.build()).queue();
+                }
                 Config.MESSAGE_CACHE.remove(updateEvent.getMessageIdLong());
                 Config.MESSAGE_CACHE.put(updateEvent.getMessageIdLong(), updateEvent.getMessage());
-
-                logChannel.sendMessage(logEmbed.build()).queue();
             }
         }
     }
