@@ -5,6 +5,7 @@ import api.Database;
 import api.models.command.Command;
 import api.models.command.CommandContext;
 import api.models.command.DiscordCommand;
+import api.models.database.Warn;
 import net.dv8tion.jda.api.Permission;
 
 @DiscordCommand(name = "unwarn", description = "Снять варн с пользователя",
@@ -23,10 +24,17 @@ public class UnWarnCommand implements Command {
             try {
                 Integer warnID = Integer.parseInt(arguments[0]);
                 Database db = new Database();
+                Warn warn = db.getWarnByID(context.getGuild().getIdLong(), warnID);
 
-                if (db.getWarnByID(context.getGuild().getIdLong(), warnID) != null) {
-                    db.deleteWarn(context.getGuild().getIdLong(), warnID);
-                    context.getMessage().addReaction("✅").queue();
+                if (warn != null) {
+                    if (warn.getIntruderID() != context.getAuthor().getIdLong()) {
+                        db.deleteWarn(context.getGuild().getIdLong(), warnID);
+                        context.getMessage().addReaction("✅").queue();
+                    } else {
+                        BasicEmbed errorEmbed = new BasicEmbed("error", "Я конечно всё понимаю, "
+                                + "но нельзя снимать варны с себя");
+                        context.sendMessage(errorEmbed).queue();
+                    }
                 } else {
                     BasicEmbed errorEmbed = new BasicEmbed("error", "Неверно указан ID предупреждения. " +
                             "Предупреждения с таким ID не существует.");
