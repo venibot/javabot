@@ -177,6 +177,8 @@ public class Config {
         LOG_ACTIONS.put("изменение_сервера", "guildUpdate");
         LOG_ACTIONS.put("создание_приглашения", "inviteCreate");
         LOG_ACTIONS.put("удаление_приглашения", "inviteDelete");
+        LOG_ACTIONS.put("выдача_преда", "warnCreate");
+        LOG_ACTIONS.put("снятие_преда", "warnDelete");
     }
 
     private static void getTimes() {

@@ -59,14 +59,16 @@ public class WarnCommand implements Command {
                             Database db = new Database();
                             Integer warnID = db.getLastWarnID(context.getGuild().getIdLong()) + 1;
 
-                            db.addWarn(new Warn(
+                            Warn warn = new Warn(
                                     context.getGuild().getIdLong(),
                                     warnID,
                                     context.getAuthor().getIdLong(),
                                     intruder.getIdLong(),
                                     reason,
                                     endTime
-                            ));
+                            );
+                            db.addWarn(warn);
+                            Logger.logWarnCreate(warn);
 
                             BasicEmbed successEmbed = new BasicEmbed("success");
                             successEmbed.setTitle("Пользователю " + intruder
@@ -89,14 +91,16 @@ public class WarnCommand implements Command {
                 Database db = new Database();
                 Integer warnID = db.getLastWarnID(context.getGuild().getIdLong()) + 1;
 
-                db.addWarn(new Warn(
+                Warn warn = new Warn(
                         context.getGuild().getIdLong(),
                         warnID,
                         context.getAuthor().getIdLong(),
                         intruder.getIdLong(),
                         reason,
                         endTime
-                ));
+                );
+                db.addWarn(warn);
+                Logger.logWarnCreate(warn);
 
                 BasicEmbed successEmbed = new BasicEmbed("success");
 
@@ -109,14 +113,16 @@ public class WarnCommand implements Command {
                 Database db = new Database();
                 Integer warnID = db.getLastWarnID(context.getGuild().getIdLong()) + 1;
 
-                db.addWarn(new Warn(
+                Warn warn = new Warn(
                         context.getGuild().getIdLong(),
                         warnID,
                         context.getAuthor().getIdLong(),
                         intruder.getIdLong(),
                         "Причина не указана",
                         endTime
-                ));
+                );
+                db.addWarn(warn);
+                Logger.logWarnCreate(warn);
 
                 BasicEmbed successEmbed = new BasicEmbed("success");
 

@@ -6,11 +6,12 @@ import api.models.command.Command;
 import api.models.command.CommandContext;
 import api.models.command.DiscordCommand;
 import api.models.database.Warn;
+import api.utils.Logger;
 import net.dv8tion.jda.api.Permission;
 
 @DiscordCommand(name = "unwarn", description = "Снять варн с пользователя",
         aliases = {"remwarn", "снятьпред", "снятьварн"},
-                usage = "<ID предупреждения>", arguments = 1,
+                usage = "<ID предупреждения> [Причина]", arguments = 2,
         group = "Модерация", permissions = {Permission.KICK_MEMBERS})
 public class UnWarnCommand implements Command {
 
@@ -30,6 +31,7 @@ public class UnWarnCommand implements Command {
                     if (warn.getIntruderID() != context.getAuthor().getIdLong()) {
                         db.deleteWarn(context.getGuild().getIdLong(), warnID);
                         context.getMessage().addReaction("✅").queue();
+                        Logger.logWarnDelete(warn, context.getAuthor(), (arguments.length == 2 ? arguments[1] : "Не указана"));
                     } else {
                         BasicEmbed errorEmbed = new BasicEmbed("error", "Я конечно всё понимаю, "
                                 + "но нельзя снимать варны с себя");
