@@ -12,7 +12,7 @@ public class Converters {
     public static User getUser(JDA bot, String user) throws UserNotFoundException {
 
         try {
-            User bot_user = bot.getUserById(user);
+            User bot_user = bot.getUserById(user.replaceAll("[<@!>]", ""));
             if (bot_user == null) {
                 throw new NumberFormatException();
             }
@@ -47,7 +47,7 @@ public class Converters {
                             .toLowerCase()), guild_member);
                 }
             }
-            Integer maxKey = getMax(members);
+            int maxKey = getMax(members);
             if (members.get(maxKey) != null && maxKey >= 50) {
                 return members.get(maxKey);
             } else {
