@@ -8,6 +8,7 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Locale;
 
 public class DataFormatter {
 
@@ -15,7 +16,7 @@ public class DataFormatter {
         return String.format("%s %s %s года в %s:%s", dateTime.getDayOfMonth(),
                 Config.MONTHS.get(dateTime.getMonthValue()), dateTime.getYear(), dateTime.getHour(),
                 ((dateTime.getMinute() + "").length() == 1 ? "0" + dateTime.getMinute(): dateTime
-                        .getMinute())).toString();
+                        .getMinute()));
     }
 
     public static String getUserFlags(EnumSet<User.UserFlag> flags) {
@@ -73,5 +74,31 @@ public class DataFormatter {
         } else {
             return null;
         }
+    }
+
+    public static String firstUpperCase(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
+    public static class Weather {
+
+        public static String translateWeatherMain(String input) {
+            input = input.toLowerCase();
+            switch (input) {
+                case "rain":
+                    return "Дождливо";
+                case "clouds":
+                    return "Облачно";
+                case "clear":
+                    return "Ясно";
+                default:
+                    return input;
+            }
+        }
+
+        public static Integer pressureToMillimeters(Double pressure) {
+            return Math.toIntExact(Math.round(pressure.intValue() * 100 / 133.3));
+        }
+
     }
 }
