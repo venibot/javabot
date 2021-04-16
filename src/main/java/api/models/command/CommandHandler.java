@@ -2,8 +2,7 @@ package api.models.command;
 
 import api.BasicEmbed;
 import api.utils.DataFormatter;
-import api.utils.HandleUserPermissions;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import api.utils.PermissionsHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +43,7 @@ public class CommandHandler {
 
         if (cd == null) return;
 
-        if (HandleUserPermissions.handleAccessLevel(context, cd.accessLevel(), context.getAuthor().getUser())) {
+        if (PermissionsHandler.handleAccessLevel(context, cd.accessLevel(), context.getAuthor().getUser())) {
             if (context.getAuthor().hasPermission(cd.permissions())) {
                 String[] arguments;
                 if (args.equals("")) {
