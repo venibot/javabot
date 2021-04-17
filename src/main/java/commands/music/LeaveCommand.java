@@ -15,7 +15,7 @@ public class LeaveCommand implements Command {
     @Override
     public void doCommand(CommandContext context, String[] arguments) {
         GuildVoiceState botVoiceState = context.getGuild().getSelfMember().getVoiceState();
-        if (botVoiceState == null) {
+        if (botVoiceState == null || botVoiceState.getChannel() == null) {
             BasicEmbed errorEmbed = new BasicEmbed("error", "Я не нахожусь в голосовом канале");
             context.sendMessage(errorEmbed).queue();
         } else {
