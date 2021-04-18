@@ -1,6 +1,7 @@
 package commands.music;
 
 import api.BasicEmbed;
+import api.lavalink.PlayerManager;
 import api.models.command.Command;
 import api.models.command.CommandContext;
 import api.models.command.DiscordCommand;
@@ -22,6 +23,7 @@ public class LeaveCommand implements Command {
             // TODO Проверка на то, этот ли человек добавил бота в канал
             VoiceChannel voiceChannel = context.getGuild().getAudioManager().getConnectedChannel();
             context.getGuild().getAudioManager().closeAudioConnection();
+            PlayerManager.getInstance().getMusicManager(context.getGuild()).trackScheduler.queue.clear();
             BasicEmbed successEmbed = new BasicEmbed("success", "Я успешно покинул голосовой канал `"
                     + voiceChannel.getName() + "`");
             context.sendMessage(successEmbed).queue();

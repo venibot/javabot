@@ -36,16 +36,12 @@ public class PlayCommand implements Command {
 
         if (arguments.length == 0) {
             MusicManager musicManager = PlayerManager.getInstance().getMusicManager(context.getGuild());
-            if (musicManager.trackScheduler.queue.size() != 0) {
-                try {
-                    AudioTrack track = musicManager.trackScheduler.queue.take();
-                    musicManager.trackScheduler.player.startTrack(track, false);
-                    BasicEmbed successEmbed = new BasicEmbed("success", "Воспроизведение успешно продолжено с трека "
-                            + track.getInfo().title);
-                    context.sendMessage(successEmbed).queue();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            if (musicManager.trackScheduler.player.isPaused()) {
+                AudioTrack track = musicManager.trackScheduler.player.getPlayingTrack();
+                musicManager.trackScheduler.player.setPaused(false);
+                BasicEmbed successEmbed = new BasicEmbed("success", "Воспроизведение успешно продолжено с трека "
+                        + track.getInfo().title);
+                context.sendMessage(successEmbed).queue();
             } else {
                 BasicEmbed errorEmbed = new BasicEmbed("error", "Очередь сервера пуста",
                         "Для продолжения проигрывания добавьте треки в очередь");
