@@ -5,8 +5,6 @@ import api.lavalink.PlayerManager;
 import api.models.command.Command;
 import api.models.command.CommandContext;
 import api.models.command.DiscordCommand;
-import api.utils.PermissionsHandler;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 
