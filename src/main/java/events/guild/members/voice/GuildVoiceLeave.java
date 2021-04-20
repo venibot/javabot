@@ -14,7 +14,7 @@ public class GuildVoiceLeave extends ListenerAdapter {
 
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
-            logEmbed.setTitle("Участник покинул голосовй канал");
+            logEmbed.setTitle("Участник покинул голосовой канал");
             logEmbed.addField("Участник", leaveEvent.getMember().getUser().getAsTag());
             logEmbed.addField("Канал", leaveEvent.getChannelLeft().getName());
 

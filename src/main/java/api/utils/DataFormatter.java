@@ -8,7 +8,7 @@ import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class DataFormatter {
 
@@ -100,5 +100,13 @@ public class DataFormatter {
             return Math.toIntExact(Math.round(pressure.intValue() * 100 / 133.3));
         }
 
+    }
+
+    public static String getTrackLength(Long length) {
+        long hours = TimeUnit.MILLISECONDS.toHours(length);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(length);
+        long seconds = Math.round(TimeUnit.MILLISECONDS.toSeconds(length) / 10);
+        return hours + ":" + (String.valueOf(minutes).length() != 1 ? minutes : "0" + minutes)
+                + ":" + (String.valueOf(seconds).length() != 1 ? seconds : "0" + seconds);
     }
 }

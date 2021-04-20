@@ -1,6 +1,7 @@
 package api.lavalink;
 
 import api.BasicEmbed;
+import api.utils.DataFormatter;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -57,7 +58,7 @@ public class PlayerManager {
                 BasicEmbed successEmbed = new BasicEmbed("success");
                 successEmbed.setTitle("Трек успешно добавлен в очередь");
                 successEmbed.setDescription("[" + audioTrack.getInfo().title + "](" + audioTrack.getInfo().uri + ")\nПродолжительность: "
-                        + audioTrack.getInfo().length  + " секунд");
+                        + (audioTrack.getInfo().isStream ? "∞" : DataFormatter.getTrackLength(audioTrack.getInfo().length)));
                 channel.sendMessage(successEmbed.build()).queue();
             }
 

@@ -14,7 +14,7 @@ public class GuildVoiceJoin extends ListenerAdapter {
 
         if (logChannel != null) {
             BasicEmbed logEmbed = new BasicEmbed("info");
-            logEmbed.setTitle("Участник вошёл в голосовй канал");
+            logEmbed.setTitle("Участник вошёл в голосовой канал");
             logEmbed.addField("Участник", joinEvent.getMember().getUser().getAsTag());
             logEmbed.addField("Канал", joinEvent.getChannelJoined().getName());
 
