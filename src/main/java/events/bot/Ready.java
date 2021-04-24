@@ -1,4 +1,4 @@
-package events;
+package events.bot;
 
 import api.APIs.Boticord;
 import api.APIs.SDC;
