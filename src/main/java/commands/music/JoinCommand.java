@@ -15,7 +15,7 @@ public class JoinCommand implements Command {
     public void doCommand(CommandContext context, String[] arguments) {
         GuildVoiceState userVoiceState = context.getAuthor().getVoiceState();
         GuildVoiceState botVoiceState = context.getGuild().getSelfMember().getVoiceState();
-        if (botVoiceState != null && !PermissionsHandler.handleAccessLevel(context, (short) 4)) {
+        if ((botVoiceState != null && botVoiceState.getChannel() != null) && !PermissionsHandler.handleAccessLevel(context, (short) 4)) {
             BasicEmbed errorEmbed = new BasicEmbed("error", "Я уже нахожусь в голосовом канале");
             context.sendMessage(errorEmbed).queue();
         } else {
