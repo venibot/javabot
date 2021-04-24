@@ -1,5 +1,6 @@
 package api;
 
+import api.models.database.Idea;
 import api.utils.Config;
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookEmbed;
@@ -180,7 +181,20 @@ public class SupportServer {
                 .setDescription(idea)
                 .setAuthor(author.getUser().getAsTag(), author.getUser().getEffectiveAvatarUrl())
                 .setFooter(author.getGuild().getName(), author.getGuild().getIconUrl())
-                .build()).queue();
+                .build()).queue(message -> {
+                    message.addReaction(this.getGuild().getEmoteById(835140564885569567L)).queue();
+                    message.addReaction(this.getGuild().getEmoteById(835141052876324904L)).queue();
+                    message.addReaction(this.getGuild().getEmoteById(835151191951409173L)).queue();
+                    message.addReaction("\uD83D\uDFE2").queue();
+                    Database db = new Database();
+                    db.addIdea(new Idea(
+                            db.getLastIdeaID() + 1,
+                            author.getIdLong(),
+                            author.getGuild().getIdLong(),
+                            idea,
+                            message.getIdLong()
+                    ));
+                });
     }
 
     public void sendBug(String bug, Member author) {

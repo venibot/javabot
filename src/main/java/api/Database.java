@@ -346,4 +346,89 @@ public class Database {
 
         return warns.remove(query);
     }
+
+    public WriteResult addIdea(Idea idea) {
+        DBCollection ideas = this.database.getCollection("ideas");
+        BasicDBObject document = idea.toDBObject();
+        return ideas.insert(document);
+    }
+
+    public Integer getLastIdeaID() {
+        List<DBObject> documents = this.database.getCollection("ideas").find().toArray();
+        DBObject needDocument = null;
+        int maxKey = 0;
+
+        for (DBObject document: documents) {
+            if ((Integer) document.get("ideaID") > maxKey) {
+                needDocument = document;
+                maxKey = (Integer) document.get("ideaID");
+            }
+        }
+
+        return needDocument != null ? Idea.fromDBObject(needDocument).getIdeaID() : 0;
+    }
+
+    public List<Idea> getIdeas() {
+        List<DBObject> result = this.database.getCollection("ideas").find().toArray();
+
+        if (result.size() > 0) {
+            List<Idea> ideas = new ArrayList<>();
+            for (DBObject idea: result) {
+                ideas.add(Idea.fromDBObject(idea));
+            }
+            return ideas;
+        } else {
+            return null;
+        }
+    }
+
+    public Idea getIdeaByID(Integer ideaID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("ideaID", ideaID);
+        DBObject document = this.database.getCollection("ideas").findOne(query);
+
+        if (document != null) {
+            return Idea.fromDBObject(document);
+        }
+        return null;
+    }
+
+    public Idea getIdeaByPrivateMessage(Long messageID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("privateMessage", messageID);
+        DBObject document = this.database.getCollection("ideas").findOne(query);
+
+        if (document != null) {
+            return Idea.fromDBObject(document);
+        }
+        return null;
+    }
+
+    public Idea getIdeaByPublicMessage(Long messageID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("publicMessage", messageID);
+        DBObject document = this.database.getCollection("ideas").findOne(query);
+
+        if (document != null) {
+            return Idea.fromDBObject(document);
+        }
+        return null;
+    }
+
+    public WriteResult updateIdea(Idea new_idea) {
+
+        BasicDBObject query = new BasicDBObject();
+        query.put("ideaID", new_idea.getIdeaID());
+
+        WriteResult result = this.database.getCollection("ideas").update(query, new_idea.toDBObject());
+        return result;
+    }
+
+    public WriteResult deleteIdea(Integer ideaID) {
+        DBCollection ideas = this.database.getCollection("ideas");
+        BasicDBObject query = new BasicDBObject();
+        query.put("ideaID", ideaID);
+
+        return ideas.remove(query);
+    }
 }
