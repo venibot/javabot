@@ -431,4 +431,89 @@ public class Database {
 
         return ideas.remove(query);
     }
+
+    public WriteResult addBug(Bug bug) {
+        DBCollection bugs = this.database.getCollection("bugs");
+        BasicDBObject document = bug.toDBObject();
+        return bugs.insert(document);
+    }
+
+    public Integer getLastBugID() {
+        List<DBObject> documents = this.database.getCollection("bugs").find().toArray();
+        DBObject needDocument = null;
+        int maxKey = 0;
+
+        for (DBObject document: documents) {
+            if ((Integer) document.get("bugID") > maxKey) {
+                needDocument = document;
+                maxKey = (Integer) document.get("bugID");
+            }
+        }
+
+        return needDocument != null ? Bug.fromDBObject(needDocument).getBugID() : 0;
+    }
+
+    public List<Bug> getBugs() {
+        List<DBObject> result = this.database.getCollection("bugs").find().toArray();
+
+        if (result.size() > 0) {
+            List<Bug> bugs = new ArrayList<>();
+            for (DBObject bug: result) {
+                bugs.add(Bug.fromDBObject(bug));
+            }
+            return bugs;
+        } else {
+            return null;
+        }
+    }
+
+    public Bug getBugByID(Integer bugID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("bugID", bugID);
+        DBObject document = this.database.getCollection("bugs").findOne(query);
+
+        if (document != null) {
+            return Bug.fromDBObject(document);
+        }
+        return null;
+    }
+
+    public Bug getBugByPrivateMessage(Long messageID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("privateMessage", messageID);
+        DBObject document = this.database.getCollection("bugs").findOne(query);
+
+        if (document != null) {
+            return Bug.fromDBObject(document);
+        }
+        return null;
+    }
+
+    public Bug getBugByPublicMessage(Long messageID) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("publicMessage", messageID);
+        DBObject document = this.database.getCollection("bugs").findOne(query);
+
+        if (document != null) {
+            return Bug.fromDBObject(document);
+        }
+        return null;
+    }
+
+    public WriteResult updateBug(Bug new_bug) {
+
+        BasicDBObject query = new BasicDBObject();
+        query.put("bugID", new_bug.getBugID());
+
+        WriteResult result = this.database.getCollection("bugs").update(query, new_bug.toDBObject());
+        return result;
+    }
+
+    public WriteResult deleteBug(Integer bugID) {
+        DBCollection bugs = this.database.getCollection("bugs");
+        BasicDBObject query = new BasicDBObject();
+        query.put("bugID", bugID);
+
+        return bugs.remove(query);
+    }
 }
