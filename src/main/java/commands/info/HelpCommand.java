@@ -17,6 +17,7 @@ public class HelpCommand implements Command {
         if (arguments.length == 0) {
             BasicEmbed embedInfo = new BasicEmbed("info");
             embedInfo.setTitle("Помощь по командам бота");
+            embedInfo.setDescription("При возникновении проблем с ботом обращайтесь [на сервер поддержки](https://discord.gg/uEhrZUX)");
             embedInfo.setFooter("<> - обязательный аргумент, [] - необязательный");
             HashMap<String, ArrayList<Command>> commands = new HashMap<>();
 
