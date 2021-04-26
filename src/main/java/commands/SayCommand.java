@@ -27,7 +27,7 @@ public class SayCommand implements Command {
                         Message.MentionType.ROLE, Message.MentionType.USER);
             }
 
-            context.sendMessage(builder.build().toString()).queue();
+            context.sendMessage(builder.build().getContentRaw()).queue();
         } else {
             BasicEmbed errorEmbed = new BasicEmbed("error", "О, а можете меня научить ничего не говорить по команде?");
             context.sendMessage(errorEmbed).queue();
