@@ -17,7 +17,12 @@ public class MessageReceived extends ListenerAdapter {
             return;
         }
 
-        if (msg_event.getMessage().getContentRaw().equals(msg_event.getJDA().getSelfUser().getAsMention())) {
+        Long botID = msg_event.getJDA().getSelfUser().getIdLong();
+        String botMention = "<@" + botID + ">";
+        Boolean isMentioned = msg_event.getMessage().getContentRaw().startsWith(botMention)
+                || msg_event.getMessage().getContentRaw().startsWith("<@!" + botID + ">");
+        if (msg_event.getMessage().getContentRaw().equals(botMention)
+                || msg_event.getMessage().getContentRaw().equals("<@!" + botID + ">")) {
             Database db = new Database();
             String prefix = db.getGuildByID(msg_event.getGuild().getIdLong()).getPrefix();
 
@@ -25,9 +30,8 @@ public class MessageReceived extends ListenerAdapter {
                     + "`\nСписок команд можно получить при помощи `" + prefix + "хелп`").queue();
         } else {
 
-            if (msg_event.getMessage().getContentRaw().startsWith(msg_event.getJDA().getSelfUser().getAsMention())) {
-                String truncated = msg_event.getMessage().getContentRaw().replaceFirst(msg_event.getJDA()
-                        .getSelfUser().getAsMention(), "").trim();
+            if (isMentioned) {
+                String truncated = msg_event.getMessage().getContentRaw().replaceAll("^.*?>", "").trim();
 
                 String command_name = truncated.split(" ")[0];
                 Command command = CommandHandler.findCommand(command_name);
@@ -35,7 +39,7 @@ public class MessageReceived extends ListenerAdapter {
                 if (command != null) {
                     Database db = new Database();
                     CommandContext context = new CommandContext(msg_event, db.getGuildByID(msg_event.getGuild().getIdLong()),
-                            msg_event.getJDA().getSelfUser().getAsMention());
+                            botMention);
                     CommandHandler.findAndRun(command_name, context,
                             truncated.replaceFirst(command_name, ""));
                     Config.COMMANDS_COMPLETED += 1;

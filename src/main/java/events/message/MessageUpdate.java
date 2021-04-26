@@ -21,7 +21,12 @@ public class MessageUpdate extends ListenerAdapter {
             return;
         }
 
-        if (updateEvent.getMessage().getContentRaw().equals(updateEvent.getJDA().getSelfUser().getAsMention())) {
+        Long botID = updateEvent.getJDA().getSelfUser().getIdLong();
+        String botMention = "<@" + botID + ">";
+        Boolean isMentioned = updateEvent.getMessage().getContentRaw().startsWith(botMention)
+                || updateEvent.getMessage().getContentRaw().startsWith("<@!" + botID + ">");
+        if (updateEvent.getMessage().getContentRaw().equals(botMention)
+                || updateEvent.getMessage().getContentRaw().equals("<@!" + botID + ">")) {
             Database db = new Database();
 
             String prefix = db.getGuildByID(updateEvent.getGuild().getIdLong()).getPrefix();
@@ -29,9 +34,8 @@ public class MessageUpdate extends ListenerAdapter {
                     + "`\nСписок команд можно получить при помощи `" + prefix + "хелп`").queue();
         } else {
 
-            if (updateEvent.getMessage().getContentRaw().startsWith(updateEvent.getJDA().getSelfUser().getAsMention())) {
-                String truncated = updateEvent.getMessage().getContentRaw().replaceFirst(updateEvent.getJDA()
-                        .getSelfUser().getAsMention(), "").trim();
+            if (isMentioned) {
+                String truncated = updateEvent.getMessage().getContentRaw().replaceAll("^.*?>", "").trim();
 
                 String command_name = truncated.split(" ")[0];
                 Command command = CommandHandler.findCommand(command_name);
@@ -41,7 +45,7 @@ public class MessageUpdate extends ListenerAdapter {
                     MessageReceivedEvent msg_event = new MessageReceivedEvent(updateEvent.getJDA(),
                             updateEvent.getResponseNumber(), updateEvent.getMessage());
                     CommandContext context = new CommandContext(msg_event, db.getGuildByID(updateEvent.getGuild().getIdLong()),
-                            updateEvent.getJDA().getSelfUser().getAsMention());
+                            botMention);
                     CommandHandler.findAndRun(command_name, context,
                             truncated.replaceFirst(command_name, ""));
                     Config.COMMANDS_COMPLETED += 1;
