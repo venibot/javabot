@@ -1,5 +1,6 @@
 package events.message;
 
+import api.AutoModeration;
 import api.Database;
 import api.models.command.Command;
 import api.models.command.CommandContext;
@@ -16,6 +17,8 @@ public class MessageReceived extends ListenerAdapter {
         if (msg_event.getAuthor().isBot()) {
             return;
         }
+
+        new AutoModeration(msg_event);
 
         Long botID = msg_event.getJDA().getSelfUser().getIdLong();
         String botMention = "<@" + botID + ">";

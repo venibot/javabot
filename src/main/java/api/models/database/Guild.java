@@ -37,6 +37,8 @@ public class Guild {
 
     private HashMap<String, Long> logs;
 
+    private HashMap<String, Boolean> autoModeration;
+
     private HashMap<String, String> rolesForReactions;
 
     private String prefix;
@@ -94,6 +96,10 @@ public class Guild {
         return this.logs;
     }
 
+    public HashMap<String, Boolean> getAutoModeration() {
+        return this.autoModeration;
+    }
+
     public HashMap<String, String> getRolesForReactions() {
         return this.rolesForReactions;
     }
@@ -144,6 +150,10 @@ public class Guild {
 
     public void setLogs(HashMap<String, Long> logs) {
         this.logs = logs;
+    }
+
+    public void setAutoModeration(HashMap<String, Boolean> autoModeration) {
+        this.autoModeration = autoModeration;
     }
 
     public void setRolesForReactions(HashMap<String, String> rolesForReactions) {

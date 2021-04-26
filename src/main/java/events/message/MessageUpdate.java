@@ -1,5 +1,6 @@
 package events.message;
 
+import api.AutoModeration;
 import api.BasicEmbed;
 import api.Database;
 import api.models.command.Command;
@@ -10,16 +11,18 @@ import api.utils.*;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageUpdateEvent;
+import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class MessageUpdate extends ListenerAdapter {
 
     @Override
-    public void onGuildMessageUpdate(GuildMessageUpdateEvent updateEvent) {
+    public void onMessageUpdate(MessageUpdateEvent updateEvent) {
         if (updateEvent.getAuthor().isBot()) {
             return;
         }
+
+        new AutoModeration(updateEvent);
 
         Long botID = updateEvent.getJDA().getSelfUser().getIdLong();
         String botMention = "<@" + botID + ">";
