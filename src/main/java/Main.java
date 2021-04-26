@@ -2,6 +2,7 @@ import api.Database;
 import api.models.command.*;
 import api.models.workers.*;
 import api.utils.Config;
+import api.utils.DataFormatter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -15,11 +16,13 @@ import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.concurrent.FutureTask;
 
 public class Main {
 
     public static void main(String[] args) throws LoginException, Exception {
+        System.out.println(DataFormatter.unixToLogString(new Date().getTime()) + " Инициализация");
         DefaultShardManagerBuilder builder = new DefaultShardManagerBuilder();
         Config.init();
         Database db = new Database();
@@ -49,16 +52,22 @@ public class Main {
         builder.enableIntents(intents);
 
         builder.setToken(Config.BOT_CONFIG.get("token"));
+        System.out.println(DataFormatter.unixToLogString(new Date().getTime()) + " Запуск");
         ShardManager bot = builder.build();
+        System.out.println(DataFormatter.unixToLogString(new Date().getTime()) + " Загрузка команд");
         loadCommands("src/main/java/commands", "commands");
+        System.out.println(DataFormatter.unixToLogString(new Date().getTime()) + " Загрузка воркеров");
         loadWorkers("src/main/java/workers", "workers");
+        System.out.println(DataFormatter.unixToLogString(new Date().getTime()) + " Загрузка ивентов");
         loadEvents(bot, "src/main/java/events", "events");
         Config.BOT = bot;
+        System.out.println(DataFormatter.unixToLogString(new Date().getTime()) + " Запуск потока воркеров");
         FutureTask<Void> task = new FutureTask<>(new WorkerHandler());
         new Thread(task).start();
+        System.out.println(DataFormatter.unixToLogString(new Date().getTime()) + " Установка статуса");
         for (JDA shard: bot.getShards()) {
             shard.getPresence().setStatus(OnlineStatus.DO_NOT_DISTURB);
-            shard.getPresence().setActivity(Activity.playing(shard.getShardInfo().getShardId() + " шард | veni.tk"));
+            shard.getPresence().setActivity(Activity.playing(shard.getShardInfo().getShardId() + " шард | .хелп"));
         }
     }
 

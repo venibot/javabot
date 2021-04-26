@@ -19,6 +19,17 @@ public class DataFormatter {
                         .getMinute()));
     }
 
+    public static String unixToLogString(Long unixTime) {
+        OffsetDateTime dateTime = DataFormatter.unixToDateTime(unixTime);
+        return String.format("[%s:%s:%s %s %s %s]",
+                dateTime.getHour(),
+                ((dateTime.getMinute() + "").length() == 1 ? "0" + dateTime.getMinute() : dateTime.getMinute()),
+                ((dateTime.getSecond() + "").length() == 1 ? "0" + dateTime.getSecond() : dateTime.getSecond()),
+                dateTime.getDayOfMonth(),
+                Config.MONTHS.get(dateTime.getMonthValue()),
+                dateTime.getYear());
+    }
+
     public static String getUserFlags(EnumSet<User.UserFlag> flags) {
         String flagsString = "";
 
