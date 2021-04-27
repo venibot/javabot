@@ -61,10 +61,10 @@ public class CommandContext {
     }
 
     public net.dv8tion.jda.api.requests.restaction.MessageAction sendMessage(EmbedBuilder embedBuilder) {
-        return this.getChannel().sendMessage(embedBuilder.build());
+        return this.getMessage().reply(embedBuilder.build());
     }
 
     public net.dv8tion.jda.api.requests.restaction.MessageAction sendMessage(CharSequence text) {
-        return this.getChannel().sendMessage(text);
+        return this.getMessage().reply(text);
     }
 }
