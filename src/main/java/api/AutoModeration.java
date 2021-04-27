@@ -16,7 +16,7 @@ public class AutoModeration {
         this.msg_event = msg_event;
         Database db = new Database();
         HashMap<String, Boolean> autoMod = db.getGuildByID(msg_event.getGuild().getIdLong()).getAutoModeration();
-        if (autoMod.get("caps")) {
+        if (autoMod.get("caps") != null && autoMod.get("caps")) {
             this.handleCaps(msg_event);
         }
     }
