@@ -22,7 +22,7 @@ public class SkipCommand implements Command {
                 musicManager.trackScheduler.nextTrack();
                 try {
                     BasicEmbed successEmbed = new BasicEmbed("success", "Текущий трек успешно пропущен. "
-                            + "Теперь играет трек " + musicManager.trackScheduler.queue.element().getInfo().title);
+                            + "Теперь играет трек " + musicManager.audioPlayer.getPlayingTrack().getInfo().title);
                     context.sendMessage(successEmbed).queue();
                 } catch (NoSuchElementException e) {
                     BasicEmbed successEmbed = new BasicEmbed("success", "Текущий трек успешно пропущен. "
