@@ -32,7 +32,9 @@ public class AutoModerationCommand implements Command {
             if (Config.AUTO_MOD_ACTIONS.get(arguments[0]) != null) {
                 Guild DBGuild = context.getDatabaseGuild();
                 BasicEmbed infoEmbed = new BasicEmbed("info");
-                Boolean status = DBGuild.getAutoModeration().get(Config.AUTO_MOD_ACTIONS.get(arguments[0]));
+                Boolean status = DBGuild.getAutoModeration() != null
+                        && DBGuild.getAutoModeration().get(Config.AUTO_MOD_ACTIONS.get(arguments[0])) != null
+                        ? DBGuild.getAutoModeration().get(Config.AUTO_MOD_ACTIONS.get(arguments[0])) : false;
 
                 infoEmbed.setDescription("Текущее состояние автомодерации по данной настройке: "
                         + (status != null && status
@@ -48,7 +50,12 @@ public class AutoModerationCommand implements Command {
 
             if (Config.AUTO_MOD_ACTIONS.get(arguments[0]) != null) {
                 Guild DBGuild = context.getDatabaseGuild();
-                HashMap<String, Boolean> settings = DBGuild.getAutoModeration();
+                HashMap<String, Boolean> settings;
+                if (DBGuild.getAutoModeration() != null) {
+                    settings = DBGuild.getAutoModeration();
+                } else {
+                    settings = new HashMap<>();
+                }
 
                 settings.put(Config.AUTO_MOD_ACTIONS.get(arguments[0]),
                         arguments[1].equals("true") || arguments[1].equals("включить"));
