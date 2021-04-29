@@ -64,15 +64,19 @@ public class PlayerManager {
 
             @Override
             public void playlistLoaded(AudioPlaylist audioPlaylist) {
-                for (AudioTrack track: audioPlaylist.getTracks()) {
-                    musicManager.trackScheduler.queue(track);
-                }
+                if (audioPlaylist.isSearchResult()) {
+                    trackLoaded(audioPlaylist.getTracks().get(0));
+                } else {
+                    for (AudioTrack track : audioPlaylist.getTracks()) {
+                        musicManager.trackScheduler.queue(track);
+                    }
 
-                BasicEmbed successEmbed = new BasicEmbed("success");
-                successEmbed.setTitle("Плейлист успешно добавлен в очередь");
-                successEmbed.setDescription(audioPlaylist.getName() + "\nСостоит из "
-                        + audioPlaylist.getTracks().size()  + " треков");
-                channel.sendMessage(successEmbed.build()).queue();
+                    BasicEmbed successEmbed = new BasicEmbed("success");
+                    successEmbed.setTitle("Плейлист успешно добавлен в очередь");
+                    successEmbed.setDescription(audioPlaylist.getName() + "\nСостоит из "
+                            + audioPlaylist.getTracks().size() + " треков");
+                    channel.sendMessage(successEmbed.build()).queue();
+                }
             }
 
             @Override
