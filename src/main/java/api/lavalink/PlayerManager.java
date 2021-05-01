@@ -53,6 +53,7 @@ public class PlayerManager {
         this.playerManager.loadItemOrdered(musicManager, url, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
+                audioTrack.setPosition(musicManager.trackScheduler.queue.size() + 1);
                 musicManager.trackScheduler.queue(audioTrack);
 
                 BasicEmbed successEmbed = new BasicEmbed("success");
@@ -68,6 +69,7 @@ public class PlayerManager {
                     trackLoaded(audioPlaylist.getTracks().get(0));
                 } else {
                     for (AudioTrack track : audioPlaylist.getTracks()) {
+                        track.setPosition(musicManager.trackScheduler.queue.size() + 1);
                         musicManager.trackScheduler.queue(track);
                     }
 
