@@ -1,6 +1,7 @@
 package commands.music;
 
 import api.BasicEmbed;
+import api.lavalink.AudioTrackInformation;
 import api.lavalink.MusicManager;
 import api.lavalink.PlayerManager;
 import api.models.command.Command;
@@ -36,7 +37,12 @@ public class PlayCommand implements Command {
                 } else {
                     link = "ytsearch:" + arguments[0];
                 }
-                PlayerManager.getInstance().loadAndPlay(context.getMessage().getTextChannel(), link);
+                AudioTrackInformation trackInformation = new AudioTrackInformation();
+                trackInformation.guild = context.getGuild();
+                trackInformation.adder = context.getAuthor().getUser();
+                trackInformation.connectedChannel = context.getMessage().getTextChannel();
+                trackInformation.voiceChannel = context.getGuild().getAudioManager().getConnectedChannel();
+                PlayerManager.getInstance().loadAndPlay(trackInformation, link);
             }
         }
     }

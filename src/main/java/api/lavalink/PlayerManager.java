@@ -10,7 +10,6 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,20 +46,23 @@ public class PlayerManager {
         return INSTANCE;
     }
 
-    public void loadAndPlay(TextChannel channel, String url) {
-        final MusicManager musicManager = this.getMusicManager(channel.getGuild());
+    public void loadAndPlay(AudioTrackInformation trackInformation, String url) {
+        final MusicManager musicManager = this.getMusicManager(trackInformation.guild);
 
         this.playerManager.loadItemOrdered(musicManager, url, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack audioTrack) {
+                audioTrack.setUserData(trackInformation);
                 audioTrack.setPosition(musicManager.trackScheduler.queue.size() + 1);
                 musicManager.trackScheduler.queue(audioTrack);
 
-                BasicEmbed successEmbed = new BasicEmbed("success");
-                successEmbed.setTitle("Трек успешно добавлен в очередь");
-                successEmbed.setDescription("[" + audioTrack.getInfo().title + "](" + audioTrack.getInfo().uri + ")\nПродолжительность: "
-                        + (audioTrack.getInfo().isStream ? "∞" : DataFormatter.getTrackLength(audioTrack.getInfo().length)));
-                channel.sendMessage(successEmbed.build()).queue();
+                if (PlayerManager.getInstance().getMusicManager(trackInformation.guild).trackScheduler.queue.size() != 0) {
+                    BasicEmbed successEmbed = new BasicEmbed("success");
+                    successEmbed.setTitle("Трек успешно добавлен в очередь");
+                    successEmbed.setDescription("[" + audioTrack.getInfo().title + "](" + audioTrack.getInfo().uri + ")\nПродолжительность: "
+                            + (audioTrack.getInfo().isStream ? "∞" : DataFormatter.getTrackLength(audioTrack.getInfo().length)));
+                    trackInformation.connectedChannel.sendMessage(successEmbed.build()).queue();
+                }
             }
 
             @Override
@@ -69,6 +71,7 @@ public class PlayerManager {
                     trackLoaded(audioPlaylist.getTracks().get(0));
                 } else {
                     for (AudioTrack track : audioPlaylist.getTracks()) {
+                        track.setUserData(trackInformation);
                         track.setPosition(musicManager.trackScheduler.queue.size() + 1);
                         musicManager.trackScheduler.queue(track);
                     }
@@ -77,7 +80,7 @@ public class PlayerManager {
                     successEmbed.setTitle("Плейлист успешно добавлен в очередь");
                     successEmbed.setDescription(audioPlaylist.getName() + "\nСостоит из "
                             + audioPlaylist.getTracks().size() + " треков");
-                    channel.sendMessage(successEmbed.build()).queue();
+                    trackInformation.connectedChannel.sendMessage(successEmbed.build()).queue();
                 }
             }
 
@@ -86,7 +89,7 @@ public class PlayerManager {
                 BasicEmbed successEmbed = new BasicEmbed("error");
                 successEmbed.setTitle("По вашему запросу ничего не найден");
                 successEmbed.setDescription("Укажите другой запрос");
-                channel.sendMessage(successEmbed.build()).queue();
+                trackInformation.connectedChannel.sendMessage(successEmbed.build()).queue();
             }
 
             @Override
@@ -95,7 +98,8 @@ public class PlayerManager {
                 successEmbed.setTitle("Произошла непредвиденная ошибка");
                 successEmbed.setDescription("При загрузке трека произошла непредвиденная ошибка. Повторите попытку позже. "
                         + "Если проблема повторяется - обратитесь на сервер поддержки");
-                channel.sendMessage(successEmbed.build()).queue();
+                trackInformation.connectedChannel.sendMessage(successEmbed.build()).queue();
+                e.printStackTrace();
             }
         });
     }

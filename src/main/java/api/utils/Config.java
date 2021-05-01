@@ -3,6 +3,7 @@ package api.utils;
 import com.mongodb.MongoClient;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
 import java.io.FileInputStream;
@@ -23,6 +24,7 @@ public class Config {
     public static HashMap<String, String> PERMISSIONS = new HashMap<>();
     public static HashMap<String, String> LOG_ACTIONS =  new HashMap<>();
     public static HashMap<Long, Message> MESSAGE_CACHE = new HashMap<>();
+    public static HashMap<Long, TextChannel> MUSIC_CHANNELS = new HashMap<>();
     public static Long COMMANDS_COMPLETED = 0L;
     public static ShardManager BOT;
     public static HashMap<TimeUnit, String[]> TIMES = new HashMap<>();

@@ -1,6 +1,7 @@
 package commands.music;
 
 import api.BasicEmbed;
+import api.lavalink.AudioTrackInformation;
 import api.lavalink.MusicManager;
 import api.lavalink.PlayerManager;
 import api.models.command.Command;
@@ -28,7 +29,8 @@ public class QueueCommand implements Command {
                 infoEmbed.setDescription("Всего треков в очереди: " + queue.size());
                 for (AudioTrack track: queue) {
                     infoEmbed.addField(track.getPosition() + ". " + track.getInfo().title, track.getInfo().author + ", длина "
-                            + (track.getInfo().isStream ? "∞" : DataFormatter.getTrackLength(track.getDuration())));
+                            + (track.getInfo().isStream ? "∞" : DataFormatter.getTrackLength(track.getDuration())) + ". Трек добавлен "
+                            + track.getUserData(AudioTrackInformation.class).adder.getAsMention());
                 }
             }
             context.sendMessage(infoEmbed).queue();
