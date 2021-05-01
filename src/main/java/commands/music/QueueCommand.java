@@ -18,7 +18,7 @@ public class QueueCommand implements Command {
 
     @Override
     public void doCommand(CommandContext context, String[] arguments) {
-        if (Functions.checkMusicCommandAuthor(context)) {
+        if (context.getGuild().getSelfMember().getVoiceState().inVoiceChannel()) {
             MusicManager musicManager = PlayerManager.getInstance().getMusicManager(context.getGuild());
             BlockingQueue<AudioTrack> queue = musicManager.trackScheduler.queue;
             BasicEmbed infoEmbed = new BasicEmbed("info");
@@ -37,9 +37,11 @@ public class QueueCommand implements Command {
                 context.sendMessage(infoEmbed).queue();
             } catch (IllegalStateException e) {
                 BasicEmbed errorEmbed = new BasicEmbed("error", "К сожалению очередь музыки слишком большая "
-                        + "и я не могу её отобразить");
+                        + "и я не могу её отобразить, но точно могу сказать вам, что в очереди " + queue.size() + " треков");
                 context.sendMessage(errorEmbed).queue();
             }
+        } else {
+            BasicEmbed errorEmbed = new BasicEmbed("error", "Я не нахожусь в голосовом канале");
         }
     }
 
