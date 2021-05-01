@@ -33,7 +33,13 @@ public class QueueCommand implements Command {
                             + track.getUserData(AudioTrackInformation.class).adder.getAsMention());
                 }
             }
-            context.sendMessage(infoEmbed).queue();
+            try {
+                context.sendMessage(infoEmbed).queue();
+            } catch (IllegalStateException e) {
+                BasicEmbed errorEmbed = new BasicEmbed("error", "К сожалению очередь музыки слишком большая "
+                        + "и я не могу её отобразить");
+                context.sendMessage(errorEmbed).queue();
+            }
         }
     }
 
