@@ -24,6 +24,7 @@ public class LeaveCommand implements Command {
             MusicManager musicManager = PlayerManager.getInstance().getMusicManager(context.getGuild());
             musicManager.trackScheduler.queue.clear();
             musicManager.audioPlayer.destroy();
+            musicManager.trackScheduler.looping = false;
             context.getGuild().getAudioManager().closeAudioConnection();
             BasicEmbed successEmbed = new BasicEmbed("success", "Я успешно покинул голосовой канал `"
                     + voiceChannel.getName() + "`");
