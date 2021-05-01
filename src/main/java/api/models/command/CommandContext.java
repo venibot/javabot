@@ -17,6 +17,8 @@ public class CommandContext {
 
     private api.models.database.Guild guild;
 
+    private Command command;
+
     public CommandContext(MessageReceivedEvent msg_event, api.models.database.Guild dbGuild, String usedPrefix) {
         this.msg_event = msg_event;
         this.guild = dbGuild;
@@ -58,6 +60,14 @@ public class CommandContext {
     public String getLocale() {
         return "ru";
         // заделка на будущее
+    }
+
+    public Command getCommand() {
+        return command;
+    }
+
+    public void setCommand(Command command) {
+        this.command = command;
     }
 
     public net.dv8tion.jda.api.requests.restaction.MessageAction sendMessage(EmbedBuilder embedBuilder) {

@@ -1,5 +1,7 @@
 package api;
 
+import api.models.command.CommandContext;
+import api.models.command.CommandException;
 import api.models.database.Bug;
 import api.models.database.Idea;
 import api.utils.Config;
@@ -119,7 +121,47 @@ public class SupportServer {
                     + error.getStackTrace()[0].getLineNumber())
             .setColor(0xff0000)
             .build();
-        errorWebhook.send(errorEmbed);
+        errorWebhook.send(errorEmbed).join();
+    }
+
+    public void sendError(Throwable error) {
+        WebhookClient errorWebhook = WebhookClient.withUrl(Config.BOT_CONFIG.get("errorWebhookUrl"));
+        WebhookEmbed.EmbedTitle title = new WebhookEmbed.EmbedTitle("Непредвиденная ошибка!", null);
+
+        WebhookEmbed errorEmbed = new WebhookEmbedBuilder()
+                .setTitle(title)
+                .setDescription(error.getMessage() + "\n" + "Файл: " + error.getStackTrace()[0].getFileName() + "\n"
+                        + "Метод: " + error.getStackTrace()[0].getMethodName() + "\n" + "Строка: "
+                        + error.getStackTrace()[0].getLineNumber())
+                .setColor(0xff0000)
+                .build();
+        errorWebhook.send(errorEmbed).join();
+    }
+
+    public void sendCommandError(CommandException error, CommandContext context, Boolean isDeveloper) {
+        if (isDeveloper) {
+            BasicEmbed errorEmbed = new BasicEmbed("error");
+            errorEmbed.setTitle("Непредвидення ошибка");
+            errorEmbed.setDescription(error.getMessage() + "\n" + "Файл: " + error.getCause().getStackTrace()[0].getFileName() + "\n"
+                    + "Метод: " + error.getCause().getStackTrace()[0].getMethodName() + "\n" + "Строка: "
+                    + error.getCause().getStackTrace()[0].getLineNumber());
+            context.sendMessage(errorEmbed).queue();
+        } else {
+            WebhookClient errorWebhook = WebhookClient.withUrl(Config.BOT_CONFIG.get("errorWebhookUrl"));
+            WebhookEmbed.EmbedTitle title = new WebhookEmbed.EmbedTitle("Непредвиденная ошибка при выполнении команды!", null);
+
+            WebhookEmbed errorEmbed = new WebhookEmbedBuilder()
+                    .setTitle(title)
+                    .setDescription(error.getMessage() + "\n" + "Файл: " + error.getCause().getStackTrace()[0].getFileName() + "\n"
+                            + "Метод: " + error.getCause().getStackTrace()[0].getMethodName() + "\n" + "Строка: "
+                            + error.getCause().getStackTrace()[0].getLineNumber() + "\n" + "Пользователь: "
+                            + context.getAuthor().getUser().getAsTag() + "(" + context.getAuthor().getIdLong() + ")"
+                            + "\n" + "Сервер: " + context.getGuild().getName() + "(" + context.getGuild().getIdLong() + ")"
+                            + "Команда: " + context.getCommand().getCommandData().name())
+                    .setColor(0xff0000)
+                    .build();
+            errorWebhook.send(errorEmbed).join();
+        }
     }
 
     public void sendGulag(Guild guild, boolean left, User gulagger) {

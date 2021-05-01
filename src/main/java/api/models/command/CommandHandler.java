@@ -1,6 +1,7 @@
 package api.models.command;
 
 import api.BasicEmbed;
+import api.SupportServer;
 import api.utils.DataFormatter;
 import api.utils.PermissionsHandler;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public class CommandHandler {
                 contains(trigger) || c.getCommandData().name().equals(trigger)).findFirst().orElse(null);
     }
 
-    public static void doCommand(Command command, CommandContext context, String args) throws Exception {
+    public static void doCommand(Command command, CommandContext context, String args) throws CommandException {
         DiscordCommand cd = command.getCommandData();
 
         if (cd == null) return;
@@ -61,7 +62,6 @@ public class CommandHandler {
                 try {
                     command.doCommand(context, arguments);
                 } catch (Exception error) {
-                    logger.error("Ошибка при выполнении команды " + cd.name() + ". " + error);
                     throw new CommandException(error);
                 }
             } else {
@@ -81,12 +81,21 @@ public class CommandHandler {
 
     public static void findAndRun(String trigger, CommandContext context, String arguments) {
         Command command = CommandHandler.findCommand(trigger);
+        context.setCommand(command);
 
         if (command == null || command.getCommandData() == null) return;
         try {
             CommandHandler.doCommand(command, context, arguments);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (CommandException e) {
+            SupportServer supportServer = new SupportServer(context.getJDA());
+            if (!supportServer.isDeveloper(context.getAuthor().getUser())) {
+                supportServer.sendCommandError(e, context, false);
+                BasicEmbed errorEmbed = new BasicEmbed("error", "При выполнении команды произошла ошибка :<. "
+                        + "Информация об ошибке уже отправлена разработчикам");
+                context.sendMessage(errorEmbed).queue();
+            } else {
+                supportServer.sendCommandError(e, context, true);
+            }
         }
     }
 }
