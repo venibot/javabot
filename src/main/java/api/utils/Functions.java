@@ -2,6 +2,7 @@ package api.utils;
 
 import api.BasicEmbed;
 import api.models.command.CommandContext;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 
 import java.util.List;
@@ -70,6 +71,12 @@ public class Functions {
             return false;
         }
         if (!botVoiceState.inVoiceChannel()) {
+            if (!context.getGuild().getSelfMember().hasPermission(userVoiceState.getChannel(),
+                    Permission.VOICE_CONNECT, Permission.VOICE_SPEAK)) {
+                BasicEmbed errorEmbed = new BasicEmbed("error", "У меня нет прав для входа в ваш канал");
+                context.sendMessage(errorEmbed).queue();
+                return false;
+            }
             context.getGuild().getAudioManager().openAudioConnection(userVoiceState.getChannel());
             return true;
         }
