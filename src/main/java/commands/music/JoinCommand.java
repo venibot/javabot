@@ -29,6 +29,7 @@ public class JoinCommand implements Command {
                     context.sendMessage(errorEmbed).queue();
                 } else {
                     context.getGuild().getAudioManager().openAudioConnection(userVoiceState.getChannel());
+                    context.getGuild().getSelfMember().deafen(true).queue();
                     BasicEmbed successEmbed = new BasicEmbed("success", "Я успешно подключился к голосовому каналу `"
                             + userVoiceState.getChannel().getName() + "`");
                     context.sendMessage(successEmbed).queue();
