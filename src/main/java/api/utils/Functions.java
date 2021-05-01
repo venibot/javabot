@@ -70,9 +70,8 @@ public class Functions {
             return false;
         }
         if (!botVoiceState.inVoiceChannel()) {
-            BasicEmbed errorEmbed = new BasicEmbed("error", "Для использования команды я должен быть в голосовом канале");
-            context.sendMessage(errorEmbed).queue();
-            return false;
+            context.getGuild().getAudioManager().openAudioConnection(userVoiceState.getChannel());
+            return true;
         }
         if (!userVoiceState.getChannel().equals(botVoiceState.getChannel())) {
             BasicEmbed errorEmbed = new BasicEmbed("error", "Вы должны быть в одном голосовом канале со мной");
