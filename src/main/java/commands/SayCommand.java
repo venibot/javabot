@@ -8,6 +8,9 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
+
+import java.util.concurrent.ExecutionException;
 
 @DiscordCommand(name = "say", aliases = {"сказать", "скажи"}, arguments = 1, group = "Утилиты")
 public class SayCommand implements Command {
@@ -27,10 +30,40 @@ public class SayCommand implements Command {
                         Message.MentionType.ROLE, Message.MentionType.USER);
             }
 
-            context.sendMessage(builder.build().getContentRaw()).queue();
+            if (context.getMessage().getAttachments().size() != 0) {
+                MessageAction action = context.getChannel().sendMessage(builder.build().getContentRaw());
+                for (Message.Attachment attachment: context.getMessage().getAttachments()) {
+                    try {
+                        action.addFile(attachment.retrieveInputStream().get(), attachment.getFileName());
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+                action.queue();
+            } else {
+                context.sendMessage(builder.build().getContentRaw()).queue();
+            }
         } else {
-            BasicEmbed errorEmbed = new BasicEmbed("error", "О, а можете меня научить ничего не говорить по команде?");
-            context.sendMessage(errorEmbed).queue();
+            if (context.getMessage().getAttachments().size() != 0) {
+                if (context.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+                    context.getMessage().delete().queue();
+                }
+                try {
+                    Message.Attachment firstAttachment = context.getMessage().getAttachments().get(0);
+                    MessageAction action = context.getChannel().sendFile(firstAttachment.retrieveInputStream().get(), firstAttachment.getFileName());
+                    for (Message.Attachment attachment : context.getMessage().getAttachments()) {
+                        if (attachment.getIdLong() != firstAttachment.getIdLong()) {
+                            action.addFile(attachment.retrieveInputStream().get(), attachment.getFileName());
+                        }
+                    }
+                    action.queue();
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                BasicEmbed errorEmbed = new BasicEmbed("error", "О, а можете меня научить ничего не говорить по команде?");
+                context.sendMessage(errorEmbed).queue();
+            }
         }
     }
 }
