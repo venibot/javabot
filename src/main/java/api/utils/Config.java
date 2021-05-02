@@ -25,7 +25,6 @@ public class Config {
     public static HashMap<String, String> LOG_ACTIONS =  new HashMap<>();
     public static HashMap<String, String> AUTO_MOD_ACTIONS =  new HashMap<>();
     public static HashMap<Long, Message> MESSAGE_CACHE = new HashMap<>();
-    public static HashMap<Long, TextChannel> MUSIC_CHANNELS = new HashMap<>();
     public static Long COMMANDS_COMPLETED = 0L;
     public static ShardManager BOT;
     public static HashMap<TimeUnit, String[]> TIMES = new HashMap<>();
