@@ -37,6 +37,8 @@ public class Guild {
 
     private HashMap<String, Long> logs;
 
+    private HashMap<String, Boolean> autoModeration;
+
     private HashMap<String, String> rolesForReactions;
 
     private String prefix;
@@ -50,6 +52,7 @@ public class Guild {
         this.leftMessage = "";
         this.restoreRoles = true;
         this.logs = new HashMap<>();
+        this.autoModeration = new HashMap<>();
         this.prefix = Config.BOT_CONFIG.get("prefix");
         this.currency = "<:ignorshik:828684853657469018>";
     }
@@ -92,6 +95,10 @@ public class Guild {
 
     public HashMap<String, Long> getLogs() {
         return this.logs;
+    }
+
+    public HashMap<String, Boolean> getAutoModeration() {
+        return this.autoModeration;
     }
 
     public HashMap<String, String> getRolesForReactions() {
@@ -146,6 +153,10 @@ public class Guild {
         this.logs = logs;
     }
 
+    public void setAutoModeration(HashMap<String, Boolean> autoModeration) {
+        this.autoModeration = autoModeration;
+    }
+
     public void setRolesForReactions(HashMap<String, String> rolesForReactions) {
         this.rolesForReactions = rolesForReactions;
     }
@@ -171,6 +182,7 @@ public class Guild {
         document.put("leftChannel", this.leftChannel);
         document.put("restoreRoles", this.restoreRoles);
         document.put("logs", this.logs);
+        document.put("autoModeration", this.autoModeration);
         document.put("rolesForReactions", this.rolesForReactions);
         document.put("prefix", this.prefix);
         document.put("currency", this.currency);
@@ -200,6 +212,7 @@ public class Guild {
         guild.leftChannel = (Long) document.get("leftChannel");
         guild.restoreRoles = (Boolean) document.get("restoreRoles");
         guild.logs = (HashMap<String, Long>) document.get("logs");
+        guild.autoModeration = (HashMap<String, Boolean>) document.get("autoModeration");
         guild.rolesForReactions = (HashMap<String, String>) document.get("rolesForReactions");
         guild.prefix = (String) document.get("prefix");
         guild.currency = (String) document.get("currency");

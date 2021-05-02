@@ -23,6 +23,7 @@ public class Config {
     public static HashMap<String, String> USER_FLAGS = new HashMap<>();
     public static HashMap<String, String> PERMISSIONS = new HashMap<>();
     public static HashMap<String, String> LOG_ACTIONS =  new HashMap<>();
+    public static HashMap<String, String> AUTO_MOD_ACTIONS =  new HashMap<>();
     public static HashMap<Long, Message> MESSAGE_CACHE = new HashMap<>();
     public static HashMap<Long, TextChannel> MUSIC_CHANNELS = new HashMap<>();
     public static Long COMMANDS_COMPLETED = 0L;
@@ -43,6 +44,7 @@ public class Config {
             e.printStackTrace();
         }
         getLogActions();
+        getAutoModActions();
     }
 
     private static void getBotConfig() throws Exception {
@@ -181,6 +183,10 @@ public class Config {
         LOG_ACTIONS.put("удаление_приглашения", "inviteDelete");
         LOG_ACTIONS.put("выдача_преда", "warnCreate");
         LOG_ACTIONS.put("снятие_преда", "warnDelete");
+    }
+
+    private static void getAutoModActions() {
+        AUTO_MOD_ACTIONS.put("капс", "caps");
     }
 
     private static void getTimes() {
