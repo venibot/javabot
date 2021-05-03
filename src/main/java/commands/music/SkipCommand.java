@@ -24,7 +24,7 @@ public class SkipCommand implements Command {
                     BasicEmbed successEmbed = new BasicEmbed("success", "Текущий трек успешно пропущен. "
                             + "Теперь играет трек " + musicManager.audioPlayer.getPlayingTrack().getInfo().title);
                     context.sendMessage(successEmbed).queue();
-                } catch (NoSuchElementException e) {
+                } catch (NullPointerException e) {
                     BasicEmbed successEmbed = new BasicEmbed("success", "Текущий трек успешно пропущен. "
                             + "Очередь сервера пуста, покидаю канал");
                     context.sendMessage(successEmbed).queue();

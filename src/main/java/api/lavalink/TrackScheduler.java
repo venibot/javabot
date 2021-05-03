@@ -34,18 +34,20 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        if (endReason.mayStartNext && this.queue.size() != 0) {
-            if (this.looping) {
-                this.player.startTrack(track.makeClone(), false);
-                return;
+        if (endReason.mayStartNext) {
+            if (this.queue.size() != 0) {
+                if (this.looping) {
+                    this.player.startTrack(track.makeClone(), false);
+                    return;
+                }
+                nextTrack();
+            } else {
+                AudioTrackInformation trackInfo = track.getUserData(AudioTrackInformation.class);
+                TextChannel channel = trackInfo.connectedChannel;
+                BasicEmbed infoEmbed = new BasicEmbed("info", "Песни в очереди закончилась. Покидаю канал");
+                channel.sendMessage(infoEmbed.build()).queue();
+                trackInfo.guild.getAudioManager().closeAudioConnection();
             }
-            nextTrack();
-        } else {
-            AudioTrackInformation trackInfo = track.getUserData(AudioTrackInformation.class);
-            TextChannel channel = trackInfo.connectedChannel;
-            BasicEmbed infoEmbed = new BasicEmbed("info", "Песни в очереди закончилась. Покидаю канал");
-            channel.sendMessage(infoEmbed.build()).queue();
-            trackInfo.guild.getAudioManager().closeAudioConnection();
         }
     }
 
