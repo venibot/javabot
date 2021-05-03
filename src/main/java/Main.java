@@ -78,8 +78,13 @@ public class Main {
         for (File file: dir.listFiles()) {
             if (file.isFile() && file.getName().endsWith("Command.java")){
                 Class cmd = Class.forName(commands_package + file.getName().replace(".java", ""));
-                Command command = (Command) cmd.newInstance();
-                CommandHandler.registerCommand(command);
+                try {
+                    Command command = (Command) cmd.newInstance();
+                    CommandHandler.registerCommand(command);
+                } catch (ClassCastException e) {
+                    System.out.println(cmd.getName() + " не является командой, пропускаю");
+                    continue;
+                }
             }
             else if (file.isDirectory()) {
                 loadCommands(file.getPath(), commands_package + file.getName());
