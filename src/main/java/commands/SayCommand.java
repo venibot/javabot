@@ -41,7 +41,7 @@ public class SayCommand implements Command {
                 }
                 action.queue();
             } else {
-                context.sendMessage(builder.build().getContentRaw()).queue();
+                context.getChannel().sendMessage(builder.build().getContentRaw()).queue();
             }
         } else {
             if (context.getMessage().getAttachments().size() != 0) {
