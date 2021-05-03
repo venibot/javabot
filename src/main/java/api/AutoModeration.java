@@ -1,12 +1,15 @@
 package api;
 
 import api.models.database.Warn;
+import api.utils.Config;
 import api.utils.Logger;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AutoModeration {
 
@@ -19,6 +22,9 @@ public class AutoModeration {
         if (autoMod != null) {
             if (autoMod.get("caps") != null && autoMod.get("caps")) {
                 this.handleCaps(msg_event);
+            }
+            if (autoMod.get("invites") != null && autoMod.get("invites")) {
+                this.handleInvites(msg_event);
             }
         }
     }
@@ -46,6 +52,27 @@ public class AutoModeration {
                 Logger.logWarnCreate(warn);
                 return true;
             }
+        }
+        return false;
+    }
+
+    private boolean handleInvites(MessageReceivedEvent msg_event) {
+        Message message = msg_event.getMessage();
+        String withoutLinks = message.getContentRaw().replaceAll(Config.INVITE_PATTERN, "");
+        if (!message.getContentRaw().equals(withoutLinks)) {
+            message.delete().queue();
+            Database db = new Database();
+            Warn warn = new Warn(
+                    msg_event.getGuild().getIdLong(),
+                    db.getLastWarnID(msg_event.getGuild().getIdLong()) + 1,
+                    msg_event.getJDA().getSelfUser().getIdLong(),
+                    msg_event.getAuthor().getIdLong(),
+                    "Автомодерация: приглашения",
+                    0L
+            );
+            db.addWarn(warn);
+            Logger.logWarnCreate(warn);
+            return true;
         }
         return false;
     }

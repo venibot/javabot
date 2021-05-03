@@ -1,9 +1,7 @@
 package api.utils;
 
 import com.mongodb.MongoClient;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.sharding.ShardManager;
 
 import java.io.FileInputStream;
@@ -29,6 +27,7 @@ public class Config {
     public static ShardManager BOT;
     public static HashMap<TimeUnit, String[]> TIMES = new HashMap<>();
     public static MongoClient MONGO = null;
+    public static String INVITE_PATTERN = "(?:https?://)?discord(?:(?:app)?\\.com/invite|\\.gg)/?[a-zA-Z0-9]+/?";
 
     public static void init() {
 
@@ -186,6 +185,7 @@ public class Config {
 
     private static void getAutoModActions() {
         AUTO_MOD_ACTIONS.put("капс", "caps");
+        AUTO_MOD_ACTIONS.put("приглашения", "invites");
     }
 
     private static void getTimes() {
