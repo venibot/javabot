@@ -516,4 +516,74 @@ public class Database {
 
         return bugs.remove(query);
     }
+
+    public WriteResult addBusiness(Business business) {
+        DBCollection businesses = this.database.getCollection("businesses");
+        BasicDBObject document = business.toDBObject();
+        return businesses.insert(document);
+    }
+
+    public List<Business> getGuildBusinesses(Long guildID) {
+        DBCollection businessesCollection = this.database.getCollection("businesses");
+        BasicDBObject query = new BasicDBObject();
+        query.put("guildID", guildID);
+        List<DBObject> result = businessesCollection.find(query).toArray();
+
+        if (result.size() > 0) {
+            List<Business> businesses = new ArrayList<>();
+            for (DBObject business: result) {
+                businesses.add(Business.fromDBObject(business));
+            }
+            return businesses;
+        } else {
+            return null;
+        }
+    }
+
+    public Business getBusinessByOwner(Long guildID, Long ownerID) {
+        DBCollection businesses = this.database.getCollection("businesses");
+        BasicDBObject query = new BasicDBObject();
+        query.put("guildID", guildID);
+        query.put("ownerID", ownerID);
+        DBObject result = businesses.findOne(query);
+        if (result != null) {
+            return Business.fromDBObject(result);
+        } else {
+            return null;
+        }
+    }
+
+    public Business getUserBusiness(Long guildID, Long userID) {
+        Business businessByOwner = this.getBusinessByOwner(guildID, userID);
+        if (businessByOwner != null) {
+            return businessByOwner;
+        } else {
+            List<Business> businesses = this.getGuildBusinesses(guildID);
+            for (Business business: businesses) {
+                if (business.getWorkers().contains(userID)) {
+                    return business;
+                }
+            }
+            return null;
+        }
+    }
+
+    public WriteResult updateBusiness(Business newBusiness) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("guildID", newBusiness.getGuildID());
+        query.put("ownerID", newBusiness.getOwnerID());
+
+        WriteResult result = this.database.getCollection("businesses").update(query, newBusiness.toDBObject());
+        return result;
+    }
+
+    public WriteResult deleteBusiness(Long guildID, Long ownerID) {
+        DBCollection businesses = this.database.getCollection("businesses");
+        BasicDBObject query = new BasicDBObject();
+        query.put("guildID", guildID);
+        query.put("ownerID", ownerID);
+
+        return businesses.remove(query);
+    }
+
 }
