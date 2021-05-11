@@ -102,6 +102,8 @@ public class DataFormatter {
                     return "Облачно";
                 case "clear":
                     return "Ясно";
+                case "dust":
+                    return "\"Пыльно\"";
                 default:
                     return input;
             }
