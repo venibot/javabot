@@ -12,7 +12,8 @@ import net.dv8tion.jda.api.requests.restaction.MessageAction;
 
 import java.util.concurrent.ExecutionException;
 
-@DiscordCommand(name = "say", aliases = {"сказать", "скажи"}, arguments = 1, group = "Утилиты")
+@DiscordCommand(name = "say", description = "Вывод сообщения от лица бота в чат", aliases = {"сказать", "скажи"},
+        usage = "<Текст>", arguments = 1, group = "Утилиты")
 public class SayCommand implements Command {
 
     @Override
