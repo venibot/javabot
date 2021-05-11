@@ -30,7 +30,7 @@ public class ClearCommand implements Command {
                                 context.getChannel().purgeMessages(messages);
                                 BasicEmbed successEmbed = new BasicEmbed("success");
                                 successEmbed.setDescription("Чат успешно очищен на " + (messages.size() - 1) + " сообщений");
-                                context.sendMessage(successEmbed)
+                                context.getChannel().sendMessage(successEmbed.build())
                                         .queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
                             });
                 } else {
@@ -46,7 +46,7 @@ public class ClearCommand implements Command {
                                 context.getChannel().purgeMessages(messages);
                                 BasicEmbed successEmbed = new BasicEmbed("success");
                                 successEmbed.setDescription("Чат успешно очищен на " + (messages.size() - 1) + " сообщений");
-                                context.sendMessage(successEmbed)
+                                context.getChannel().sendMessage(successEmbed.build())
                                         .queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
                             });
                 }
