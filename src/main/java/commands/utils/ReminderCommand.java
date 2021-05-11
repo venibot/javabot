@@ -95,6 +95,9 @@ public class ReminderCommand implements Command {
                         }
                     }
                     break;
+                default:
+                    BasicEmbed errorEmbed = new BasicEmbed("error", "Указанная под-команда не найдена");
+                    context.sendMessage(errorEmbed).queue();
             }
         }
     }
