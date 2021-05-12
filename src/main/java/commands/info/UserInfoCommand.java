@@ -12,6 +12,10 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import api.utils.DataFormatter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 @DiscordCommand(name = "user", description = "Получение информации о пользователе", group = "Информация",
         aliases = {"userinfo", "юзер", "юзеринфо"}, arguments = 1, usage = "[Пользователь]")
 public class UserInfoCommand implements Command {
@@ -32,7 +36,13 @@ public class UserInfoCommand implements Command {
             BasicEmbed userInfo = new BasicEmbed();
 
             userInfo.setTitle("Информация о пользователе " + member.getEffectiveName());
-            userInfo.setDescription(db.getUserByID(member.getIdLong(), member.getGuild().getIdLong()).getAbout());
+            if (member.getIdLong() == context.getJDA().getSelfUser().getIdLong()) {
+                List<String> quotes = new ArrayList<>();
+                quotes.add("VeniBot != веник, веник = VeniBot");
+                userInfo.setDescription(quotes.get(new Random().nextInt(quotes.size())));
+            } else {
+                userInfo.setDescription(db.getUserByID(member.getIdLong(), member.getGuild().getIdLong()).getAbout());
+            }
             userInfo.setThumbnail(member.getUser().getEffectiveAvatarUrl());
             userInfo.setFooter("ID " + member.getId());
             userInfo.addField("Полный ник", member.getUser().getAsTag(), true);
