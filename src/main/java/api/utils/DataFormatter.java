@@ -122,4 +122,62 @@ public class DataFormatter {
         return hours + ":" + (String.valueOf(minutes).length() != 1 ? minutes : "0" + minutes)
                 + ":" + (String.valueOf(seconds).length() != 1 ? seconds : "0" + seconds);
     }
+
+    public static String getBoticordBotStatus(String status) {
+        switch (status) {
+            case "APPROVED":
+                return "Одобрен";
+            case "DECLINED":
+                return "Отклонён";
+            case "FIRST_CHECKING":
+                return "На проверке";
+            case "SECOND_CHECKING":
+                return "На перепроверке";
+            default:
+                return status + "(разработчик ещё не успел добавить обозначение этого статуса на русском, пожалуйста сообщите при это при помощи команды `баг`";
+        }
+    }
+
+    public static String getBoticordBotLibrary(String library) {
+        switch (library) {
+            case "":
+                return "Не указана";
+            case "discordpy":
+                return "discord.py(Python)";
+            case "discordjs":
+                return "discord.js(JavaScript)";
+            case "eris":
+                return "Eris(JavaScript)";
+            case "javacord":
+                return "Javacord(Java)";
+            case "jda":
+                return "JDA(Java)";
+            case "discord4j":
+                return "Discord4J(Java)";
+            case "discordcr":
+                return "discordcr(Crystal)";
+            case "discord.net":
+                return "Discord.Net(C#)";
+            case "discordgo":
+                return "discord.go(Golang)";
+            case "dsharpplus":
+                return "DSharpPlus(C#)";
+            case "restcord":
+                return "RestCord(PHP)";
+            case "discordia":
+                return "Discordia(Lua)";
+            case "disco":
+                return "Disco(Python)";
+            case "discordrb":
+                return "discordrb(Ruby)";
+            case "serenity":
+                return "serenity(Rust)";
+            case "sword":
+                return "Sword(Swift)";
+            case "other":
+                return "Другое";
+            default:
+                return library;
+        }
+    }
 }
