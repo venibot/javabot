@@ -89,11 +89,13 @@ public class CommandHandler {
         } catch (CommandException e) {
             SupportServer supportServer = new SupportServer(context.getJDA());
             if (!supportServer.isDeveloper(context.getAuthor().getUser())) {
+                e.printStackTrace();
                 supportServer.sendCommandError(e, context, false);
                 BasicEmbed errorEmbed = new BasicEmbed("error", "При выполнении команды произошла ошибка :<. "
                         + "Информация об ошибке уже отправлена разработчикам");
                 context.sendMessage(errorEmbed).queue();
             } else {
+                e.printStackTrace();
                 supportServer.sendCommandError(e, context, true);
             }
         }
