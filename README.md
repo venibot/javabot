@@ -20,5 +20,5 @@ VeniBot, но на Java
 # Поддержать бота
   - Мониторинги:
     - SD.C: https://bots.server-discord.com/728030884179083354
-    - BotiCord: https://bots.server-discord.com/728030884179083354
+    - BotiCord: https://boticord.top/bot/728030884179083354
     - TopCord: https://bots.topcord.ru/bots/728030884179083354
