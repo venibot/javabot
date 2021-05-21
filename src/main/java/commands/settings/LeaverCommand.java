@@ -11,7 +11,7 @@ import api.utils.*;
 import net.dv8tion.jda.api.Permission;
 
 @DiscordCommand(name = "leaver", description = "Настройка прощаний", aliases = {"прощания"},
-        usage = "<Аргумент> <Значение>", group = "Настройки", arguments = 2, permissions = {Permission.MANAGE_SERVER})
+        usage = "<канал/сообщение> <Значение>", group = "Настройки", arguments = 2, permissions = {Permission.MANAGE_SERVER})
 public class LeaverCommand implements Command {
 
     @Override

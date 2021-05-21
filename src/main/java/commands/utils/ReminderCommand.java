@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @DiscordCommand(name = "reminder", description = "Напоминания", aliases = {"напоминания", "напоминание"},
-        group = "Утилиты", usage = "<Действие> [Аргументы]", arguments = 3)
+        group = "Утилиты", usage = "<список/создать> [Аргументы]", arguments = 3)
 public class ReminderCommand implements Command {
 
     @Override

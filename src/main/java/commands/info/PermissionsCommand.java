@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 
-@DiscordCommand(name = "permissions", description = "Узнать права пользователя или роли", usage = "[пользователь | Роль]",
+@DiscordCommand(name = "permissions", description = "Узнать права пользователя или роли", usage = "[Пользователь | Роль]",
                 aliases = {"perms", "права"}, group = "Информация", arguments = 1)
 public class PermissionsCommand implements Command {
 

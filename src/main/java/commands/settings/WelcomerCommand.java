@@ -11,7 +11,7 @@ import api.utils.*;
 import net.dv8tion.jda.api.Permission;
 
 @DiscordCommand(name = "welcomer", description = "Настройка приветствий", aliases = {"приветствия"},
-        usage = "<Аргумент> <Значение>", group = "Настройки", arguments = 2, permissions = {Permission.MANAGE_SERVER})
+        usage = "<роли/канал/сообщение/восстановление> <Значение>", group = "Настройки", arguments = 2, permissions = {Permission.MANAGE_SERVER})
 public class WelcomerCommand implements Command {
 
     @Override
@@ -160,7 +160,7 @@ public class WelcomerCommand implements Command {
                     } else {
                         BasicEmbed infoEmbed = new BasicEmbed("info");
 
-                        infoEmbed.setDescription("Приветственное сообщение на данный момент "
+                        infoEmbed.setDescription("Восстановление ролей на данный момент "
                                 + (DBGuild.getRestoreRoles() ? "включено" : "отключено")
                                 + ".\nДля изменения используйте `"
                                 + Config.BOT_CONFIG.get("prefix")

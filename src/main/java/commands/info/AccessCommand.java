@@ -10,7 +10,7 @@ import api.utils.Converters;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.*;
 
-@DiscordCommand(name = "access", description = "Узнать какие каналы может видеть пользователь или роль", usage = "[пользователь | Роль]",
+@DiscordCommand(name = "access", description = "Узнать какие каналы может видеть пользователь или роль", usage = "[Пользователь | Роль]",
         aliases = {"доступ"}, group = "Информация", arguments = 1)
 public class AccessCommand implements Command {
 
