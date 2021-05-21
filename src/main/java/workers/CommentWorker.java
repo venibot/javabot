@@ -10,7 +10,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import java.io.IOException;
 
-@WorkerInfo(name = "Comment")
+@WorkerInfo(name = "Comment", description = "Проверка на наличие новых комментариев на SD.C", active = false)
 public class CommentWorker implements Worker {
 
     String oldComment = "";
