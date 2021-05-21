@@ -78,6 +78,7 @@ public class Functions {
                 return false;
             }
             context.getGuild().getAudioManager().openAudioConnection(userVoiceState.getChannel());
+            context.getGuild().getAudioManager().setSelfDeafened(true);
             return true;
         }
         if (!userVoiceState.getChannel().equals(botVoiceState.getChannel())) {
