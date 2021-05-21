@@ -30,6 +30,14 @@ public class DataFormatter {
                 dateTime.getYear());
     }
 
+    public static String longToUptime(Long uptime) {
+        String result = "";
+        int days = (int) (uptime / 86400);
+        int hours = (int) ((uptime - days * 86400) / 3600);
+        int minutes = (int) ((uptime - hours * 3600) / 60);
+        return days + " дней, " + hours + " часов, " + minutes + " минут";
+    }
+
     public static String getUserFlags(EnumSet<User.UserFlag> flags) {
         String flagsString = "";
 

@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.sharding.ShardManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -28,9 +29,10 @@ public class Config {
     public static HashMap<TimeUnit, String[]> TIMES = new HashMap<>();
     public static MongoClient MONGO = null;
     public static String INVITE_PATTERN = "(?:https?://)?discord(?:(?:app)?\\.com/invite|\\.gg)/?[a-zA-Z0-9]+/?";
+    public static OffsetDateTime START_TIME;
 
     public static void init() {
-
+        Config.START_TIME = OffsetDateTime.now();
         getPermissions();
         getTimes();
         getUserFlagsAsEmojis();
