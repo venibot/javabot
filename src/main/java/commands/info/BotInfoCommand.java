@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@DiscordCommand(name = "botinfo", aliases = {"ботинфо"}, group = "Информация")
+@DiscordCommand(name = "bot-info", aliases = {"botinfo", "bi", "бот-инфо", "ботинфо"}, group = "Информация")
 public class BotInfoCommand implements Command {
 
     @Override
